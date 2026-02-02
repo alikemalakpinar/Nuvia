@@ -11,7 +11,7 @@ class NotificationManager: ObservableObject {
     private let notificationCenter = UNUserNotificationCenter.current()
 
     init() {
-        Task {
+        _Concurrency.Task {
             await checkAuthorizationStatus()
         }
     }

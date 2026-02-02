@@ -104,7 +104,7 @@ struct FileVaultView: View {
             }
 
             NuviaPrimaryButton("Kilit Aç", icon: biometricService.biometricType.icon) {
-                Task {
+                _Concurrency.Task {
                     let success = await biometricService.authenticate(reason: "Dosya kasasına erişmek için kimliğinizi doğrulayın")
                     if success {
                         withAnimation { isUnlocked = true }
