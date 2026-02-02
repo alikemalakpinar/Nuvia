@@ -900,7 +900,7 @@ struct NewProjectSheet: View {
                         modelContext.insert(project)
                         try? modelContext.save()
                         appState.setCurrentProject(project.id.uuidString)
-                        HapticManager.shared.success()
+                        HapticManager.shared.taskCompleted()
                         dismiss()
                     }
                     .foregroundColor(.nuviaGoldFallback)

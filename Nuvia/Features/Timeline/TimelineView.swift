@@ -108,27 +108,6 @@ enum TimelineViewMode: String, CaseIterable {
     case calendar = "Takvim"
 }
 
-// MARK: - Filter Chip
-
-struct FilterChip: View {
-    let title: String
-    let isSelected: Bool
-    var color: Color = .nuviaGoldFallback
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(NuviaTypography.smallButton())
-                .foregroundColor(isSelected ? .nuviaMidnight : .nuviaSecondaryText)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(isSelected ? color : Color.nuviaCardBackground)
-                .cornerRadius(20)
-        }
-    }
-}
-
 // MARK: - Timeline List View
 
 struct TimelineListView: View {

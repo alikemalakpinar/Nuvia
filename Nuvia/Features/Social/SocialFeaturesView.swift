@@ -993,7 +993,7 @@ struct MemoriesView: View {
                             ExportService.shareFile(data: data, fileName: "dugun-kitabi.pdf")
                         }
                         isGeneratingPDF = false
-                        HapticManager.shared.success()
+                        HapticManager.shared.taskCompleted()
                     }
                 }
                 .disabled(isGeneratingPDF)
