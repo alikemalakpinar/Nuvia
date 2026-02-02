@@ -640,26 +640,300 @@ struct AddExpenseView: View {
 
 struct BudgetReportsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @Query private var projects: [WeddingProject]
+    @EnvironmentObject var appState: AppState
+    @State private var selectedPeriod: ReportPeriod = .all
+    @State private var showShareSheet = false
+    @State private var exportData: Data?
+    @State private var exportFileName: String = ""
+
+    private var currentProject: WeddingProject? {
+        projects.first { $0.id.uuidString == appState.currentProjectId }
+    }
+
+    enum ReportPeriod: String, CaseIterable {
+        case week = "Bu Hafta"
+        case month = "Bu Ay"
+        case all = "Tümü"
+    }
+
+    private var filteredExpenses: [Expense] {
+        guard let project = currentProject else { return [] }
+        let now = Date()
+        switch selectedPeriod {
+        case .week:
+            let weekAgo = Calendar.current.date(byAdding: .day, value: -7, to: now) ?? now
+            return project.expenses.filter { $0.date >= weekAgo }
+        case .month:
+            let monthAgo = Calendar.current.date(byAdding: .month, value: -1, to: now) ?? now
+            return project.expenses.filter { $0.date >= monthAgo }
+        case .all:
+            return project.expenses
+        }
+    }
+
+    private var categoryTotals: [(category: ExpenseCategory, total: Double)] {
+        var dict: [ExpenseCategory: Double] = [:]
+        for expense in filteredExpenses {
+            dict[expense.expenseCategory, default: 0] += expense.amount
+        }
+        return dict.map { ($0.key, $0.value) }.sorted { $0.total > $1.total }
+    }
+
+    private var totalSpent: Double {
+        filteredExpenses.reduce(0) { $0 + $1.amount }
+    }
+
+    private var monthlyTrend: [(month: String, amount: Double)] {
+        guard let project = currentProject else { return [] }
+        let calendar = Calendar.current
+        var dict: [String: Double] = [:]
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM"
+        formatter.locale = Locale(identifier: "tr_TR")
+        for expense in project.expenses {
+            let key = formatter.string(from: expense.date)
+            dict[key, default: 0] += expense.amount
+        }
+        // Sort by date order - get last 6 months
+        let now = Date()
+        var result: [(String, Double)] = []
+        for i in (0..<6).reversed() {
+            if let date = calendar.date(byAdding: .month, value: -i, to: now) {
+                let key = formatter.string(from: date)
+                result.append((key, dict[key] ?? 0))
+            }
+        }
+        return result
+    }
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    // Placeholder for reports
-                    NuviaCard {
-                        VStack(spacing: 16) {
-                            Image(systemName: "chart.bar.fill")
-                                .font(.system(size: 48))
-                                .foregroundColor(.nuviaGoldFallback)
+                VStack(spacing: 20) {
+                    // Period picker
+                    Picker("Dönem", selection: $selectedPeriod) {
+                        ForEach(ReportPeriod.allCases, id: \.self) { period in
+                            Text(period.rawValue).tag(period)
+                        }
+                    }
+                    .pickerStyle(.segmented)
 
-                            Text("Raporlar")
-                                .font(NuviaTypography.title2())
-                                .foregroundColor(.nuviaPrimaryText)
+                    // Summary card
+                    if let project = currentProject {
+                        let symbol = Currency(rawValue: project.currency)?.symbol ?? "₺"
 
-                            Text("Kategori bazlı, haftalık/aylık trend raporları ve PDF/CSV export özellikleri yakında eklenecek.")
-                                .font(NuviaTypography.body())
-                                .foregroundColor(.nuviaSecondaryText)
-                                .multilineTextAlignment(.center)
+                        NuviaHeroCard(accent: .nuviaGoldFallback) {
+                            VStack(spacing: 12) {
+                                Text("Bütçe Özeti")
+                                    .font(NuviaTypography.headline())
+                                    .foregroundColor(.nuviaPrimaryText)
+
+                                HStack(spacing: 24) {
+                                    VStack(spacing: 4) {
+                                        Text("\(symbol)\(Int(project.totalBudget).formatted())")
+                                            .font(NuviaTypography.title3())
+                                            .foregroundColor(.nuviaPrimaryText)
+                                        Text("Toplam")
+                                            .font(NuviaTypography.caption())
+                                            .foregroundColor(.nuviaSecondaryText)
+                                    }
+                                    VStack(spacing: 4) {
+                                        Text("\(symbol)\(Int(totalSpent).formatted())")
+                                            .font(NuviaTypography.title3())
+                                            .foregroundColor(.nuviaWarning)
+                                        Text("Harcanan")
+                                            .font(NuviaTypography.caption())
+                                            .foregroundColor(.nuviaSecondaryText)
+                                    }
+                                    VStack(spacing: 4) {
+                                        Text("\(symbol)\(Int(project.remainingBudget).formatted())")
+                                            .font(NuviaTypography.title3())
+                                            .foregroundColor(project.remainingBudget >= 0 ? .nuviaSuccess : .nuviaError)
+                                        Text("Kalan")
+                                            .font(NuviaTypography.caption())
+                                            .foregroundColor(.nuviaSecondaryText)
+                                    }
+                                }
+
+                                // Progress bar
+                                let progress = project.totalBudget > 0 ? min(project.spentAmount / project.totalBudget, 1.0) : 0
+                                GeometryReader { geo in
+                                    ZStack(alignment: .leading) {
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .fill(Color.nuviaTertiaryBackground)
+                                            .frame(height: 8)
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .fill(progress > 0.9 ? Color.nuviaError : Color.nuviaGoldFallback)
+                                            .frame(width: geo.size.width * progress, height: 8)
+                                    }
+                                }
+                                .frame(height: 8)
+
+                                Text("%\(Int(progress * 100)) kullanıldı")
+                                    .font(NuviaTypography.caption())
+                                    .foregroundColor(.nuviaTertiaryText)
+                            }
+                        }
+
+                        // Category breakdown
+                        NuviaCard {
+                            VStack(alignment: .leading, spacing: 16) {
+                                Text("Kategori Dağılımı")
+                                    .font(NuviaTypography.headline())
+                                    .foregroundColor(.nuviaPrimaryText)
+
+                                if categoryTotals.isEmpty {
+                                    Text("Henüz harcama yok")
+                                        .font(NuviaTypography.body())
+                                        .foregroundColor(.nuviaSecondaryText)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 20)
+                                } else {
+                                    ForEach(categoryTotals, id: \.category) { item in
+                                        HStack(spacing: 12) {
+                                            Image(systemName: item.category.icon)
+                                                .font(.system(size: 16))
+                                                .foregroundColor(item.category.color)
+                                                .frame(width: 24)
+
+                                            VStack(alignment: .leading, spacing: 2) {
+                                                HStack {
+                                                    Text(item.category.displayName)
+                                                        .font(NuviaTypography.subheadline())
+                                                        .foregroundColor(.nuviaPrimaryText)
+                                                    Spacer()
+                                                    Text("\(symbol)\(Int(item.total).formatted())")
+                                                        .font(NuviaTypography.subheadline())
+                                                        .foregroundColor(.nuviaPrimaryText)
+                                                }
+
+                                                let pct = totalSpent > 0 ? item.total / totalSpent : 0
+                                                GeometryReader { geo in
+                                                    ZStack(alignment: .leading) {
+                                                        RoundedRectangle(cornerRadius: 2)
+                                                            .fill(Color.nuviaTertiaryBackground)
+                                                            .frame(height: 4)
+                                                        RoundedRectangle(cornerRadius: 2)
+                                                            .fill(item.category.color)
+                                                            .frame(width: geo.size.width * pct, height: 4)
+                                                    }
+                                                }
+                                                .frame(height: 4)
+
+                                                Text("%\(Int(pct * 100))")
+                                                    .font(NuviaTypography.caption2())
+                                                    .foregroundColor(.nuviaTertiaryText)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Monthly trend
+                        NuviaCard {
+                            VStack(alignment: .leading, spacing: 16) {
+                                Text("Aylık Trend")
+                                    .font(NuviaTypography.headline())
+                                    .foregroundColor(.nuviaPrimaryText)
+
+                                let maxAmount = monthlyTrend.map(\.amount).max() ?? 1
+
+                                HStack(alignment: .bottom, spacing: 8) {
+                                    ForEach(monthlyTrend, id: \.month) { item in
+                                        VStack(spacing: 4) {
+                                            if item.amount > 0 {
+                                                Text("\(symbol)\(Int(item.amount / 1000))K")
+                                                    .font(NuviaTypography.caption2())
+                                                    .foregroundColor(.nuviaSecondaryText)
+                                            }
+
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .fill(Color.nuviaGoldFallback.opacity(item.amount > 0 ? 0.8 : 0.15))
+                                                .frame(height: max(4, CGFloat(item.amount / maxAmount) * 100))
+
+                                            Text(item.month)
+                                                .font(NuviaTypography.caption2())
+                                                .foregroundColor(.nuviaTertiaryText)
+                                        }
+                                        .frame(maxWidth: .infinity)
+                                    }
+                                }
+                                .frame(height: 140)
+                            }
+                        }
+
+                        // Payment status
+                        NuviaCard {
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text("Ödeme Durumu")
+                                    .font(NuviaTypography.headline())
+                                    .foregroundColor(.nuviaPrimaryText)
+
+                                let paid = filteredExpenses.filter(\.isPaid).reduce(0) { $0 + $1.amount }
+                                let unpaid = totalSpent - paid
+                                let overdue = filteredExpenses.filter(\.isOverdue).reduce(0) { $0 + $1.amount }
+
+                                HStack(spacing: 16) {
+                                    PaymentStatCard(title: "Ödenen", amount: "\(symbol)\(Int(paid).formatted())", color: .nuviaSuccess)
+                                    PaymentStatCard(title: "Bekleyen", amount: "\(symbol)\(Int(unpaid).formatted())", color: .nuviaWarning)
+                                    PaymentStatCard(title: "Geciken", amount: "\(symbol)\(Int(overdue).formatted())", color: .nuviaError)
+                                }
+                            }
+                        }
+
+                        // Export buttons
+                        NuviaCard {
+                            VStack(spacing: 12) {
+                                Text("Dışa Aktar")
+                                    .font(NuviaTypography.headline())
+                                    .foregroundColor(.nuviaPrimaryText)
+
+                                HStack(spacing: 12) {
+                                    Button {
+                                        if let data = ExportService.generateBudgetPDF(project: project) {
+                                            ExportService.shareFile(data: data, fileName: "butce-raporu.pdf")
+                                        }
+                                    } label: {
+                                        Label("PDF", systemImage: "doc.fill")
+                                            .font(NuviaTypography.subheadline())
+                                            .foregroundColor(.nuviaPrimaryText)
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 12)
+                                            .background(Color.nuviaTertiaryBackground)
+                                            .cornerRadius(10)
+                                    }
+
+                                    Button {
+                                        let csv = ExportService.generateBudgetCSV(project: project)
+                                        ExportService.shareText(text: csv, fileName: "butce-raporu.csv")
+                                    } label: {
+                                        Label("CSV", systemImage: "tablecells")
+                                            .font(NuviaTypography.subheadline())
+                                            .foregroundColor(.nuviaPrimaryText)
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 12)
+                                            .background(Color.nuviaTertiaryBackground)
+                                            .cornerRadius(10)
+                                    }
+
+                                    Button {
+                                        if let json = ExportService.generateProjectJSON(project: project) {
+                                            ExportService.shareText(text: json, fileName: "proje-veri.json")
+                                        }
+                                    } label: {
+                                        Label("JSON", systemImage: "curlybraces")
+                                            .font(NuviaTypography.subheadline())
+                                            .foregroundColor(.nuviaPrimaryText)
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 12)
+                                            .background(Color.nuviaTertiaryBackground)
+                                            .cornerRadius(10)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -677,6 +951,35 @@ struct BudgetReportsView: View {
                 }
             }
         }
+    }
+}
+
+struct PaymentStatCard: View {
+    let title: String
+    let amount: String
+    let color: Color
+
+    var body: some View {
+        VStack(spacing: 6) {
+            Circle()
+                .fill(color.opacity(0.15))
+                .frame(width: 32, height: 32)
+                .overlay(
+                    Circle().fill(color).frame(width: 10, height: 10)
+                )
+            Text(amount)
+                .font(NuviaTypography.caption())
+                .foregroundColor(.nuviaPrimaryText)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+            Text(title)
+                .font(NuviaTypography.caption2())
+                .foregroundColor(.nuviaSecondaryText)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
+        .background(Color.nuviaTertiaryBackground)
+        .cornerRadius(10)
     }
 }
 

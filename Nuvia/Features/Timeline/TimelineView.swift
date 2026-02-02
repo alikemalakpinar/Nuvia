@@ -94,7 +94,7 @@ struct TimelineView: View {
                 AddTaskView()
             }
             .sheet(isPresented: $showVendors) {
-                VendorsListView()
+                VendorManagementView()
             }
         }
     }
@@ -615,68 +615,7 @@ struct TaskDetailView: View {
     }
 }
 
-// MARK: - Vendors List View
-
-struct VendorsListView: View {
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(VendorCategory.allCases, id: \.self) { category in
-                        VendorCategoryCard(category: category)
-                    }
-                }
-                .padding(16)
-            }
-            .background(Color.nuviaBackground)
-            .navigationTitle("Tedarikçiler")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Kapat") {
-                        dismiss()
-                    }
-                    .foregroundColor(.nuviaGoldFallback)
-                }
-            }
-        }
-    }
-}
-
-struct VendorCategoryCard: View {
-    let category: VendorCategory
-
-    var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: category.icon)
-                .font(.system(size: 24))
-                .foregroundColor(category.color)
-                .frame(width: 48, height: 48)
-                .background(category.color.opacity(0.15))
-                .cornerRadius(12)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(category.displayName)
-                    .font(NuviaTypography.bodyBold())
-                    .foregroundColor(.nuviaPrimaryText)
-
-                Text("Henüz tedarikçi eklenmedi")
-                    .font(NuviaTypography.caption())
-                    .foregroundColor(.nuviaSecondaryText)
-            }
-
-            Spacer()
-
-            Image(systemName: "plus.circle.fill")
-                .foregroundColor(.nuviaGoldFallback)
-        }
-        .padding(16)
-        .background(Color.nuviaCardBackground)
-        .cornerRadius(16)
-    }
-}
+// VendorsListView replaced by VendorManagementView in Vendors/VendorManagementView.swift
 
 #Preview {
     TimelineView()

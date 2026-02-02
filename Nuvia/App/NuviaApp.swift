@@ -100,6 +100,16 @@ enum MainTab: String, CaseIterable {
 
     var icon: String {
         switch self {
+        case .today: return "sun.max"
+        case .plan: return "calendar.badge.clock"
+        case .budget: return "creditcard"
+        case .guests: return "person.2"
+        case .home: return "house"
+        }
+    }
+
+    var selectedIcon: String {
+        switch self {
         case .today: return "sun.max.fill"
         case .plan: return "calendar.badge.clock"
         case .budget: return "creditcard.fill"

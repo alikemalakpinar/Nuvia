@@ -41,6 +41,15 @@ struct SettingsView: View {
                     }
                 }
 
+                // Organizer
+                Section("Organizatör") {
+                    NavigationLink {
+                        OrganizerDashboardView()
+                    } label: {
+                        SettingsRow(icon: "rectangle.stack.fill", title: "Çoklu Düğün Yönetimi", color: .nuviaCopper)
+                    }
+                }
+
                 // App Settings
                 Section("Uygulama") {
                     NavigationLink {
@@ -124,7 +133,10 @@ struct SettingsView: View {
                 // Danger Zone
                 Section {
                     Button(role: .destructive) {
-                        // Sign out
+                        appState.isOnboardingComplete = false
+                        appState.currentProjectId = nil
+                        HapticManager.shared.warning()
+                        dismiss()
                     } label: {
                         HStack {
                             Spacer()
@@ -535,6 +547,8 @@ struct SubscriptionOption: View {
 
 struct PrivacySettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @State private var showDeleteConfirm = false
 
     var body: some View {
         NavigationStack {
@@ -552,7 +566,7 @@ struct PrivacySettingsView: View {
 
                 Section {
                     Button(role: .destructive) {
-                        // Delete data
+                        showDeleteConfirm = true
                     } label: {
                         Text("Tüm Verilerimi Sil")
                     }
@@ -635,30 +649,266 @@ struct BackupSettingsView: View {
 // MARK: - Export Data View
 
 struct ExportDataView: View {
+    @Query private var projects: [WeddingProject]
+    @EnvironmentObject var appState: AppState
+    @State private var isExporting = false
+    @State private var exportMessage: String?
+
+    private var currentProject: WeddingProject? {
+        projects.first { $0.id.uuidString == appState.currentProjectId }
+    }
+
     var body: some View {
         List {
             Section("Dışa Aktarma Seçenekleri") {
                 Button {
-                    // Export as PDF
+                    exportPDF()
                 } label: {
                     SettingsRow(icon: "doc.fill", title: "PDF olarak dışa aktar", color: .nuviaError)
                 }
 
                 Button {
-                    // Export as CSV
+                    exportCSV()
                 } label: {
                     SettingsRow(icon: "tablecells", title: "CSV olarak dışa aktar", color: .nuviaSuccess)
                 }
 
                 Button {
-                    // Export as JSON
+                    exportJSON()
                 } label: {
                     SettingsRow(icon: "curlybraces", title: "JSON olarak dışa aktar", color: .nuviaInfo)
+                }
+            }
+
+            if appState.isPremium {
+                Section("Premium") {
+                    Button {
+                        guard let project = currentProject else { return }
+                        if let data = ExportService.generateWeddingBookPDF(project: project) {
+                            ExportService.shareFile(data: data, fileName: "dugun-kitabi.pdf")
+                            exportMessage = "Düğün Kitabı PDF oluşturuldu"
+                        }
+                        HapticManager.shared.taskCompleted()
+                    } label: {
+                        SettingsRow(icon: "book.fill", title: "Düğün Kitabı PDF Oluştur", color: .nuviaGoldFallback)
+                    }
+                }
+            }
+
+            if let message = exportMessage {
+                Section {
+                    Text(message)
+                        .font(NuviaTypography.caption())
+                        .foregroundColor(.nuviaSuccess)
                 }
             }
         }
         .navigationTitle("Veri Dışa Aktar")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func exportPDF() {
+        guard let project = currentProject else { return }
+        if let data = ExportService.generateBudgetPDF(project: project) {
+            ExportService.shareFile(data: data, fileName: "\(project.partnerName1)_\(project.partnerName2)_rapor.pdf")
+            exportMessage = "PDF dışa aktarıldı"
+            HapticManager.shared.taskCompleted()
+        }
+    }
+
+    private func exportCSV() {
+        guard let project = currentProject else { return }
+        let csv = ExportService.generateGuestListCSV(project: project)
+        ExportService.shareText(text: csv, fileName: "\(project.partnerName1)_\(project.partnerName2)_misafirler.csv")
+        exportMessage = "CSV dışa aktarıldı"
+        HapticManager.shared.taskCompleted()
+    }
+
+    private func exportJSON() {
+        guard let project = currentProject else { return }
+        if let json = ExportService.generateProjectJSON(project: project) {
+            ExportService.shareText(text: json, fileName: "\(project.partnerName1)_\(project.partnerName2)_proje.json")
+            exportMessage = "JSON dışa aktarıldı"
+            HapticManager.shared.taskCompleted()
+        }
+    }
+}
+
+// MARK: - Organizer Dashboard View
+
+struct OrganizerDashboardView: View {
+    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var appState: AppState
+    @Query private var projects: [WeddingProject]
+    @State private var showCreateProject = false
+
+    var body: some View {
+        List {
+            Section {
+                HStack(spacing: 16) {
+                    Image(systemName: "rectangle.stack.fill")
+                        .font(.system(size: 32))
+                        .foregroundColor(.nuviaCopper)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Organizatör Modu")
+                            .font(NuviaTypography.headline())
+                            .foregroundColor(.nuviaPrimaryText)
+                        Text("Birden fazla düğünü tek yerden yönetin")
+                            .font(NuviaTypography.caption())
+                            .foregroundColor(.nuviaSecondaryText)
+                    }
+                }
+                .padding(.vertical, 8)
+            }
+
+            Section("Projeler (\(projects.count))") {
+                ForEach(projects) { project in
+                    Button {
+                        appState.setCurrentProject(project.id.uuidString)
+                        HapticManager.shared.selection()
+                    } label: {
+                        HStack(spacing: 12) {
+                            ZStack {
+                                Circle()
+                                    .fill(project.id.uuidString == appState.currentProjectId ? Color.nuviaGoldFallback.opacity(0.2) : Color.nuviaTertiaryBackground)
+                                    .frame(width: 44, height: 44)
+                                Text(String(project.partnerName1.prefix(1)) + String(project.partnerName2.prefix(1)))
+                                    .font(NuviaTypography.bodyBold())
+                                    .foregroundColor(project.id.uuidString == appState.currentProjectId ? .nuviaGoldFallback : .nuviaSecondaryText)
+                            }
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("\(project.partnerName1) & \(project.partnerName2)")
+                                    .font(NuviaTypography.bodyBold())
+                                    .foregroundColor(.nuviaPrimaryText)
+
+                                HStack(spacing: 8) {
+                                    Text(project.weddingDate.formatted(date: .abbreviated, time: .omitted))
+                                        .font(NuviaTypography.caption())
+                                        .foregroundColor(.nuviaSecondaryText)
+
+                                    Text("•")
+                                        .foregroundColor(.nuviaTertiaryText)
+
+                                    Text("\(project.guests.count) davetli")
+                                        .font(NuviaTypography.caption())
+                                        .foregroundColor(.nuviaSecondaryText)
+
+                                    Text("•")
+                                        .foregroundColor(.nuviaTertiaryText)
+
+                                    let completionPct = project.tasks.isEmpty ? 0 : Int(Double(project.completedTasksCount) / Double(project.tasks.count) * 100)
+                                    Text("%\(completionPct)")
+                                        .font(NuviaTypography.caption())
+                                        .foregroundColor(.nuviaSecondaryText)
+                                }
+                            }
+
+                            Spacer()
+
+                            if project.id.uuidString == appState.currentProjectId {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.nuviaGoldFallback)
+                            }
+                        }
+                    }
+                }
+                .onDelete { indexSet in
+                    for index in indexSet {
+                        let project = projects[index]
+                        if project.id.uuidString == appState.currentProjectId {
+                            appState.clearProject()
+                        }
+                        modelContext.delete(project)
+                    }
+                    try? modelContext.save()
+                }
+            }
+
+            Section {
+                Button {
+                    showCreateProject = true
+                } label: {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundColor(.nuviaGoldFallback)
+                        Text("Yeni Proje Oluştur")
+                            .font(NuviaTypography.bodyBold())
+                            .foregroundColor(.nuviaGoldFallback)
+                    }
+                }
+            }
+        }
+        .navigationTitle("Çoklu Düğün")
+        .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showCreateProject) {
+            NewProjectSheet()
+        }
+    }
+}
+
+struct NewProjectSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var appState: AppState
+    @State private var partnerName1 = ""
+    @State private var partnerName2 = ""
+    @State private var weddingDate = Calendar.current.date(byAdding: .month, value: 6, to: Date()) ?? Date()
+    @State private var currency: Currency = .TRY
+    @State private var budget: String = ""
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Çift Bilgileri") {
+                    TextField("1. Kişi Adı", text: $partnerName1)
+                    TextField("2. Kişi Adı", text: $partnerName2)
+                }
+
+                Section("Düğün") {
+                    DatePicker("Tarih", selection: $weddingDate, displayedComponents: .date)
+
+                    Picker("Para Birimi", selection: $currency) {
+                        ForEach(Currency.allCases, id: \.self) { c in
+                            Text(c.displayName).tag(c)
+                        }
+                    }
+
+                    TextField("Toplam Bütçe", text: $budget)
+                        .keyboardType(.decimalPad)
+                }
+            }
+            .scrollContentBackground(.hidden)
+            .background(Color.nuviaBackground)
+            .navigationTitle("Yeni Proje")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("İptal") { dismiss() }
+                        .foregroundColor(.nuviaSecondaryText)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Oluştur") {
+                        guard !partnerName1.isEmpty, !partnerName2.isEmpty else { return }
+                        let project = WeddingProject(
+                            partnerName1: partnerName1,
+                            partnerName2: partnerName2,
+                            weddingDate: weddingDate,
+                            currency: currency.rawValue,
+                            totalBudget: Double(budget) ?? 0
+                        )
+                        modelContext.insert(project)
+                        try? modelContext.save()
+                        appState.setCurrentProject(project.id.uuidString)
+                        HapticManager.shared.success()
+                        dismiss()
+                    }
+                    .foregroundColor(.nuviaGoldFallback)
+                    .fontWeight(.semibold)
+                    .disabled(partnerName1.isEmpty || partnerName2.isEmpty)
+                }
+            }
+        }
     }
 }
 

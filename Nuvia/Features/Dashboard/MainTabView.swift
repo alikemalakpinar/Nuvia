@@ -61,7 +61,6 @@ struct CustomTabBar: View {
         HStack(spacing: 0) {
             ForEach(visibleTabs, id: \.self) { tab in
                 if tab == .budget {
-                    // Quick add button in the middle
                     Spacer()
                     QuickAddButton(action: onQuickAdd)
                     Spacer()
@@ -71,6 +70,7 @@ struct CustomTabBar: View {
                     tab: tab,
                     isSelected: selectedTab == tab
                 ) {
+                    HapticManager.shared.selection()
                     withAnimation(.spring(response: 0.3)) {
                         selectedTab = tab
                     }
@@ -81,10 +81,32 @@ struct CustomTabBar: View {
         .padding(.top, 8)
         .padding(.bottom, 24)
         .background(
-            Rectangle()
-                .fill(Color.nuviaCharcoal)
-                .shadow(color: .black.opacity(0.3), radius: 10, y: -5)
+            ZStack {
+                // Glassmorphism background
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .ignoresSafeArea()
+
+                Rectangle()
+                    .fill(Color.nuviaCharcoal.opacity(0.85))
+                    .ignoresSafeArea()
+
+                // Top border glow
+                VStack {
+                    LinearGradient(
+                        colors: [
+                            Color.nuviaGoldFallback.opacity(0.08),
+                            Color.clear
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: 1)
+                    Spacer()
+                }
                 .ignoresSafeArea()
+            }
+            .shadow(color: .black.opacity(0.4), radius: 16, y: -6)
         )
     }
 }
@@ -97,36 +119,60 @@ struct TabBarButton: View {
     var body: some View {
         Button(action: action) {
             VStack(spacing: 4) {
-                Image(systemName: tab.icon)
-                    .font(.system(size: 22))
+                Image(systemName: isSelected ? tab.selectedIcon : tab.icon)
+                    .font(.system(size: 22, weight: isSelected ? .semibold : .regular))
                     .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaSecondaryText)
+                    .scaleEffect(isSelected ? 1.1 : 1.0)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
 
                 Text(tab.rawValue)
                     .font(NuviaTypography.caption2())
                     .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaSecondaryText)
+
+                // Active indicator
+                Capsule()
+                    .fill(Color.nuviaGoldFallback)
+                    .frame(width: isSelected ? 16 : 0, height: 2)
+                    .animation(.spring(response: 0.3), value: isSelected)
             }
             .frame(maxWidth: .infinity)
         }
+        .accessibilityLabel(tab.rawValue)
     }
 }
 
 struct QuickAddButton: View {
     let action: () -> Void
+    @State private var glowPulse = false
 
     var body: some View {
-        Button(action: action) {
+        Button {
+            HapticManager.shared.buttonTap()
+            action()
+        } label: {
             ZStack {
+                // Pulsing glow
+                Circle()
+                    .fill(Color.nuviaGoldFallback.opacity(0.15))
+                    .frame(width: 68, height: 68)
+                    .scaleEffect(glowPulse ? 1.15 : 1.0)
+                    .opacity(glowPulse ? 0.3 : 0.6)
+                    .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: glowPulse)
+
                 Circle()
                     .fill(Color.nuviaGradient)
                     .frame(width: 56, height: 56)
-                    .shadow(color: .nuviaGoldFallback.opacity(0.4), radius: 8, y: 4)
+                    .nuviaShadow(.elevated)
 
                 Image(systemName: "plus")
                     .font(.system(size: 24, weight: .semibold))
                     .foregroundColor(.nuviaMidnight)
             }
         }
+        .pressEffect()
         .offset(y: -20)
+        .onAppear { glowPulse = true }
+        .accessibilityLabel("Hızlı ekle")
     }
 }
 
@@ -134,7 +180,11 @@ struct QuickAddButton: View {
 
 struct QuickAddSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var appState: AppState
     @State private var selectedType: QuickAddType?
+    @State private var showAddTask = false
+    @State private var showAddExpense = false
+    @State private var showAddGuest = false
 
     enum QuickAddType: String, CaseIterable {
         case task = "Görev"
@@ -185,8 +235,25 @@ struct QuickAddSheet: View {
 
                 if selectedType != nil {
                     NuviaPrimaryButton("Devam", icon: "arrow.right") {
-                        // Navigate to specific add screen
-                        dismiss()
+                        switch selectedType {
+                        case .task:
+                            dismiss()
+                            appState.selectedTab = .plan
+                        case .expense:
+                            dismiss()
+                            appState.selectedTab = .budget
+                        case .guest:
+                            dismiss()
+                            appState.selectedTab = .guests
+                        case .shopping:
+                            dismiss()
+                            appState.selectedTab = .plan
+                        case .note:
+                            dismiss()
+                            appState.selectedTab = .today
+                        case .none:
+                            break
+                        }
                     }
                     .padding(.horizontal)
                 }
@@ -217,7 +284,10 @@ struct QuickAddTypeCard: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button {
+            HapticManager.shared.selection()
+            action()
+        } label: {
             VStack(spacing: 12) {
                 Image(systemName: type.icon)
                     .font(.system(size: 32))
@@ -229,13 +299,23 @@ struct QuickAddTypeCard: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: 100)
-            .background(Color.nuviaCardBackground)
+            .background(
+                ZStack {
+                    Color.nuviaCardBackground
+                    Color.nuviaGlassOverlay
+                }
+            )
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(isSelected ? type.color : Color.clear, lineWidth: 2)
+                    .stroke(
+                        isSelected ? type.color : Color.nuviaGlassBorder,
+                        lineWidth: isSelected ? 2 : 0.5
+                    )
             )
+            .nuviaShadow(isSelected ? .medium : .subtle)
         }
+        .pressEffect()
     }
 }
 
