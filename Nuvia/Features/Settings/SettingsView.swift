@@ -124,7 +124,10 @@ struct SettingsView: View {
                 // Danger Zone
                 Section {
                     Button(role: .destructive) {
-                        // Sign out
+                        appState.hasCompletedOnboarding = false
+                        appState.currentProjectId = nil
+                        HapticManager.shared.warning()
+                        dismiss()
                     } label: {
                         HStack {
                             Spacer()
@@ -535,6 +538,8 @@ struct SubscriptionOption: View {
 
 struct PrivacySettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @State private var showDeleteConfirm = false
 
     var body: some View {
         NavigationStack {
@@ -552,7 +557,7 @@ struct PrivacySettingsView: View {
 
                 Section {
                     Button(role: .destructive) {
-                        // Delete data
+                        showDeleteConfirm = true
                     } label: {
                         Text("Tüm Verilerimi Sil")
                     }
@@ -635,30 +640,89 @@ struct BackupSettingsView: View {
 // MARK: - Export Data View
 
 struct ExportDataView: View {
+    @Query private var projects: [WeddingProject]
+    @EnvironmentObject var appState: AppState
+    @State private var isExporting = false
+    @State private var exportMessage: String?
+
+    private var currentProject: WeddingProject? {
+        projects.first { $0.id.uuidString == appState.currentProjectId }
+    }
+
     var body: some View {
         List {
             Section("Dışa Aktarma Seçenekleri") {
                 Button {
-                    // Export as PDF
+                    exportPDF()
                 } label: {
                     SettingsRow(icon: "doc.fill", title: "PDF olarak dışa aktar", color: .nuviaError)
                 }
 
                 Button {
-                    // Export as CSV
+                    exportCSV()
                 } label: {
                     SettingsRow(icon: "tablecells", title: "CSV olarak dışa aktar", color: .nuviaSuccess)
                 }
 
                 Button {
-                    // Export as JSON
+                    exportJSON()
                 } label: {
                     SettingsRow(icon: "curlybraces", title: "JSON olarak dışa aktar", color: .nuviaInfo)
+                }
+            }
+
+            if appState.isPremium {
+                Section("Premium") {
+                    Button {
+                        // Generate wedding book
+                        HapticManager.shared.taskCompleted()
+                    } label: {
+                        SettingsRow(icon: "book.fill", title: "Düğün Kitabı PDF Oluştur", color: .nuviaGoldFallback)
+                    }
+                }
+            }
+
+            if let message = exportMessage {
+                Section {
+                    Text(message)
+                        .font(NuviaTypography.caption())
+                        .foregroundColor(.nuviaSuccess)
                 }
             }
         }
         .navigationTitle("Veri Dışa Aktar")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func exportPDF() {
+        guard let project = currentProject else { return }
+        let service = ExportService()
+        if let data = service.generateBudgetReportPDF(project: project) {
+            ExportService.shareFile(data: data, fileName: "\(project.partnerName1)_\(project.partnerName2)_rapor.pdf", mimeType: "application/pdf")
+            exportMessage = "PDF dışa aktarıldı"
+            HapticManager.shared.taskCompleted()
+        }
+    }
+
+    private func exportCSV() {
+        guard let project = currentProject else { return }
+        let service = ExportService()
+        let csv = service.exportGuestListCSV(project: project)
+        if let data = csv.data(using: .utf8) {
+            ExportService.shareFile(data: data, fileName: "\(project.partnerName1)_\(project.partnerName2)_misafirler.csv", mimeType: "text/csv")
+            exportMessage = "CSV dışa aktarıldı"
+            HapticManager.shared.taskCompleted()
+        }
+    }
+
+    private func exportJSON() {
+        guard let project = currentProject else { return }
+        let service = ExportService()
+        if let data = service.exportProjectJSON(project: project) {
+            ExportService.shareFile(data: data, fileName: "\(project.partnerName1)_\(project.partnerName2)_proje.json", mimeType: "application/json")
+            exportMessage = "JSON dışa aktarıldı"
+            HapticManager.shared.taskCompleted()
+        }
     }
 }
 

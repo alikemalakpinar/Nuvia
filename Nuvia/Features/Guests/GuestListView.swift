@@ -106,7 +106,7 @@ struct GuestListView: View {
                 SeatingPlanView()
             }
             .sheet(isPresented: $showRSVP) {
-                RSVPDashboardView()
+                RSVPManagementView()
             }
         }
     }
@@ -524,7 +524,8 @@ struct GuestDetailView: View {
                             HStack(spacing: 12) {
                                 ForEach([RSVPStatus.attending, .notAttending, .maybe], id: \.self) { status in
                                     Button {
-                                        // Update RSVP
+                                        guest.updateRSVP(status)
+                                        HapticManager.shared.selection()
                                     } label: {
                                         VStack(spacing: 4) {
                                             Image(systemName: status.icon)
@@ -561,48 +562,7 @@ struct GuestDetailView: View {
     }
 }
 
-// MARK: - RSVP Dashboard View
-
-struct RSVPDashboardView: View {
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) {
-                    NuviaCard {
-                        VStack(spacing: 16) {
-                            Image(systemName: "envelope.badge.fill")
-                                .font(.system(size: 48))
-                                .foregroundColor(.nuviaGoldFallback)
-
-                            Text("RSVP Yönetimi")
-                                .font(NuviaTypography.title2())
-                                .foregroundColor(.nuviaPrimaryText)
-
-                            Text("Otomatik hatırlatma mesajları, RSVP kapanış tarihi ayarlama ve toplu mesaj gönderme özellikleri yakında eklenecek.")
-                                .font(NuviaTypography.body())
-                                .foregroundColor(.nuviaSecondaryText)
-                                .multilineTextAlignment(.center)
-                        }
-                    }
-                }
-                .padding(16)
-            }
-            .background(Color.nuviaBackground)
-            .navigationTitle("RSVP")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Kapat") {
-                        dismiss()
-                    }
-                    .foregroundColor(.nuviaGoldFallback)
-                }
-            }
-        }
-    }
-}
+// RSVPDashboardView replaced by RSVPManagementView in RSVP/RSVPManagementView.swift
 
 #Preview {
     GuestListView()

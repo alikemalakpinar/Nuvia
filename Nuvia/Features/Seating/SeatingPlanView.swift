@@ -348,6 +348,14 @@ struct TableView: View {
 struct TableDetailPanel: View {
     let table: SeatingTable
     let onClose: () -> Void
+    @State private var showGuestPicker = false
+    @Environment(\.modelContext) private var modelContext
+    @Query private var projects: [WeddingProject]
+    @EnvironmentObject var appState: AppState
+
+    private var currentProject: WeddingProject? {
+        projects.first { $0.id.uuidString == appState.currentProjectId }
+    }
 
     var body: some View {
         VStack(spacing: 16) {
@@ -406,14 +414,106 @@ struct TableDetailPanel: View {
 
             // Actions
             HStack(spacing: 12) {
-                NuviaSecondaryButton("Misafir Ekle", icon: "person.badge.plus") {}
-                NuviaPrimaryButton("Düzenle", icon: "pencil") {}
+                NuviaSecondaryButton("Misafir Ekle", icon: "person.badge.plus") {
+                    showGuestPicker = true
+                }
+                .disabled(table.isFull)
             }
         }
         .padding(16)
         .background(Color.nuviaCardBackground)
         .cornerRadius(20, corners: [.topLeft, .topRight])
         .shadow(color: .black.opacity(0.2), radius: 10, y: -5)
+        .sheet(isPresented: $showGuestPicker) {
+            GuestToTablePickerView(table: table)
+        }
+    }
+}
+
+// MARK: - Guest to Table Picker
+
+struct GuestToTablePickerView: View {
+    let table: SeatingTable
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @Query private var projects: [WeddingProject]
+    @EnvironmentObject var appState: AppState
+
+    private var unseatedGuests: [Guest] {
+        guard let project = projects.first(where: { $0.id.uuidString == appState.currentProjectId }) else { return [] }
+        return project.guests.filter { $0.rsvp == .attending && !$0.isSeated }.sorted { $0.lastName < $1.lastName }
+    }
+
+    var body: some View {
+        NavigationStack {
+            List {
+                if unseatedGuests.isEmpty {
+                    Text("Tüm misafirler bir masaya atanmış")
+                        .font(NuviaTypography.body())
+                        .foregroundColor(.nuviaSecondaryText)
+                } else {
+                    ForEach(unseatedGuests, id: \.id) { guest in
+                        Button {
+                            assignGuest(guest)
+                        } label: {
+                            HStack(spacing: 12) {
+                                ZStack {
+                                    Circle()
+                                        .fill(guest.guestGroup.color.opacity(0.2))
+                                        .frame(width: 36, height: 36)
+                                    Text(guest.initials)
+                                        .font(NuviaTypography.caption())
+                                        .foregroundColor(guest.guestGroup.color)
+                                }
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(guest.fullName)
+                                        .font(NuviaTypography.body())
+                                        .foregroundColor(.nuviaPrimaryText)
+                                    HStack(spacing: 4) {
+                                        NuviaTag(guest.guestGroup.displayName, color: guest.guestGroup.color, size: .small)
+                                        if guest.plusOneCount > 0 {
+                                            Text("+\(guest.plusOneCount)")
+                                                .font(NuviaTypography.caption2())
+                                                .foregroundColor(.nuviaSecondaryText)
+                                        }
+                                    }
+                                }
+                                Spacer()
+
+                                // Conflict warning
+                                let hasConflict = table.seatedGuests.contains { seated in
+                                    guest.conflictWithGuestIds.contains(seated.id) || seated.conflictWithGuestIds.contains(guest.id)
+                                }
+                                if hasConflict {
+                                    Image(systemName: "exclamationmark.triangle.fill")
+                                        .foregroundColor(.nuviaWarning)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("\(table.name) - Misafir Ekle")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Kapat") { dismiss() }
+                        .foregroundColor(.nuviaGoldFallback)
+                }
+            }
+        }
+    }
+
+    private func assignGuest(_ guest: Guest) {
+        guard !table.isFull else { return }
+        let assignment = SeatAssignment(guest: guest, table: table, seatNumber: table.occupiedSeats + 1)
+        table.seatAssignments.append(assignment)
+        do {
+            try modelContext.save()
+            HapticManager.shared.seatingDrop()
+        } catch {
+            print("Failed to assign guest: \(error)")
+        }
     }
 }
 

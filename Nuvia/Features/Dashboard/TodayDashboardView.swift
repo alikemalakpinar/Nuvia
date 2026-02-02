@@ -254,18 +254,67 @@ struct TaskRowCompact: View {
 // MARK: - Quick Actions Grid
 
 struct QuickActionsGrid: View {
+    @State private var showRunOfShow = false
+    @State private var showFileVault = false
+    @State private var showZenMode = false
+    @State private var showMusicVoting = false
+    @State private var showPhotoStream = false
+    @State private var showCheckIn = false
+    @State private var showPostWedding = false
+    @State private var showVendors = false
+
     var body: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ], spacing: 16) {
-            NuviaQuickAction(icon: "checkmark.circle", title: "Görev", color: .nuviaInfo) {}
-            NuviaQuickAction(icon: "creditcard", title: "Ödeme", color: .nuviaSuccess) {}
-            NuviaQuickAction(icon: "person.badge.plus", title: "Misafir", color: .categoryDress) {}
-            NuviaQuickAction(icon: "cart", title: "Alışveriş", color: .nuviaWarning) {}
+        VStack(spacing: 12) {
+            NuviaSectionHeader("Hızlı Erişim", actionTitle: nil) {}
+
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: 16) {
+                NuviaQuickAction(icon: "clock.badge.checkmark", title: "Run of Show", color: .nuviaGoldFallback) {
+                    showRunOfShow = true
+                }
+                NuviaQuickAction(icon: "person.2.badge.gearshape", title: "Tedarikçi", color: .nuviaInfo) {
+                    showVendors = true
+                }
+                NuviaQuickAction(icon: "lock.doc", title: "Dosya Kasası", color: .nuviaWarning) {
+                    showFileVault = true
+                }
+                NuviaQuickAction(icon: "leaf.fill", title: "Zen Modu", color: .nuviaSuccess) {
+                    showZenMode = true
+                }
+            }
+
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: 16) {
+                NuviaQuickAction(icon: "music.note.list", title: "Müzik", color: .categoryMusic) {
+                    showMusicVoting = true
+                }
+                NuviaQuickAction(icon: "photo.on.rectangle", title: "Fotoğraf", color: .categoryPhoto) {
+                    showPhotoStream = true
+                }
+                NuviaQuickAction(icon: "person.badge.shield.checkmark", title: "Check-in", color: .categoryVenue) {
+                    showCheckIn = true
+                }
+                NuviaQuickAction(icon: "heart.text.square", title: "Sonrası", color: .categoryDress) {
+                    showPostWedding = true
+                }
+            }
         }
+        .sheet(isPresented: $showRunOfShow) { WeddingDayRunOfShowView() }
+        .sheet(isPresented: $showVendors) { VendorManagementView() }
+        .sheet(isPresented: $showFileVault) { FileVaultView() }
+        .sheet(isPresented: $showZenMode) { ZenModeView() }
+        .sheet(isPresented: $showMusicVoting) { MusicVotingView() }
+        .sheet(isPresented: $showPhotoStream) { LivePhotoStreamView() }
+        .sheet(isPresented: $showCheckIn) { CheckInSystemView() }
+        .sheet(isPresented: $showPostWedding) { PostWeddingView() }
     }
 }
 
