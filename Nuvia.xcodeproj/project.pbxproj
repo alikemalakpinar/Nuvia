@@ -6,38 +6,419 @@
 	objectVersion = 56;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A100000001 /* NuviaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000001; };
+		A100000002 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000002; };
+		A100000003 /* Delivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000003; };
+		A100000004 /* Expense.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000004; };
+		A100000005 /* FileAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000005; };
+		A100000006 /* Guest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000006; };
+		A100000007 /* JournalEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000007; };
+		A100000008 /* NotificationRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000008; };
+		A100000009 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000009; };
+		A100000010 /* SeatingTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000010; };
+		A100000011 /* ShoppingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000011; };
+		A100000012 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000012; };
+		A100000013 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000013; };
+		A100000014 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000014; };
+		A100000015 /* WeddingProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000015; };
+		A100000016 /* BiometricService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000016; };
+		A100000017 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000017; };
+		A100000018 /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000018; };
+		A100000019 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000019; };
+		A100000020 /* NuviaColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000020; };
+		A100000021 /* NuviaComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000021; };
+		A100000022 /* NuviaTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000022; };
+		A100000023 /* BudgetHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000023; };
+		A100000024 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000024; };
+		A100000025 /* TodayDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000025; };
+		A100000026 /* FileVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000026; };
+		A100000027 /* GuestListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000027; };
+		A100000028 /* HomeSetupDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000028; };
+		A100000029 /* InvitationEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000029; };
+		A100000030 /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000030; };
+		A100000031 /* CreateProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000031; };
+		A100000032 /* OnboardingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000032; };
+		A100000033 /* RSVPManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000033; };
+		A100000034 /* SeatingPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000034; };
+		A100000035 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000035; };
+		A100000036 /* ShoppingListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000036; };
+		A100000037 /* SocialFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000037; };
+		A100000038 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000038; };
+		A100000039 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000039; };
+		A100000040 /* VendorManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000040; };
+		A100000041 /* WeddingDayRunOfShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000041; };
+		A100000042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B100000042; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B100000001 /* NuviaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuviaApp.swift; sourceTree = "<group>"; };
+		B100000002 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B100000003 /* Delivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delivery.swift; sourceTree = "<group>"; };
+		B100000004 /* Expense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expense.swift; sourceTree = "<group>"; };
+		B100000005 /* FileAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileAttachment.swift; sourceTree = "<group>"; };
+		B100000006 /* Guest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guest.swift; sourceTree = "<group>"; };
+		B100000007 /* JournalEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntry.swift; sourceTree = "<group>"; };
+		B100000008 /* NotificationRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRule.swift; sourceTree = "<group>"; };
+		B100000009 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		B100000010 /* SeatingTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatingTable.swift; sourceTree = "<group>"; };
+		B100000011 /* ShoppingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingList.swift; sourceTree = "<group>"; };
+		B100000012 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		B100000013 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B100000014 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
+		B100000015 /* WeddingProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingProject.swift; sourceTree = "<group>"; };
+		B100000016 /* BiometricService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricService.swift; sourceTree = "<group>"; };
+		B100000017 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		B100000018 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
+		B100000019 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		B100000020 /* NuviaColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuviaColors.swift; sourceTree = "<group>"; };
+		B100000021 /* NuviaComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuviaComponents.swift; sourceTree = "<group>"; };
+		B100000022 /* NuviaTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuviaTypography.swift; sourceTree = "<group>"; };
+		B100000023 /* BudgetHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetHomeView.swift; sourceTree = "<group>"; };
+		B100000024 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		B100000025 /* TodayDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDashboardView.swift; sourceTree = "<group>"; };
+		B100000026 /* FileVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileVaultView.swift; sourceTree = "<group>"; };
+		B100000027 /* GuestListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestListView.swift; sourceTree = "<group>"; };
+		B100000028 /* HomeSetupDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSetupDashboardView.swift; sourceTree = "<group>"; };
+		B100000029 /* InvitationEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationEditorView.swift; sourceTree = "<group>"; };
+		B100000030 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
+		B100000031 /* CreateProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectView.swift; sourceTree = "<group>"; };
+		B100000032 /* OnboardingContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContainerView.swift; sourceTree = "<group>"; };
+		B100000033 /* RSVPManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSVPManagementView.swift; sourceTree = "<group>"; };
+		B100000034 /* SeatingPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatingPlanView.swift; sourceTree = "<group>"; };
+		B100000035 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B100000036 /* ShoppingListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListsView.swift; sourceTree = "<group>"; };
+		B100000037 /* SocialFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialFeaturesView.swift; sourceTree = "<group>"; };
+		B100000038 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		B100000039 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
+		B100000040 /* VendorManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorManagementView.swift; sourceTree = "<group>"; };
+		B100000041 /* WeddingDayRunOfShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingDayRunOfShowView.swift; sourceTree = "<group>"; };
+		B100000042 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B100000043 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B100000099 /* Nuvia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nuvia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C100000001 = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
-		00000000000000000000001 = {
+		G100000001 /* root */ = {
 			isa = PBXGroup;
 			children = (
-				00000000000000000000002 /* Nuvia */,
-				00000000000000000000003 /* Products */,
+				G100000002 /* Nuvia */,
+				G100000003 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		00000000000000000000002 /* Nuvia */ = {
+		G100000002 /* Nuvia */ = {
 			isa = PBXGroup;
+			children = (
+				G100000010 /* App */,
+				G100000020 /* Core */,
+				G100000030 /* Design */,
+				G100000040 /* Features */,
+				B100000042 /* Assets.xcassets */,
+				B100000043 /* Info.plist */,
+			);
 			path = Nuvia;
 			sourceTree = "<group>";
 		};
-		00000000000000000000003 /* Products */ = {
+		G100000003 /* Products */ = {
 			isa = PBXGroup;
+			children = (
+				B100000099 /* Nuvia.app */,
+			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		G100000010 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B100000001 /* NuviaApp.swift */,
+				B100000002 /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		G100000020 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				G100000021 /* Models */,
+				G100000022 /* Services */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		G100000021 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B100000003 /* Delivery.swift */,
+				B100000004 /* Expense.swift */,
+				B100000005 /* FileAttachment.swift */,
+				B100000006 /* Guest.swift */,
+				B100000007 /* JournalEntry.swift */,
+				B100000008 /* NotificationRule.swift */,
+				B100000009 /* Room.swift */,
+				B100000010 /* SeatingTable.swift */,
+				B100000011 /* ShoppingList.swift */,
+				B100000012 /* Task.swift */,
+				B100000013 /* User.swift */,
+				B100000014 /* Vendor.swift */,
+				B100000015 /* WeddingProject.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		G100000022 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B100000016 /* BiometricService.swift */,
+				B100000017 /* DataManager.swift */,
+				B100000018 /* ExportService.swift */,
+				B100000019 /* NotificationManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		G100000030 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				G100000031 /* Colors */,
+				G100000032 /* Components */,
+				G100000033 /* Typography */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		G100000031 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				B100000020 /* NuviaColors.swift */,
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
+		G100000032 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B100000021 /* NuviaComponents.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		G100000033 /* Typography */ = {
+			isa = PBXGroup;
+			children = (
+				B100000022 /* NuviaTypography.swift */,
+			);
+			path = Typography;
+			sourceTree = "<group>";
+		};
+		G100000040 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				G100000041 /* Budget */,
+				G100000042 /* Dashboard */,
+				G100000043 /* FileVault */,
+				G100000044 /* Guests */,
+				G100000045 /* HomePlanning */,
+				G100000046 /* Invitation */,
+				G100000047 /* Journal */,
+				G100000048 /* Onboarding */,
+				G100000049 /* RSVP */,
+				G100000050 /* Seating */,
+				G100000051 /* Settings */,
+				G100000052 /* Shopping */,
+				G100000053 /* Social */,
+				G100000054 /* Splash */,
+				G100000055 /* Timeline */,
+				G100000056 /* Vendors */,
+				G100000057 /* WeddingDay */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		G100000041 /* Budget */ = {
+			isa = PBXGroup;
+			children = (
+				B100000023 /* BudgetHomeView.swift */,
+			);
+			path = Budget;
+			sourceTree = "<group>";
+		};
+		G100000042 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				B100000024 /* MainTabView.swift */,
+				B100000025 /* TodayDashboardView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		G100000043 /* FileVault */ = {
+			isa = PBXGroup;
+			children = (
+				B100000026 /* FileVaultView.swift */,
+			);
+			path = FileVault;
+			sourceTree = "<group>";
+		};
+		G100000044 /* Guests */ = {
+			isa = PBXGroup;
+			children = (
+				B100000027 /* GuestListView.swift */,
+			);
+			path = Guests;
+			sourceTree = "<group>";
+		};
+		G100000045 /* HomePlanning */ = {
+			isa = PBXGroup;
+			children = (
+				B100000028 /* HomeSetupDashboardView.swift */,
+			);
+			path = HomePlanning;
+			sourceTree = "<group>";
+		};
+		G100000046 /* Invitation */ = {
+			isa = PBXGroup;
+			children = (
+				B100000029 /* InvitationEditorView.swift */,
+			);
+			path = Invitation;
+			sourceTree = "<group>";
+		};
+		G100000047 /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				B100000030 /* JournalView.swift */,
+			);
+			path = Journal;
+			sourceTree = "<group>";
+		};
+		G100000048 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				B100000031 /* CreateProjectView.swift */,
+				B100000032 /* OnboardingContainerView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		G100000049 /* RSVP */ = {
+			isa = PBXGroup;
+			children = (
+				B100000033 /* RSVPManagementView.swift */,
+			);
+			path = RSVP;
+			sourceTree = "<group>";
+		};
+		G100000050 /* Seating */ = {
+			isa = PBXGroup;
+			children = (
+				B100000034 /* SeatingPlanView.swift */,
+			);
+			path = Seating;
+			sourceTree = "<group>";
+		};
+		G100000051 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B100000035 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		G100000052 /* Shopping */ = {
+			isa = PBXGroup;
+			children = (
+				B100000036 /* ShoppingListsView.swift */,
+			);
+			path = Shopping;
+			sourceTree = "<group>";
+		};
+		G100000053 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				B100000037 /* SocialFeaturesView.swift */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
+		G100000054 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				B100000038 /* SplashView.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		G100000055 /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				B100000039 /* TimelineView.swift */,
+			);
+			path = Timeline;
+			sourceTree = "<group>";
+		};
+		G100000056 /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				B100000040 /* VendorManagementView.swift */,
+			);
+			path = Vendors;
+			sourceTree = "<group>";
+		};
+		G100000057 /* WeddingDay */ = {
+			isa = PBXGroup;
+			children = (
+				B100000041 /* WeddingDayRunOfShowView.swift */,
+			);
+			path = WeddingDay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXNativeTarget section */
+		T100000001 /* Nuvia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = X100000020 /* Build configuration list for PBXNativeTarget "Nuvia" */;
+			buildPhases = (
+				S100000001 /* Sources */,
+				C100000001 /* Frameworks */,
+				R100000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Nuvia;
+			productName = Nuvia;
+			productReference = B100000099 /* Nuvia.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
 /* Begin PBXProject section */
-		00000000000000000000000 /* Project object */ = {
+		P100000001 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					T100000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
 				};
 			};
-			buildConfigurationList = 00000000000000000000010;
+			buildConfigurationList = X100000010 /* Build configuration list for PBXProject "Nuvia" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = tr;
 			hasScannedForEncodings = 0;
@@ -46,42 +427,254 @@
 				en,
 				Base,
 			);
-			mainGroup = 00000000000000000000001;
-			productRefGroup = 00000000000000000000003;
+			mainGroup = G100000001;
+			productRefGroup = G100000003 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				T100000001 /* Nuvia */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		R100000001 = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000042 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		S100000001 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000001 /* NuviaApp.swift in Sources */,
+				A100000002 /* RootView.swift in Sources */,
+				A100000003 /* Delivery.swift in Sources */,
+				A100000004 /* Expense.swift in Sources */,
+				A100000005 /* FileAttachment.swift in Sources */,
+				A100000006 /* Guest.swift in Sources */,
+				A100000007 /* JournalEntry.swift in Sources */,
+				A100000008 /* NotificationRule.swift in Sources */,
+				A100000009 /* Room.swift in Sources */,
+				A100000010 /* SeatingTable.swift in Sources */,
+				A100000011 /* ShoppingList.swift in Sources */,
+				A100000012 /* Task.swift in Sources */,
+				A100000013 /* User.swift in Sources */,
+				A100000014 /* Vendor.swift in Sources */,
+				A100000015 /* WeddingProject.swift in Sources */,
+				A100000016 /* BiometricService.swift in Sources */,
+				A100000017 /* DataManager.swift in Sources */,
+				A100000018 /* ExportService.swift in Sources */,
+				A100000019 /* NotificationManager.swift in Sources */,
+				A100000020 /* NuviaColors.swift in Sources */,
+				A100000021 /* NuviaComponents.swift in Sources */,
+				A100000022 /* NuviaTypography.swift in Sources */,
+				A100000023 /* BudgetHomeView.swift in Sources */,
+				A100000024 /* MainTabView.swift in Sources */,
+				A100000025 /* TodayDashboardView.swift in Sources */,
+				A100000026 /* FileVaultView.swift in Sources */,
+				A100000027 /* GuestListView.swift in Sources */,
+				A100000028 /* HomeSetupDashboardView.swift in Sources */,
+				A100000029 /* InvitationEditorView.swift in Sources */,
+				A100000030 /* JournalView.swift in Sources */,
+				A100000031 /* CreateProjectView.swift in Sources */,
+				A100000032 /* OnboardingContainerView.swift in Sources */,
+				A100000033 /* RSVPManagementView.swift in Sources */,
+				A100000034 /* SeatingPlanView.swift in Sources */,
+				A100000035 /* SettingsView.swift in Sources */,
+				A100000036 /* ShoppingListsView.swift in Sources */,
+				A100000037 /* SocialFeaturesView.swift in Sources */,
+				A100000038 /* SplashView.swift in Sources */,
+				A100000039 /* TimelineView.swift in Sources */,
+				A100000040 /* VendorManagementView.swift in Sources */,
+				A100000041 /* WeddingDayRunOfShowView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
 /* Begin XCBuildConfiguration section */
-		00000000000000000000011 /* Debug */ = {
+		X100000011 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "Nuvia/Info.plist";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		X100000012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		X100000021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Nuvia/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Nuvia;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nuvia.app;
-				PRODUCT_NAME = Nuvia;
-				SWIFT_VERSION = 5.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		00000000000000000000012 /* Release */ = {
+		X100000022 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_MODULES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "Nuvia/Info.plist";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Nuvia/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Nuvia;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nuvia.app;
-				PRODUCT_NAME = Nuvia;
-				SWIFT_VERSION = 5.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -89,11 +682,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00000000000000000000010 /* Build configuration list for PBXProject */ = {
+		X100000010 /* Build configuration list for PBXProject "Nuvia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				00000000000000000000011 /* Debug */,
-				00000000000000000000012 /* Release */,
+				X100000011 /* Debug */,
+				X100000012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		X100000020 /* Build configuration list for PBXNativeTarget "Nuvia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				X100000021 /* Debug */,
+				X100000022 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -101,5 +703,5 @@
 /* End XCConfigurationList section */
 
 	};
-	rootObject = 00000000000000000000000 /* Project object */;
+	rootObject = P100000001 /* Project object */;
 }
