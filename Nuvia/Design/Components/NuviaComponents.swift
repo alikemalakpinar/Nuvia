@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - Primary Button
+// MARK: - Primary Button (Premium)
 
 struct NuviaPrimaryButton: View {
     let title: String
@@ -23,8 +23,13 @@ struct NuviaPrimaryButton: View {
         self.action = action
     }
 
+    @State private var isPressed = false
+
     var body: some View {
-        Button(action: action) {
+        Button {
+            HapticManager.shared.buttonTap()
+            action()
+        } label: {
             HStack(spacing: 8) {
                 if isLoading {
                     ProgressView()
@@ -43,18 +48,28 @@ struct NuviaPrimaryButton: View {
             .frame(height: 54)
             .background(
                 isDisabled
-                    ? Color.nuviaTertiaryText
-                    : Color.nuviaGradient
+                    ? AnyShapeStyle(Color.nuviaTertiaryText)
+                    : AnyShapeStyle(Color.nuviaGradient)
             )
             .foregroundColor(.nuviaMidnight)
             .cornerRadius(16)
+            .nuviaShadow(.medium)
         }
+        .scaleEffect(isPressed ? 0.96 : 1.0)
+        .animation(.spring(response: 0.2, dampingFraction: 0.7), value: isPressed)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in isPressed = true }
+                .onEnded { _ in isPressed = false }
+        )
         .disabled(isDisabled || isLoading)
         .animation(.easeInOut(duration: 0.2), value: isLoading)
+        .accessibilityLabel(title)
+        .accessibilityHint(isLoading ? "Yükleniyor" : "")
     }
 }
 
-// MARK: - Secondary Button
+// MARK: - Secondary Button (Premium)
 
 struct NuviaSecondaryButton: View {
     let title: String
@@ -68,7 +83,10 @@ struct NuviaSecondaryButton: View {
     }
 
     var body: some View {
-        Button(action: action) {
+        Button {
+            HapticManager.shared.buttonTap()
+            action()
+        } label: {
             HStack(spacing: 8) {
                 if let icon = icon {
                     Image(systemName: icon)
@@ -79,14 +97,16 @@ struct NuviaSecondaryButton: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: 54)
-            .background(Color.nuviaCardBackground)
+            .background(Color.nuviaGlassOverlay)
             .foregroundColor(.nuviaGoldFallback)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.nuviaGoldFallback.opacity(0.5), lineWidth: 1)
+                    .stroke(Color.nuviaGoldFallback.opacity(0.4), lineWidth: 1)
             )
         }
+        .pressEffect()
+        .accessibilityLabel(title)
     }
 }
 
@@ -97,15 +117,19 @@ struct NuviaTextButton: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button {
+            HapticManager.shared.selection()
+            action()
+        } label: {
             Text(title)
                 .font(NuviaTypography.smallButton())
                 .foregroundColor(.nuviaGoldFallback)
         }
+        .accessibilityLabel(title)
     }
 }
 
-// MARK: - Card
+// MARK: - Card (Glassmorphism)
 
 struct NuviaCard<Content: View>: View {
     let content: Content
@@ -117,8 +141,52 @@ struct NuviaCard<Content: View>: View {
     var body: some View {
         content
             .padding(16)
-            .background(Color.nuviaCardBackground)
+            .background(
+                ZStack {
+                    Color.nuviaCardBackground
+                    Color.nuviaGlassOverlay
+                }
+            )
             .cornerRadius(20)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.nuviaGlassBorder, lineWidth: 0.5)
+            )
+            .nuviaShadow(.subtle)
+    }
+}
+
+// MARK: - Glass Card (Full Glassmorphism)
+
+struct NuviaGlassCard<Content: View>: View {
+    let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+            .padding(16)
+            .background(
+                ZStack {
+                    Color.nuviaCardBackground.opacity(0.5)
+                    Color.white.opacity(0.04)
+                }
+            )
+            .cornerRadius(24)
+            .overlay(
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(
+                        LinearGradient(
+                            colors: [Color.white.opacity(0.2), Color.white.opacity(0.05)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1
+                    )
+            )
+            .nuviaShadow(.elevated)
     }
 }
 
@@ -148,6 +216,8 @@ struct NuviaTextField: View {
         self.keyboardType = keyboardType
     }
 
+    @FocusState private var isFocused: Bool
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
@@ -157,17 +227,20 @@ struct NuviaTextField: View {
             HStack(spacing: 12) {
                 if let icon = icon {
                     Image(systemName: icon)
-                        .foregroundColor(.nuviaSecondaryText)
+                        .foregroundColor(isFocused ? .nuviaGoldFallback : .nuviaSecondaryText)
                         .frame(width: 20)
+                        .animation(.easeInOut(duration: 0.2), value: isFocused)
                 }
 
                 if isSecure {
                     SecureField(placeholder, text: $text)
                         .font(NuviaTypography.body())
+                        .focused($isFocused)
                 } else {
                     TextField(placeholder, text: $text)
                         .font(NuviaTypography.body())
                         .keyboardType(keyboardType)
+                        .focused($isFocused)
                 }
             }
             .padding(16)
@@ -175,9 +248,11 @@ struct NuviaTextField: View {
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.nuviaSecondaryText.opacity(0.2), lineWidth: 1)
+                    .stroke(isFocused ? Color.nuviaGoldFallback.opacity(0.6) : Color.nuviaSecondaryText.opacity(0.2), lineWidth: isFocused ? 1.5 : 1)
             )
+            .animation(.easeInOut(duration: 0.2), value: isFocused)
         }
+        .accessibilityLabel(title)
     }
 }
 
@@ -194,17 +269,14 @@ struct NuviaDatePicker: View {
                 .font(NuviaTypography.caption())
                 .foregroundColor(.nuviaSecondaryText)
 
-            DatePicker(
-                "",
-                selection: $date,
-                displayedComponents: displayedComponents
-            )
-            .datePickerStyle(.compact)
-            .labelsHidden()
-            .padding(12)
-            .background(Color.nuviaTertiaryBackground)
-            .cornerRadius(12)
+            DatePicker("", selection: $date, displayedComponents: displayedComponents)
+                .datePickerStyle(.compact)
+                .labelsHidden()
+                .padding(12)
+                .background(Color.nuviaTertiaryBackground)
+                .cornerRadius(12)
         }
+        .accessibilityLabel(title)
     }
 }
 
@@ -236,16 +308,20 @@ struct NuviaToggle: View {
             }
         }
         .tint(.nuviaGoldFallback)
+        .onChange(of: isOn) { _, _ in
+            HapticManager.shared.selection()
+        }
     }
 }
 
-// MARK: - Progress Ring
+// MARK: - Progress Ring (Animated)
 
 struct NuviaProgressRing: View {
     let progress: Double
     let size: CGFloat
     let lineWidth: CGFloat
     let showPercentage: Bool
+    @State private var animatedProgress: Double = 0
 
     init(progress: Double, size: CGFloat = 80, lineWidth: CGFloat = 8, showPercentage: Bool = true) {
         self.progress = progress
@@ -256,28 +332,34 @@ struct NuviaProgressRing: View {
 
     var body: some View {
         ZStack {
-            // Background ring
             Circle()
                 .stroke(Color.nuviaTertiaryBackground, lineWidth: lineWidth)
 
-            // Progress ring
             Circle()
-                .trim(from: 0, to: CGFloat(min(progress, 1.0)))
+                .trim(from: 0, to: CGFloat(min(animatedProgress, 1.0)))
                 .stroke(
                     Color.nuviaGradient,
                     style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
                 )
                 .rotationEffect(.degrees(-90))
-                .animation(.easeInOut(duration: 0.5), value: progress)
 
-            // Percentage text
             if showPercentage {
-                Text("\(Int(progress * 100))%")
+                Text("\(Int(animatedProgress * 100))%")
                     .font(NuviaTypography.bodyBold())
                     .foregroundColor(.nuviaPrimaryText)
             }
         }
         .frame(width: size, height: size)
+        .onAppear {
+            withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(0.2)) {
+                animatedProgress = progress
+            }
+        }
+        .onChange(of: progress) { _, newValue in
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+                animatedProgress = newValue
+            }
+        }
     }
 }
 
@@ -302,8 +384,17 @@ struct NuviaCountdown: View {
                 .foregroundColor(.nuviaTertiaryText)
         }
         .padding(24)
-        .background(Color.nuviaCardBackground)
+        .background(
+            ZStack {
+                Color.nuviaCardBackground
+                Color.nuviaGlassOverlay
+            }
+        )
         .cornerRadius(24)
+        .overlay(
+            RoundedRectangle(cornerRadius: 24)
+                .stroke(Color.nuviaGlassBorder, lineWidth: 0.5)
+        )
     }
 }
 
@@ -345,10 +436,11 @@ struct NuviaTag: View {
             .padding(size.padding)
             .background(color.opacity(0.15))
             .cornerRadius(8)
+            .accessibilityLabel(text)
     }
 }
 
-// MARK: - Empty State
+// MARK: - Empty State (Enhanced with pulse animation)
 
 struct NuviaEmptyState: View {
     let icon: String
@@ -356,6 +448,7 @@ struct NuviaEmptyState: View {
     let message: String
     let actionTitle: String?
     let action: (() -> Void)?
+    @State private var iconPulse = false
 
     init(
         icon: String,
@@ -373,14 +466,37 @@ struct NuviaEmptyState: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Image(systemName: icon)
-                .font(.system(size: 48))
-                .foregroundColor(.nuviaSecondaryText)
+            ZStack {
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            gradient: Gradient(colors: [
+                                Color.nuviaGoldFallback.opacity(0.08),
+                                Color.nuviaGoldFallback.opacity(0)
+                            ]),
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: 80
+                        )
+                    )
+                    .frame(width: 140, height: 140)
+                    .scaleEffect(iconPulse ? 1.05 : 0.95)
+
+                Image(systemName: icon)
+                    .font(.system(size: 48))
+                    .foregroundColor(.nuviaSecondaryText.opacity(0.7))
+            }
+            .onAppear {
+                withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true)) {
+                    iconPulse = true
+                }
+            }
 
             VStack(spacing: 8) {
                 Text(title)
                     .font(NuviaTypography.title3())
                     .foregroundColor(.nuviaPrimaryText)
+                    .accessibilityAddTraits(.isHeader)
 
                 Text(message)
                     .font(NuviaTypography.body())
@@ -415,6 +531,7 @@ struct NuviaSectionHeader: View {
             Text(title)
                 .font(NuviaTypography.title3())
                 .foregroundColor(.nuviaPrimaryText)
+                .accessibilityAddTraits(.isHeader)
 
             Spacer()
 
@@ -472,6 +589,10 @@ struct NuviaListRow<Leading: View, Trailing: View>: View {
         .padding(16)
         .background(Color.nuviaCardBackground)
         .cornerRadius(12)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.nuviaGlassBorder, lineWidth: 0.5)
+        )
     }
 }
 
@@ -484,20 +605,35 @@ struct NuviaQuickAction: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button {
+            HapticManager.shared.selection()
+            action()
+        } label: {
             VStack(spacing: 8) {
                 Image(systemName: icon)
-                    .font(.system(size: 24))
+                    .font(.system(size: 22))
                     .foregroundColor(color)
-                    .frame(width: 56, height: 56)
-                    .background(color.opacity(0.15))
+                    .frame(width: 52, height: 52)
+                    .background(
+                        ZStack {
+                            color.opacity(0.12)
+                            Color.white.opacity(0.03)
+                        }
+                    )
                     .cornerRadius(16)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(color.opacity(0.2), lineWidth: 0.5)
+                    )
 
                 Text(title)
-                    .font(NuviaTypography.caption())
+                    .font(NuviaTypography.caption2())
                     .foregroundColor(.nuviaPrimaryText)
+                    .lineLimit(1)
             }
         }
+        .pressEffect()
+        .accessibilityLabel(title)
     }
 }
 
@@ -505,11 +641,97 @@ struct NuviaQuickAction: View {
 
 struct NuviaStatusIndicator: View {
     let status: TaskStatus
+    @State private var isGlowing = false
 
     var body: some View {
-        Circle()
-            .fill(status.color)
-            .frame(width: 10, height: 10)
+        ZStack {
+            if status == .inProgress {
+                Circle()
+                    .fill(status.color.opacity(0.3))
+                    .frame(width: 16, height: 16)
+                    .scaleEffect(isGlowing ? 1.3 : 1.0)
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                            isGlowing = true
+                        }
+                    }
+            }
+            Circle()
+                .fill(status.color)
+                .frame(width: 10, height: 10)
+        }
+        .accessibilityLabel(status.displayName)
+    }
+}
+
+// MARK: - Filter Chip
+
+struct FilterChip: View {
+    let title: String
+    let isSelected: Bool
+    var color: Color = .nuviaGoldFallback
+    let action: () -> Void
+
+    var body: some View {
+        Button {
+            HapticManager.shared.selection()
+            action()
+        } label: {
+            Text(title)
+                .font(NuviaTypography.caption())
+                .foregroundColor(isSelected ? .nuviaMidnight : .nuviaSecondaryText)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(isSelected ? color : Color.nuviaTertiaryBackground)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(isSelected ? color.opacity(0.5) : Color.nuviaGlassBorder, lineWidth: 0.5)
+                )
+        }
+        .accessibilityLabel(title)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+    }
+}
+
+// MARK: - Skeleton Loading
+
+struct NuviaSkeletonCard: View {
+    let height: CGFloat
+
+    init(height: CGFloat = 100) {
+        self.height = height
+    }
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: 20)
+            .fill(Color.nuviaTertiaryBackground)
+            .frame(height: height)
+            .shimmer()
+    }
+}
+
+struct NuviaSkeletonRow: View {
+    var body: some View {
+        HStack(spacing: 12) {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.nuviaTertiaryBackground)
+                .frame(width: 44, height: 44)
+
+            VStack(alignment: .leading, spacing: 6) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.nuviaTertiaryBackground)
+                    .frame(width: 140, height: 14)
+
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.nuviaTertiaryBackground)
+                    .frame(width: 90, height: 10)
+            }
+
+            Spacer()
+        }
+        .padding(16)
+        .shimmer()
     }
 }
 
@@ -522,6 +744,15 @@ struct NuviaStatusIndicator: View {
 
             NuviaSecondaryButton("İptal", icon: "xmark") {}
 
+            NuviaGlassCard {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Glass Kart")
+                        .font(NuviaTypography.title3())
+                    Text("Premium glassmorphism efektiyle.")
+                        .font(NuviaTypography.body())
+                }
+            }
+
             NuviaCard {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Kart Başlığı")
@@ -533,13 +764,14 @@ struct NuviaStatusIndicator: View {
 
             NuviaProgressRing(progress: 0.65)
 
-            NuviaCountdown(daysRemaining: 142, weddingDate: Date().addingTimeInterval(86400 * 142))
-
             HStack {
                 NuviaTag("Nikah", color: .categoryVenue)
                 NuviaTag("Yüksek", color: .priorityHigh)
                 NuviaTag("Tamamlandı", color: .statusCompleted)
             }
+
+            NuviaSkeletonCard()
+            NuviaSkeletonRow()
 
             NuviaEmptyState(
                 icon: "tray",

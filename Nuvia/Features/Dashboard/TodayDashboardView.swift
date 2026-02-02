@@ -20,24 +20,24 @@ struct TodayDashboardView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     if let project = currentProject {
-                        // Countdown Card
                         CountdownCard(project: project)
+                            .cardEntrance(delay: 0)
 
-                        // Today's Tasks
                         TodayTasksCard(project: project)
+                            .cardEntrance(delay: 0.05)
 
-                        // Quick Actions
                         QuickActionsGrid()
+                            .cardEntrance(delay: 0.10)
 
-                        // Upcoming Payments
                         UpcomingPaymentsCard(project: project)
+                            .cardEntrance(delay: 0.15)
 
-                        // RSVP Summary
                         RSVPSummaryCard(project: project)
+                            .cardEntrance(delay: 0.20)
 
-                        // Upcoming Deliveries (if home mode)
                         if appState.appMode == .weddingAndHome {
                             UpcomingDeliveriesCard(project: project)
+                                .cardEntrance(delay: 0.25)
                         }
                     } else {
                         NuviaEmptyState(
@@ -142,6 +142,8 @@ struct CountdownCard: View {
                             .font(NuviaTypography.caption())
                             .foregroundColor(.nuviaSecondaryText)
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Düğüne \(project.daysUntilWedding) gün kaldı")
 
                     Spacer()
 

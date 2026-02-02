@@ -1,17 +1,41 @@
 import SwiftUI
 
-/// Onboarding konteyner view
-/// 5 ekranlık onboarding akışını yönetir
+/// Premium Onboarding Container
+/// 5-screen flow with parallax, spring animations, and haptic feedback
 struct OnboardingContainerView: View {
     @EnvironmentObject var appState: AppState
     @State private var currentPage = 0
+    @State private var pageDirection: Int = 1
 
     private let totalPages = 5
 
     var body: some View {
         ZStack {
-            Color.nuviaBackground
-                .ignoresSafeArea()
+            // Animated gradient background
+            LinearGradient(
+                colors: [
+                    Color.nuviaMidnight,
+                    Color(red: 0.08, green: 0.10, blue: 0.18),
+                    Color(red: 0.10, green: 0.12, blue: 0.20)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            // Floating gold particles
+            GeometryReader { geo in
+                ForEach(0..<8, id: \.self) { i in
+                    Circle()
+                        .fill(Color.nuviaGoldFallback.opacity(Double.random(in: 0.03...0.06)))
+                        .frame(width: CGFloat.random(in: 3...8))
+                        .position(
+                            x: CGFloat.random(in: 0...geo.size.width),
+                            y: CGFloat.random(in: 0...geo.size.height)
+                        )
+                }
+            }
+            .allowsHitTesting(false)
 
             VStack(spacing: 0) {
                 // Page content
@@ -34,18 +58,21 @@ struct OnboardingContainerView: View {
                     .tag(4)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.easeInOut, value: currentPage)
+                .animation(.spring(response: 0.5, dampingFraction: 0.85), value: currentPage)
 
                 // Bottom controls
                 VStack(spacing: 20) {
-                    // Page indicators
+                    // Premium page indicators
                     HStack(spacing: 8) {
                         ForEach(0..<totalPages, id: \.self) { index in
-                            Circle()
-                                .fill(index == currentPage ? Color.nuviaGoldFallback : Color.nuviaTertiaryText)
-                                .frame(width: 8, height: 8)
-                                .scaleEffect(index == currentPage ? 1.2 : 1)
-                                .animation(.spring(response: 0.3), value: currentPage)
+                            Capsule()
+                                .fill(
+                                    index == currentPage
+                                        ? Color.nuviaGoldFallback
+                                        : Color.nuviaTertiaryText.opacity(0.4)
+                                )
+                                .frame(width: index == currentPage ? 24 : 8, height: 8)
+                                .animation(.spring(response: 0.4, dampingFraction: 0.7), value: currentPage)
                         }
                     }
 
@@ -53,6 +80,7 @@ struct OnboardingContainerView: View {
                     HStack(spacing: 16) {
                         if currentPage > 0 {
                             NuviaSecondaryButton("Geri") {
+                                HapticManager.shared.selection()
                                 withAnimation {
                                     currentPage -= 1
                                 }
@@ -61,6 +89,7 @@ struct OnboardingContainerView: View {
 
                         if currentPage < totalPages - 1 {
                             NuviaPrimaryButton("Devam") {
+                                HapticManager.shared.selection()
                                 withAnimation {
                                     currentPage += 1
                                 }
@@ -78,12 +107,13 @@ struct OnboardingContainerView: View {
                     Spacer()
                     if currentPage < totalPages - 1 {
                         Button("Atla") {
-                            withAnimation {
+                            HapticManager.shared.selection()
+                            withAnimation(.spring(response: 0.4)) {
                                 currentPage = totalPages - 1
                             }
                         }
                         .font(NuviaTypography.smallButton())
-                        .foregroundColor(.nuviaSecondaryText)
+                        .foregroundColor(.nuviaSecondaryText.opacity(0.8))
                         .padding()
                     }
                 }
@@ -93,7 +123,8 @@ struct OnboardingContainerView: View {
     }
 
     private func completeOnboarding() {
-        withAnimation {
+        HapticManager.shared.success()
+        withAnimation(.easeInOut(duration: 0.5)) {
             appState.isOnboardingComplete = true
         }
     }
@@ -102,19 +133,48 @@ struct OnboardingContainerView: View {
 // MARK: - Welcome Screen
 
 struct OnboardingWelcomeView: View {
+    @State private var iconScale: CGFloat = 0.5
+    @State private var iconOpacity: Double = 0
+    @State private var textOpacity: Double = 0
+    @State private var glowScale: CGFloat = 0.6
+    @State private var glowOpacity: Double = 0
+
     var body: some View {
         VStack(spacing: 32) {
             Spacer()
 
-            // Illustration
+            // Animated illustration
             ZStack {
+                // Outer glow
                 Circle()
-                    .fill(Color.nuviaGoldFallback.opacity(0.1))
+                    .fill(
+                        RadialGradient(
+                            gradient: Gradient(colors: [
+                                Color.nuviaGoldFallback.opacity(0.15),
+                                Color.nuviaGoldFallback.opacity(0)
+                            ]),
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: 140
+                        )
+                    )
+                    .frame(width: 280, height: 280)
+                    .scaleEffect(glowScale)
+                    .opacity(glowOpacity)
+
+                Circle()
+                    .fill(Color.nuviaGoldFallback.opacity(0.08))
+                    .frame(width: 200, height: 200)
+
+                Circle()
+                    .stroke(Color.nuviaGoldFallback.opacity(0.15), lineWidth: 1)
                     .frame(width: 200, height: 200)
 
                 Image(systemName: "heart.text.square.fill")
                     .font(.system(size: 80))
                     .foregroundStyle(Color.nuviaGradient)
+                    .scaleEffect(iconScale)
+                    .opacity(iconOpacity)
             }
 
             VStack(spacing: 16) {
@@ -129,9 +189,23 @@ struct OnboardingWelcomeView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
             }
+            .opacity(textOpacity)
 
             Spacer()
             Spacer()
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.6)) {
+                glowOpacity = 1
+                glowScale = 1.0
+            }
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.65).delay(0.2)) {
+                iconScale = 1.0
+                iconOpacity = 1
+            }
+            withAnimation(.easeOut(duration: 0.6).delay(0.4)) {
+                textOpacity = 1
+            }
         }
     }
 }
@@ -215,8 +289,17 @@ struct PermissionRow: View {
             Spacer()
         }
         .padding(16)
-        .background(Color.nuviaCardBackground)
+        .background(
+            ZStack {
+                Color.nuviaCardBackground
+                Color.nuviaGlassOverlay
+            }
+        )
         .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.nuviaGlassBorder, lineWidth: 0.5)
+        )
     }
 }
 
@@ -294,7 +377,10 @@ struct ModeCard: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button {
+            HapticManager.shared.selection()
+            action()
+        } label: {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .font(.system(size: 28))
@@ -334,15 +420,27 @@ struct ModeCard: View {
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 24))
                     .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaTertiaryText)
+                    .animation(.spring(response: 0.3), value: isSelected)
             }
             .padding(16)
-            .background(Color.nuviaCardBackground)
+            .background(
+                ZStack {
+                    Color.nuviaCardBackground
+                    Color.nuviaGlassOverlay
+                }
+            )
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(isSelected ? Color.nuviaGoldFallback : Color.clear, lineWidth: 2)
+                    .stroke(
+                        isSelected ? Color.nuviaGoldFallback : Color.nuviaGlassBorder,
+                        lineWidth: isSelected ? 2 : 0.5
+                    )
             )
+            .nuviaShadow(isSelected ? .medium : .subtle)
         }
+        .pressEffect()
+        .animation(.spring(response: 0.3), value: isSelected)
     }
 }
 
@@ -433,8 +531,17 @@ struct PrivacyFeatureRow: View {
             Spacer()
         }
         .padding(12)
-        .background(Color.nuviaCardBackground)
+        .background(
+            ZStack {
+                Color.nuviaCardBackground
+                Color.nuviaGlassOverlay
+            }
+        )
         .cornerRadius(12)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.nuviaGlassBorder, lineWidth: 0.5)
+        )
     }
 }
 
@@ -442,24 +549,55 @@ struct PrivacyFeatureRow: View {
 
 struct OnboardingSetupView: View {
     let onComplete: () -> Void
+    @State private var sparkleRotation: Double = 0
+    @State private var sparkleScale: CGFloat = 0.5
+    @State private var sparkleOpacity: Double = 0
 
     var body: some View {
         VStack(spacing: 32) {
             Spacer()
 
             ZStack {
+                // Glow ring
                 Circle()
-                    .fill(Color.nuviaGoldFallback.opacity(0.1))
+                    .stroke(
+                        AngularGradient(
+                            colors: [
+                                Color.nuviaGoldFallback.opacity(0.1),
+                                Color.nuviaGoldFallback.opacity(0.4),
+                                Color.nuviaCopper.opacity(0.3),
+                                Color.nuviaGoldFallback.opacity(0.1)
+                            ],
+                            center: .center
+                        ),
+                        lineWidth: 1.5
+                    )
+                    .frame(width: 180, height: 180)
+                    .rotationEffect(.degrees(sparkleRotation))
+
+                Circle()
+                    .fill(Color.nuviaGoldFallback.opacity(0.08))
                     .frame(width: 160, height: 160)
 
                 VStack(spacing: 8) {
                     Image(systemName: "sparkles")
                         .font(.system(size: 48))
                         .foregroundColor(.nuviaGoldFallback)
+                        .scaleEffect(sparkleScale)
+                        .opacity(sparkleOpacity)
 
                     Text("Hazır!")
                         .font(NuviaTypography.title2())
                         .foregroundColor(.nuviaGoldFallback)
+                }
+            }
+            .onAppear {
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.6)) {
+                    sparkleScale = 1.0
+                    sparkleOpacity = 1
+                }
+                withAnimation(.linear(duration: 12).repeatForever(autoreverses: false)) {
+                    sparkleRotation = 360
                 }
             }
 

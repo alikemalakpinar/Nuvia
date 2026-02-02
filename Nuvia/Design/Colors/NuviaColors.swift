@@ -140,6 +140,140 @@ extension Color {
             endPoint: .bottom
         )
     }
+
+    /// Glass overlay for glassmorphism
+    static var nuviaGlassOverlay: Color {
+        Color.white.opacity(0.06)
+    }
+
+    /// Glass border for glassmorphism
+    static var nuviaGlassBorder: Color {
+        Color.white.opacity(0.12)
+    }
+}
+
+// MARK: - Shadow System
+
+enum NuviaShadowLevel {
+    case subtle, medium, elevated, floating
+
+    var radius: CGFloat {
+        switch self {
+        case .subtle: return 8
+        case .medium: return 16
+        case .elevated: return 24
+        case .floating: return 32
+        }
+    }
+
+    var opacity: Double {
+        switch self {
+        case .subtle: return 0.08
+        case .medium: return 0.12
+        case .elevated: return 0.18
+        case .floating: return 0.25
+        }
+    }
+
+    var y: CGFloat {
+        switch self {
+        case .subtle: return 2
+        case .medium: return 4
+        case .elevated: return 8
+        case .floating: return 12
+        }
+    }
+}
+
+extension View {
+    func nuviaShadow(_ level: NuviaShadowLevel) -> some View {
+        self.shadow(color: .black.opacity(level.opacity), radius: level.radius, y: level.y)
+    }
+}
+
+// MARK: - Shimmer Effect
+
+struct ShimmerModifier: ViewModifier {
+    @State private var phase: CGFloat = -1
+
+    func body(content: Content) -> some View {
+        content
+            .overlay(
+                GeometryReader { geo in
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            .clear,
+                            Color.white.opacity(0.15),
+                            .clear
+                        ]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                    .frame(width: geo.size.width * 0.6)
+                    .offset(x: geo.size.width * phase)
+                    .onAppear {
+                        withAnimation(.linear(duration: 1.8).repeatForever(autoreverses: false)) {
+                            phase = 1.6
+                        }
+                    }
+                }
+            )
+            .clipped()
+    }
+}
+
+extension View {
+    func shimmer() -> some View {
+        modifier(ShimmerModifier())
+    }
+}
+
+// MARK: - Card Entrance Animation
+
+struct CardEntranceModifier: ViewModifier {
+    let delay: Double
+    @State private var appeared = false
+
+    func body(content: Content) -> some View {
+        content
+            .offset(y: appeared ? 0 : 30)
+            .opacity(appeared ? 1 : 0)
+            .onAppear {
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(delay)) {
+                    appeared = true
+                }
+            }
+    }
+}
+
+extension View {
+    func cardEntrance(delay: Double = 0) -> some View {
+        modifier(CardEntranceModifier(delay: delay))
+    }
+}
+
+// MARK: - Interactive Press Effect
+
+struct PressEffectModifier: ViewModifier {
+    @State private var isPressed = false
+
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(isPressed ? 0.97 : 1.0)
+            .opacity(isPressed ? 0.9 : 1.0)
+            .animation(.easeInOut(duration: 0.15), value: isPressed)
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in isPressed = true }
+                    .onEnded { _ in isPressed = false }
+            )
+    }
+}
+
+extension View {
+    func pressEffect() -> some View {
+        modifier(PressEffectModifier())
+    }
 }
 
 // MARK: - Color Extensions
