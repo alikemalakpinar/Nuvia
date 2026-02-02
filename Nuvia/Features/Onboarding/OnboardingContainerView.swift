@@ -9,6 +9,19 @@ struct OnboardingContainerView: View {
 
     private let totalPages = 5
 
+    // Stable particle positions
+    private let particles: [(xFrac: CGFloat, yFrac: CGFloat, size: CGFloat, opacity: Double)] = {
+        var rng = SeedableRNG(seed: 77)
+        return (0..<8).map { _ in
+            (
+                xFrac: CGFloat.random(in: 0.05...0.95, using: &rng),
+                yFrac: CGFloat.random(in: 0.05...0.95, using: &rng),
+                size: CGFloat.random(in: 3...8, using: &rng),
+                opacity: Double.random(in: 0.03...0.06, using: &rng)
+            )
+        }
+    }()
+
     var body: some View {
         ZStack {
             // Animated gradient background
@@ -23,15 +36,16 @@ struct OnboardingContainerView: View {
             )
             .ignoresSafeArea()
 
-            // Floating gold particles
+            // Stable floating gold particles
             GeometryReader { geo in
-                ForEach(0..<8, id: \.self) { i in
+                ForEach(0..<particles.count, id: \.self) { i in
+                    let p = particles[i]
                     Circle()
-                        .fill(Color.nuviaGoldFallback.opacity(Double.random(in: 0.03...0.06)))
-                        .frame(width: CGFloat.random(in: 3...8))
+                        .fill(Color.nuviaGoldFallback.opacity(p.opacity))
+                        .frame(width: p.size)
                         .position(
-                            x: CGFloat.random(in: 0...geo.size.width),
-                            y: CGFloat.random(in: 0...geo.size.height)
+                            x: p.xFrac * geo.size.width,
+                            y: p.yFrac * geo.size.height
                         )
                 }
             }

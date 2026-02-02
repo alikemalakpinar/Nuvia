@@ -143,14 +143,23 @@ struct NuviaCard<Content: View>: View {
             .padding(16)
             .background(
                 ZStack {
-                    Color.nuviaCardBackground
-                    Color.nuviaGlassOverlay
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial)
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.nuviaCardBackground.opacity(0.7))
                 }
             )
-            .cornerRadius(20)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.nuviaGlassBorder, lineWidth: 0.5)
+                    .stroke(
+                        LinearGradient(
+                            colors: [Color.white.opacity(0.12), Color.white.opacity(0.04)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 0.5
+                    )
             )
             .nuviaShadow(.subtle)
     }
@@ -170,11 +179,13 @@ struct NuviaGlassCard<Content: View>: View {
             .padding(16)
             .background(
                 ZStack {
-                    Color.nuviaCardBackground.opacity(0.5)
-                    Color.white.opacity(0.04)
+                    RoundedRectangle(cornerRadius: 24)
+                        .fill(.thinMaterial)
+                    RoundedRectangle(cornerRadius: 24)
+                        .fill(Color.nuviaCardBackground.opacity(0.4))
                 }
             )
-            .cornerRadius(24)
+            .clipShape(RoundedRectangle(cornerRadius: 24))
             .overlay(
                 RoundedRectangle(cornerRadius: 24)
                     .stroke(
@@ -187,6 +198,76 @@ struct NuviaGlassCard<Content: View>: View {
                     )
             )
             .nuviaShadow(.elevated)
+    }
+}
+
+// MARK: - Hero Card (Featured/Elevated)
+
+struct NuviaHeroCard<Content: View>: View {
+    let accentColor: Color
+    let content: Content
+
+    init(accent: Color = .nuviaGoldFallback, @ViewBuilder content: () -> Content) {
+        self.accentColor = accent
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+            .padding(20)
+            .background(
+                ZStack {
+                    RoundedRectangle(cornerRadius: 24)
+                        .fill(.thinMaterial)
+                    RoundedRectangle(cornerRadius: 24)
+                        .fill(Color.nuviaCardBackground.opacity(0.6))
+                    // Subtle accent glow at top
+                    VStack {
+                        LinearGradient(
+                            colors: [accentColor.opacity(0.08), .clear],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .frame(height: 60)
+                        Spacer()
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                }
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .overlay(
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(
+                        LinearGradient(
+                            colors: [accentColor.opacity(0.3), Color.white.opacity(0.08), Color.white.opacity(0.03)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1
+                    )
+            )
+            .nuviaShadow(.elevated)
+    }
+}
+
+// MARK: - Compact Card (Inline/Minimal)
+
+struct NuviaCompactCard<Content: View>: View {
+    let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+            .padding(12)
+            .background(Color.nuviaTertiaryBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.white.opacity(0.06), lineWidth: 0.5)
+            )
     }
 }
 
@@ -448,7 +529,8 @@ struct NuviaEmptyState: View {
     let message: String
     let actionTitle: String?
     let action: (() -> Void)?
-    @State private var iconPulse = false
+    @State private var floatOffset: CGFloat = 0
+    @State private var glowPulse = false
 
     init(
         icon: String,
@@ -467,11 +549,13 @@ struct NuviaEmptyState: View {
     var body: some View {
         VStack(spacing: 20) {
             ZStack {
+                // Breathing glow
                 Circle()
                     .fill(
                         RadialGradient(
                             gradient: Gradient(colors: [
-                                Color.nuviaGoldFallback.opacity(0.08),
+                                Color.nuviaGoldFallback.opacity(0.1),
+                                Color.nuviaGoldFallback.opacity(0.02),
                                 Color.nuviaGoldFallback.opacity(0)
                             ]),
                             center: .center,
@@ -479,16 +563,29 @@ struct NuviaEmptyState: View {
                             endRadius: 80
                         )
                     )
-                    .frame(width: 140, height: 140)
-                    .scaleEffect(iconPulse ? 1.05 : 0.95)
+                    .frame(width: 160, height: 160)
+                    .scaleEffect(glowPulse ? 1.1 : 0.9)
+
+                // Subtle ring
+                Circle()
+                    .stroke(Color.nuviaGoldFallback.opacity(0.08), lineWidth: 1)
+                    .frame(width: 120, height: 120)
 
                 Image(systemName: icon)
                     .font(.system(size: 48))
-                    .foregroundColor(.nuviaSecondaryText.opacity(0.7))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [Color.nuviaSecondaryText.opacity(0.6), Color.nuviaSecondaryText.opacity(0.3)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
             }
+            .offset(y: floatOffset)
             .onAppear {
-                withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true)) {
-                    iconPulse = true
+                withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
+                    floatOffset = -8
+                    glowPulse = true
                 }
             }
 

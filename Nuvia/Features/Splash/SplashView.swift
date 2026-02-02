@@ -15,6 +15,19 @@ struct SplashView: View {
     @State private var ring2Opacity: Double = 0
     @State private var versionOpacity: Double = 0
 
+    // Stable particle data (seeded)
+    private let particles: [(xFrac: CGFloat, yFrac: CGFloat, size: CGFloat, opacity: Double)] = {
+        var rng = SeedableRNG(seed: 42)
+        return (0..<12).map { _ in
+            (
+                xFrac: CGFloat.random(in: 0.05...0.95, using: &rng),
+                yFrac: CGFloat.random(in: 0.05...0.95, using: &rng),
+                size: CGFloat.random(in: 2...6, using: &rng),
+                opacity: Double.random(in: 0.03...0.08, using: &rng)
+            )
+        }
+    }()
+
     var body: some View {
         ZStack {
             // Background gradient
@@ -29,15 +42,16 @@ struct SplashView: View {
             )
             .ignoresSafeArea()
 
-            // Subtle particle field
+            // Stable particle field
             GeometryReader { geo in
-                ForEach(0..<12, id: \.self) { i in
+                ForEach(0..<particles.count, id: \.self) { i in
+                    let p = particles[i]
                     Circle()
-                        .fill(Color.nuviaGoldFallback.opacity(Double.random(in: 0.03...0.08)))
-                        .frame(width: CGFloat.random(in: 2...6))
+                        .fill(Color.nuviaGoldFallback.opacity(p.opacity))
+                        .frame(width: p.size)
                         .position(
-                            x: CGFloat.random(in: 0...geo.size.width),
-                            y: CGFloat.random(in: 0...geo.size.height)
+                            x: p.xFrac * geo.size.width,
+                            y: p.yFrac * geo.size.height
                         )
                         .opacity(taglineOpacity)
                 }

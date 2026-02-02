@@ -100,7 +100,7 @@ struct CountdownCard: View {
     let project: WeddingProject
 
     var body: some View {
-        NuviaCard {
+        NuviaHeroCard(accent: .nuviaGoldFallback) {
             VStack(spacing: 16) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {

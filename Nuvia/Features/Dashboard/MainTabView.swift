@@ -119,7 +119,7 @@ struct TabBarButton: View {
     var body: some View {
         Button(action: action) {
             VStack(spacing: 4) {
-                Image(systemName: isSelected ? tab.icon + ".fill" : tab.icon)
+                Image(systemName: isSelected ? tab.selectedIcon : tab.icon)
                     .font(.system(size: 22, weight: isSelected ? .semibold : .regular))
                     .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaSecondaryText)
                     .scaleEffect(isSelected ? 1.1 : 1.0)
