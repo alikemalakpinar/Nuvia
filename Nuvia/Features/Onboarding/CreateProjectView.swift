@@ -184,7 +184,7 @@ struct CreateProjectView: View {
                             createProject()
                         }
 
-                        NuviaTextButton("Partner'ı Davet Et") {
+                        NuviaTextButton(title: "Partner'ı Davet Et") {
                             showingPartnerInvite = true
                         }
                     }

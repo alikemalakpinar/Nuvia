@@ -727,7 +727,7 @@ struct BudgetReportsView: View {
                         NuviaHeroCard(accent: .nuviaGoldFallback) {
                             VStack(spacing: 12) {
                                 Text("Bütçe Özeti")
-                                    .font(NuviaTypography.headline())
+                                    .font(NuviaTypography.title3())
                                     .foregroundColor(.nuviaPrimaryText)
 
                                 HStack(spacing: 24) {
@@ -781,7 +781,7 @@ struct BudgetReportsView: View {
                         NuviaCard {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("Kategori Dağılımı")
-                                    .font(NuviaTypography.headline())
+                                    .font(NuviaTypography.title3())
                                     .foregroundColor(.nuviaPrimaryText)
 
                                 if categoryTotals.isEmpty {
@@ -836,7 +836,7 @@ struct BudgetReportsView: View {
                         NuviaCard {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("Aylık Trend")
-                                    .font(NuviaTypography.headline())
+                                    .font(NuviaTypography.title3())
                                     .foregroundColor(.nuviaPrimaryText)
 
                                 let maxAmount = monthlyTrend.map(\.amount).max() ?? 1
@@ -869,7 +869,7 @@ struct BudgetReportsView: View {
                         NuviaCard {
                             VStack(alignment: .leading, spacing: 12) {
                                 Text("Ödeme Durumu")
-                                    .font(NuviaTypography.headline())
+                                    .font(NuviaTypography.title3())
                                     .foregroundColor(.nuviaPrimaryText)
 
                                 let paid = filteredExpenses.filter(\.isPaid).reduce(0) { $0 + $1.amount }
@@ -888,7 +888,7 @@ struct BudgetReportsView: View {
                         NuviaCard {
                             VStack(spacing: 12) {
                                 Text("Dışa Aktar")
-                                    .font(NuviaTypography.headline())
+                                    .font(NuviaTypography.title3())
                                     .foregroundColor(.nuviaPrimaryText)
 
                                 HStack(spacing: 12) {
