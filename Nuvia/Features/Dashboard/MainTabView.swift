@@ -180,7 +180,11 @@ struct QuickAddButton: View {
 
 struct QuickAddSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var appState: AppState
     @State private var selectedType: QuickAddType?
+    @State private var showAddTask = false
+    @State private var showAddExpense = false
+    @State private var showAddGuest = false
 
     enum QuickAddType: String, CaseIterable {
         case task = "Görev"
@@ -231,8 +235,25 @@ struct QuickAddSheet: View {
 
                 if selectedType != nil {
                     NuviaPrimaryButton("Devam", icon: "arrow.right") {
-                        // Navigate to specific add screen
-                        dismiss()
+                        switch selectedType {
+                        case .task:
+                            dismiss()
+                            appState.selectedTab = .plan
+                        case .expense:
+                            dismiss()
+                            appState.selectedTab = .budget
+                        case .guest:
+                            dismiss()
+                            appState.selectedTab = .guests
+                        case .shopping:
+                            dismiss()
+                            appState.selectedTab = .plan
+                        case .note:
+                            dismiss()
+                            appState.selectedTab = .today
+                        case .none:
+                            break
+                        }
                     }
                     .padding(.horizontal)
                 }
