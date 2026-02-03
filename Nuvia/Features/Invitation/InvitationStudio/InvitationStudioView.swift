@@ -2,34 +2,34 @@ import SwiftUI
 import SwiftData
 
 // MARK: - Design Constants (Eliminates type ambiguity)
-// These private constants provide unambiguous access to design tokens
+// Using hardcoded values matching DesignTokens to avoid any inference issues
 
 private enum StudioSpacing {
-    static let xxxs: CGFloat = StudioSpacing.xxxs
-    static let xxs: CGFloat = StudioSpacing.xxs
-    static let xs: CGFloat = StudioSpacing.xs
-    static let sm: CGFloat = StudioSpacing.sm
-    static let md: CGFloat = StudioSpacing.md
-    static let lg: CGFloat = StudioSpacing.lg
-    static let xl: CGFloat = StudioSpacing.xl
-    static let xxl: CGFloat = StudioSpacing.xxl
+    static let xxxs: CGFloat = 2
+    static let xxs: CGFloat = 4
+    static let xs: CGFloat = 8
+    static let sm: CGFloat = 12
+    static let md: CGFloat = 16
+    static let lg: CGFloat = 24
+    static let xl: CGFloat = 32
+    static let xxl: CGFloat = 48
 }
 
 private enum StudioRadius {
-    static let xs: CGFloat = StudioRadius.xs
-    static let sm: CGFloat = StudioRadius.sm
-    static let md: CGFloat = StudioRadius.md
-    static let lg: CGFloat = StudioRadius.lg
-    static let xl: CGFloat = StudioRadius.xl
-    static let xxl: CGFloat = StudioRadius.xxl
+    static let xs: CGFloat = 4
+    static let sm: CGFloat = 8
+    static let md: CGFloat = 12
+    static let lg: CGFloat = 16
+    static let xl: CGFloat = 20
+    static let xxl: CGFloat = 24
 }
 
 private enum StudioStrings {
-    static let add: String = L10n.Studio.add
-    static let layers: String = L10n.Studio.layers
-    static let edit: String = L10n.Studio.edit
-    static let templates: String = L10n.Studio.templates
-    static let export: String = L10n.Studio.export
+    static let add = NSLocalizedString("studio.add", comment: "")
+    static let layers = NSLocalizedString("studio.layers", comment: "")
+    static let edit = NSLocalizedString("studio.edit", comment: "")
+    static let templates = NSLocalizedString("studio.templates", comment: "")
+    static let export = NSLocalizedString("studio.export", comment: "")
 }
 
 // MARK: - Invitation Studio View
