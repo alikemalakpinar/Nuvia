@@ -1,6 +1,9 @@
 import SwiftUI
 import SwiftData
 
+// MARK: - Haptic Helper (avoids ambiguity)
+private let haptics = haptics
+
 // MARK: - Full RSVP Management System
 
 struct RSVPManagementView: View {
@@ -232,7 +235,7 @@ struct RSVPManagementView: View {
         }
 
         reminderSent = true
-        HapticManager.shared.taskCompleted()
+        haptics.taskCompleted()
     }
 }
 
@@ -289,7 +292,7 @@ struct RSVPGuestRow: View {
         Button {
             guest.updateRSVP(status)
             try? modelContext.save()
-            HapticManager.shared.selection()
+            haptics.selection()
         } label: {
             Image(systemName: icon)
                 .font(.system(size: 12, weight: .bold))
@@ -349,7 +352,7 @@ struct BulkRSVPMessageView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Gönder") {
-                        HapticManager.shared.taskCompleted()
+                        haptics.taskCompleted()
                         dismiss()
                     }
                     .fontWeight(.semibold)
@@ -396,7 +399,7 @@ struct RSVPShareLinkView: View {
                             Spacer()
                             Button {
                                 UIPasteboard.general.string = rsvpLink
-                                HapticManager.shared.taskCompleted()
+                                haptics.taskCompleted()
                             } label: {
                                 Image(systemName: "doc.on.doc")
                                     .foregroundColor(.nuviaGoldFallback)
@@ -470,7 +473,7 @@ struct RSVPDeadlineSettingsView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Kaydet") {
-                        HapticManager.shared.taskCompleted()
+                        haptics.taskCompleted()
                         dismiss()
                     }
                     .fontWeight(.semibold)
