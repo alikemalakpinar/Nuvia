@@ -394,7 +394,7 @@ public final class HapticEngine {
     private let heavyImpact = UIImpactFeedbackGenerator(style: .heavy)
     private let rigidImpact = UIImpactFeedbackGenerator(style: .rigid)
     private let softImpact = UIImpactFeedbackGenerator(style: .soft)
-    private let selection = UISelectionFeedbackGenerator()
+    private let selectionGenerator = UISelectionFeedbackGenerator()
     private let notification = UINotificationFeedbackGenerator()
 
     private init() {
@@ -404,7 +404,7 @@ public final class HapticEngine {
     private func prepareGenerators() {
         lightImpact.prepare()
         mediumImpact.prepare()
-        selection.prepare()
+        selectionGenerator.prepare()
     }
 
     public func impact(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
@@ -419,7 +419,7 @@ public final class HapticEngine {
     }
 
     public func selection() {
-        selection.selectionChanged()
+        selectionGenerator.selectionChanged()
     }
 
     public func notify(_ type: UINotificationFeedbackGenerator.FeedbackType) {

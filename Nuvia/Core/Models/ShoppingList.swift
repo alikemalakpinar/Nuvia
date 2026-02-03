@@ -190,7 +190,7 @@ enum ShoppingListType: String, CaseIterable, Codable {
     var color: Color {
         switch self {
         case .wedding: return .nuviaGoldFallback
-        case .home: return .nuviaInfo
+        case .home: return .nuviaInfoStatic
         }
     }
 }
@@ -224,9 +224,9 @@ enum ShoppingItemStatus: String, CaseIterable, Codable {
     var color: Color {
         switch self {
         case .toBuy: return .statusPending
-        case .inCart: return .nuviaWarning
+        case .inCart: return .nuviaWarningStatic
         case .purchased: return .statusCompleted
-        case .returned: return .nuviaError
+        case .returned: return .nuviaErrorStatic
         }
     }
 }
