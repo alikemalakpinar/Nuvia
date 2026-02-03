@@ -26,7 +26,7 @@ struct MagazineLayoutView<Content: View, Item: Identifiable>: View {
         AnyLayout(currentLayoutType) {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                 content(item)
-                    .cardEntrance(delay: Double(index) * 0.05)
+                    .dsCardEntrance(delay: Double(index) * 0.05)
             }
         }
         .animation(DesignTokens.Animation.smooth, value: currentLayout)
@@ -328,7 +328,7 @@ struct MagazineSectionView<Item: Identifiable, Content: View>: View {
                     }
 
                     Text(title)
-                        .font(DSTypography.heading(.h2))
+                        .font(DSTypography.heading2)
                         .foregroundColor(.nuviaPrimaryText)
                 }
 
@@ -391,12 +391,12 @@ struct EditorialFeatureCard: View {
                 // Content
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.xs) {
                     Text(title)
-                        .font(DSTypography.heading(.h3))
+                        .font(DSTypography.heading3)
                         .foregroundColor(.nuviaPrimaryText)
                         .lineLimit(2)
 
                     Text(subtitle)
-                        .font(DSTypography.body(.small))
+                        .font(DSTypography.bodySmall)
                         .foregroundColor(.nuviaSecondaryText)
                         .lineLimit(2)
                 }
@@ -404,7 +404,7 @@ struct EditorialFeatureCard: View {
             }
             .background(Color.nuviaSurface)
             .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg, style: .continuous))
-            .elevation(.raised)
+            .elevation(DesignTokens.Elevation.raised)
             .scaleEffect(isPressed ? 0.98 : 1.0)
         }
         .buttonStyle(PlainButtonStyle())
@@ -441,7 +441,7 @@ struct EditorialCompactCard: View {
                 // Content
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.xxs) {
                     Text(title)
-                        .font(DSTypography.body(.bold))
+                        .font(DSTypography.bodyBold)
                         .foregroundColor(.nuviaPrimaryText)
                         .lineLimit(1)
 
@@ -462,7 +462,7 @@ struct EditorialCompactCard: View {
             .padding(DesignTokens.Spacing.md)
             .background(Color.nuviaSurface)
             .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.md, style: .continuous))
-            .elevation(.raised)
+            .elevation(DesignTokens.Elevation.raised)
         }
         .buttonStyle(PlainButtonStyle())
         .pressable()
@@ -498,7 +498,7 @@ struct ProgressRingCard: View {
                 // Center text
                 VStack(spacing: 2) {
                     Text("\(Int(progress * 100))%")
-                        .font(DSTypography.heading(.h3))
+                        .font(DSTypography.heading3)
                         .foregroundColor(.nuviaPrimaryText)
 
                     Text("\(completed)/\(total)")
@@ -509,35 +509,35 @@ struct ProgressRingCard: View {
             .frame(width: 100, height: 100)
 
             Text(title)
-                .font(DSTypography.body(.bold))
+                .font(DSTypography.bodyBold)
                 .foregroundColor(.nuviaPrimaryText)
         }
         .padding(DesignTokens.Spacing.md)
         .background(Color.nuviaSurface)
         .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg, style: .continuous))
-        .elevation(.raised)
+        .elevation(DesignTokens.Elevation.raised)
     }
 }
 
 // MARK: - Preview
 
-#Preview("Magazine Layout") {
-    struct PreviewItem: Identifiable {
-        let id = UUID()
-        let title: String
-        let color: Color
-    }
+private struct MagazinePreviewItem: Identifiable {
+    let id = UUID()
+    let title: String
+    let color: Color
+}
 
+#Preview("Magazine Layout") {
     let items = [
-        PreviewItem(title: "Venue", color: .nuviaWisteria),
-        PreviewItem(title: "Catering", color: .nuviaSage),
-        PreviewItem(title: "Photography", color: .nuviaDustyBlue),
-        PreviewItem(title: "Flowers", color: .nuviaRoseDust),
-        PreviewItem(title: "Music", color: .nuviaChampagne),
-        PreviewItem(title: "Decorations", color: .nuviaTerracotta)
+        MagazinePreviewItem(title: "Venue", color: .nuviaWisteria),
+        MagazinePreviewItem(title: "Catering", color: .nuviaSage),
+        MagazinePreviewItem(title: "Photography", color: .nuviaDustyBlue),
+        MagazinePreviewItem(title: "Flowers", color: .nuviaRoseDust),
+        MagazinePreviewItem(title: "Music", color: .nuviaChampagne),
+        MagazinePreviewItem(title: "Decorations", color: .nuviaTerracotta)
     ]
 
-    ScrollView {
+    return ScrollView {
         VStack(spacing: DesignTokens.Spacing.xl) {
             MagazineSectionView(
                 title: "Your Tasks",
