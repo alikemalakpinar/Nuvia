@@ -412,8 +412,8 @@ struct RoomDetailView: View {
                             .font(NuviaTypography.title2())
                             .foregroundColor(.nuviaPrimaryText)
 
-                        if let area = room.formattedArea, area != "Belirtilmedi" {
-                            Text(area)
+                        if room.formattedArea != "Belirtilmedi" {
+                            Text(room.formattedArea)
                                 .font(NuviaTypography.body())
                                 .foregroundColor(.nuviaSecondaryText)
                         }

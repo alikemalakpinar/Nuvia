@@ -801,11 +801,11 @@ struct BudgetReportsView: View {
                                             VStack(alignment: .leading, spacing: 2) {
                                                 HStack {
                                                     Text(item.category.displayName)
-                                                        .font(NuviaTypography.subheadline())
+                                                        .font(NuviaTypography.body())
                                                         .foregroundColor(.nuviaPrimaryText)
                                                     Spacer()
                                                     Text("\(symbol)\(Int(item.total).formatted())")
-                                                        .font(NuviaTypography.subheadline())
+                                                        .font(NuviaTypography.bodyBold())
                                                         .foregroundColor(.nuviaPrimaryText)
                                                 }
 
@@ -898,7 +898,7 @@ struct BudgetReportsView: View {
                                         }
                                     } label: {
                                         Label("PDF", systemImage: "doc.fill")
-                                            .font(NuviaTypography.subheadline())
+                                            .font(NuviaTypography.body())
                                             .foregroundColor(.nuviaPrimaryText)
                                             .frame(maxWidth: .infinity)
                                             .padding(.vertical, 12)
@@ -911,7 +911,7 @@ struct BudgetReportsView: View {
                                         ExportService.shareText(text: csv, fileName: "butce-raporu.csv")
                                     } label: {
                                         Label("CSV", systemImage: "tablecells")
-                                            .font(NuviaTypography.subheadline())
+                                            .font(NuviaTypography.body())
                                             .foregroundColor(.nuviaPrimaryText)
                                             .frame(maxWidth: .infinity)
                                             .padding(.vertical, 12)
@@ -925,7 +925,7 @@ struct BudgetReportsView: View {
                                         }
                                     } label: {
                                         Label("JSON", systemImage: "curlybraces")
-                                            .font(NuviaTypography.subheadline())
+                                            .font(NuviaTypography.body())
                                             .foregroundColor(.nuviaPrimaryText)
                                             .frame(maxWidth: .infinity)
                                             .padding(.vertical, 12)

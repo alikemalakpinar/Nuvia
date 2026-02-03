@@ -751,7 +751,7 @@ struct OrganizerDashboardView: View {
                         .foregroundColor(.nuviaCopper)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Organizatör Modu")
-                            .font(NuviaTypography.headline())
+                            .font(NuviaTypography.bodyBold())
                             .foregroundColor(.nuviaPrimaryText)
                         Text("Birden fazla düğünü tek yerden yönetin")
                             .font(NuviaTypography.caption())

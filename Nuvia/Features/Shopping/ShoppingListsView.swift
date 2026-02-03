@@ -498,15 +498,15 @@ struct DeliveryCard: View {
                     VStack(alignment: .leading, spacing: 2) {
                         if let item = delivery.linkedItem {
                             Text(item.name)
-                                .font(NuviaTypography.headline())
+                                .font(NuviaTypography.bodyBold())
                                 .foregroundColor(.nuviaPrimaryText)
                         } else if let orderNum = delivery.orderNumber {
                             Text("Sipariş #\(orderNum)")
-                                .font(NuviaTypography.headline())
+                                .font(NuviaTypography.bodyBold())
                                 .foregroundColor(.nuviaPrimaryText)
                         } else {
                             Text("Teslimat")
-                                .font(NuviaTypography.headline())
+                                .font(NuviaTypography.bodyBold())
                                 .foregroundColor(.nuviaPrimaryText)
                         }
 

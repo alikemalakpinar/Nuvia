@@ -49,9 +49,11 @@
 		A100000040 /* VendorManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000040 /* VendorManagementView.swift */; };
 		A100000041 /* WeddingDayRunOfShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000041 /* WeddingDayRunOfShowView.swift */; };
 		A100000042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B100000042 /* Assets.xcassets */; };
+		A95900812F31E2B0003D1348 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900802F31E2B0003D1348 /* FilterChip.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A95900802F31E2B0003D1348 /* FilterChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChip.swift; sourceTree = "<group>"; };
 		B100000001 /* NuviaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuviaApp.swift; sourceTree = "<group>"; };
 		B100000002 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B100000003 /* Delivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delivery.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				B100000036 /* ShoppingListsView.swift */,
+				A95900802F31E2B0003D1348 /* FilterChip.swift */,
 			);
 			path = Shopping;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				A100000023 /* BudgetHomeView.swift in Sources */,
 				A100000024 /* MainTabView.swift in Sources */,
 				A100000025 /* TodayDashboardView.swift in Sources */,
+				A95900812F31E2B0003D1348 /* FilterChip.swift in Sources */,
 				A100000026 /* FileVaultView.swift in Sources */,
 				A100000027 /* GuestListView.swift in Sources */,
 				A100000028 /* HomeSetupDashboardView.swift in Sources */,
