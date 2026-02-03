@@ -241,7 +241,7 @@ struct InvitationStudioView: View {
                         showLayerSheet = false
                         showPropertyInspector = false
                     }
-                    HapticManager.shared.selection()
+                    HapticEngine.shared.selection()
                 }
 
                 // Layers
@@ -251,7 +251,7 @@ struct InvitationStudioView: View {
                         showElementPicker = false
                         showPropertyInspector = false
                     }
-                    HapticManager.shared.selection()
+                    HapticEngine.shared.selection()
                 }
 
                 // Properties
@@ -266,19 +266,19 @@ struct InvitationStudioView: View {
                         showElementPicker = false
                         showLayerSheet = false
                     }
-                    HapticManager.shared.selection()
+                    HapticEngine.shared.selection()
                 }
 
                 // Templates
                 GlassToolbarTab(icon: "square.grid.2x2", label: L10n.Studio.templates, isActive: false) {
                     showTemplatePicker = true
-                    HapticManager.shared.selection()
+                    HapticEngine.shared.selection()
                 }
 
                 // Export
                 GlassToolbarTab(icon: "square.and.arrow.up", label: L10n.Studio.export, isActive: false, isPrimary: true) {
                     checkPremiumAndExport()
-                    HapticManager.shared.buttonTap()
+                    HapticEngine.shared.impact(.medium)
                 }
             }
             .padding(.horizontal, DesignTokens.Spacing.sm)
@@ -316,7 +316,7 @@ struct InvitationStudioView: View {
                     withAnimation(MotionCurves.quick) {
                         canvasScale = max(0.5, canvasScale - 0.25)
                     }
-                    HapticManager.shared.selection()
+                    HapticEngine.shared.selection()
                 }
 
                 Text("\(Int(canvasScale * 100))%")
@@ -329,7 +329,7 @@ struct InvitationStudioView: View {
                         // Clamp to 200% max
                         canvasScale = min(2.0, canvasScale + 0.25)
                     }
-                    HapticManager.shared.selection()
+                    HapticEngine.shared.selection()
                 }
 
                 Divider()
@@ -338,11 +338,11 @@ struct InvitationStudioView: View {
 
                 // Fit to screen
                 GlassQuickActionChip(icon: "arrow.up.left.and.arrow.down.right") {
-                    withAnimation(MotionCurves.default) {
+                    withAnimation(MotionCurves.smooth) {
                         canvasScale = 1.0
                         canvasOffset = .zero
                     }
-                    HapticManager.shared.selection()
+                    HapticEngine.shared.selection()
                 }
 
                 // Center selected
@@ -350,7 +350,7 @@ struct InvitationStudioView: View {
                     GlassQuickActionChip(icon: "arrow.up.and.down.and.arrow.left.and.right") {
                         if let id = viewModel.selectedElementId {
                             viewModel.centerElement(id: id)
-                            HapticManager.shared.impact(.medium)
+                            HapticEngine.shared.impact(.medium)
                         }
                     }
                 }
@@ -385,7 +385,7 @@ struct InvitationStudioView: View {
                         showPaywall = true
                     },
                     onClose: {
-                        withAnimation(DesignTokens.Animation.snappy) {
+                        withAnimation(MotionCurves.snappy) {
                             showElementPicker = false
                         }
                     }
@@ -597,7 +597,7 @@ struct GlassToolbarTab: View {
                 }
 
                 Text(label)
-                    .font(NuviaTypography.caption2())
+                    .font(NuviaTypography.caption())
                     .foregroundColor(isActive || isPrimary ? .nuviaGoldFallback : .nuviaSecondaryText)
                     .lineLimit(1)
             }
@@ -694,7 +694,7 @@ struct ElementPickerPanel: View {
             HStack(spacing: 0) {
                 ForEach(ElementPickerTab.allCases, id: \.self) { tab in
                     Button {
-                        withAnimation(DesignTokens.Animation.snappy) {
+                        withAnimation(MotionCurves.snappy) {
                             selectedTab = tab
                         }
                     } label: {
