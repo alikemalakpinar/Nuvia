@@ -84,7 +84,7 @@ struct GestureCoordinator: ViewModifier {
 }
 
 // MARK: - Gesture State Container
-struct GestureState {
+struct CanvasGestureState {
     var translation: CGSize = .zero
     var scale: CGFloat = 1.0
     var rotation: Angle = .zero
@@ -100,7 +100,7 @@ struct HighPerformanceGestureView<Content: View>: View {
     let elementId: UUID
     let content: () -> Content
 
-    @GestureState private var gestureState = GestureState()
+    @SwiftUI.GestureState private var gestureState = CanvasGestureState()
     @State private var hasStartedGesture = false
 
     init(

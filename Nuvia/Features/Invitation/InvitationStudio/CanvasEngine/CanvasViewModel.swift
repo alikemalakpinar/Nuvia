@@ -228,14 +228,6 @@ public final class CanvasViewModel: ObservableObject {
 
     // MARK: - Undo/Redo
 
-    private func saveToHistory() {
-        undoStack.append(state)
-        if undoStack.count > maxUndoLevels {
-            undoStack.removeFirst()
-        }
-        redoStack.removeAll()
-    }
-
     public var canUndo: Bool { !undoStack.isEmpty }
     public var canRedo: Bool { !redoStack.isEmpty }
 
@@ -324,12 +316,12 @@ public final class CanvasViewModel: ObservableObject {
 extension InvitationTemplate {
     var accentHexColor: HexColor {
         switch self {
-        case .minimal: return HexColor("666666")
-        case .floral: return HexColor("9CAF88") // sage
-        case .modern: return HexColor("7BA3B8") // dusty blue
-        case .luxury: return HexColor("D4AF37") // champagne
-        case .classic: return HexColor("C4967A") // terracotta
-        case .romantic: return HexColor("D4A5A5") // rose dust
+        case .minimal: return HexColor(hex: "666666")
+        case .floral: return HexColor(hex: "9CAF88") // sage
+        case .modern: return HexColor(hex: "7BA3B8") // dusty blue
+        case .luxury: return HexColor(hex: "D4AF37") // champagne
+        case .classic: return HexColor(hex: "C4967A") // terracotta
+        case .romantic: return HexColor(hex: "D4A5A5") // rose dust
         }
     }
 }
