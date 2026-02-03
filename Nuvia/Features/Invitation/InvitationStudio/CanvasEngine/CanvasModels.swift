@@ -1,10 +1,11 @@
 import SwiftUI
 import Foundation
 
-// MARK: - Canvas Element (Core Model)
+// MARK: - Studio Canvas Models
 // Layer-based rendering engine for the Invitation Studio
+// All types prefixed with "Studio" to avoid conflicts with legacy InvitationEditorView
 
-public struct Transform: Codable, Equatable {
+public struct StudioTransform: Codable, Equatable {
     public var offset: CGSize
     public var rotation: Angle
     public var scale: CGFloat
@@ -49,11 +50,11 @@ public struct Transform: Codable, Equatable {
 }
 
 // MARK: - Hex Color (Codable)
-public struct HexColor: Codable, Equatable {
+public struct HexColor: Codable, Equatable, Hashable {
     public let hex: String
     public let opacity: Double
 
-    public init(_ hex: String, opacity: Double = 1.0) {
+    public init(hex: String, opacity: Double = 1.0) {
         self.hex = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
         self.opacity = opacity
     }
@@ -62,15 +63,15 @@ public struct HexColor: Codable, Equatable {
         Color(hex: hex).opacity(opacity)
     }
 
-    public static let white = HexColor("FFFFFF")
-    public static let black = HexColor("000000")
-    public static let champagne = HexColor("D4AF37")
-    public static let roseDust = HexColor("D4A5A5")
-    public static let sage = HexColor("9CAF88")
+    public static let white = HexColor(hex: "FFFFFF")
+    public static let black = HexColor(hex: "000000")
+    public static let champagne = HexColor(hex: "D4AF37")
+    public static let roseDust = HexColor(hex: "D4A5A5")
+    public static let sage = HexColor(hex: "9CAF88")
 }
 
-// MARK: - Shape Type
-public enum ShapeType: String, Codable, CaseIterable {
+// MARK: - Studio Shape Type
+public enum StudioShapeType: String, Codable, CaseIterable {
     case rectangle
     case circle
     case ellipse
@@ -94,8 +95,8 @@ public enum ShapeType: String, Codable, CaseIterable {
     }
 }
 
-// MARK: - Photo Filter
-public enum PhotoFilter: String, Codable, CaseIterable {
+// MARK: - Studio Photo Filter
+public enum StudioPhotoFilter: String, Codable, CaseIterable {
     case none
     case sepia
     case mono
@@ -120,7 +121,7 @@ public enum PhotoFilter: String, Codable, CaseIterable {
         }
     }
 
-    public var isPremium: Bool {
+    public var isPremiumFilter: Bool {
         switch self {
         case .none, .sepia, .mono: return false
         default: return true
@@ -128,67 +129,67 @@ public enum PhotoFilter: String, Codable, CaseIterable {
     }
 }
 
-// MARK: - Text Style for Canvas
-public struct CanvasTextStyle: Codable, Equatable {
-    public var fontName: String
+// MARK: - Studio Text Style
+public struct StudioTextStyle: Codable, Equatable {
+    public var fontFamily: String
     public var fontSize: CGFloat
-    public var fontWeight: FontWeight
-    public var alignment: TextAlignmentType
+    public var fontWeight: StudioFontWeight
     public var letterSpacing: CGFloat
     public var lineHeight: CGFloat
+    public var alignment: StudioTextAlignment
 
     public init(
-        fontName: String = "System",
+        fontFamily: String = "System",
         fontSize: CGFloat = 24,
-        fontWeight: FontWeight = .regular,
-        alignment: TextAlignmentType = .center,
+        fontWeight: StudioFontWeight = .regular,
         letterSpacing: CGFloat = 0,
-        lineHeight: CGFloat = 1.2
+        lineHeight: CGFloat = 1.2,
+        alignment: StudioTextAlignment = .center
     ) {
-        self.fontName = fontName
+        self.fontFamily = fontFamily
         self.fontSize = fontSize
         self.fontWeight = fontWeight
-        self.alignment = alignment
         self.letterSpacing = letterSpacing
         self.lineHeight = lineHeight
+        self.alignment = alignment
     }
+}
 
-    public enum FontWeight: String, Codable, CaseIterable {
-        case thin, light, regular, medium, semibold, bold, heavy, black
+public enum StudioFontWeight: String, Codable, CaseIterable {
+    case thin, light, regular, medium, semiBold, bold, heavy, black
 
-        public var swiftUIWeight: Font.Weight {
-            switch self {
-            case .thin: return .thin
-            case .light: return .light
-            case .regular: return .regular
-            case .medium: return .medium
-            case .semibold: return .semibold
-            case .bold: return .bold
-            case .heavy: return .heavy
-            case .black: return .black
-            }
-        }
-    }
-
-    public enum TextAlignmentType: String, Codable {
-        case leading, center, trailing
-
-        public var swiftUIAlignment: TextAlignment {
-            switch self {
-            case .leading: return .leading
-            case .center: return .center
-            case .trailing: return .trailing
-            }
+    public var swiftUIWeight: Font.Weight {
+        switch self {
+        case .thin: return .thin
+        case .light: return .light
+        case .regular: return .regular
+        case .medium: return .medium
+        case .semiBold: return .semibold
+        case .bold: return .bold
+        case .heavy: return .heavy
+        case .black: return .black
         }
     }
 }
 
-// MARK: - Canvas Element
-public enum CanvasElement: Identifiable, Codable, Equatable {
-    case text(id: UUID, content: String, color: HexColor, style: CanvasTextStyle, transform: Transform)
-    case image(id: UUID, imageData: Data, filter: PhotoFilter, transform: Transform)
-    case shape(id: UUID, type: ShapeType, fillColor: HexColor, strokeColor: HexColor?, strokeWidth: CGFloat, transform: Transform)
-    case sticker(id: UUID, assetName: String, isPremium: Bool, transform: Transform)
+public enum StudioTextAlignment: String, Codable, CaseIterable {
+    case leading, center, trailing
+
+    public var swiftUIAlignment: TextAlignment {
+        switch self {
+        case .leading: return .leading
+        case .center: return .center
+        case .trailing: return .trailing
+        }
+    }
+}
+
+// MARK: - Studio Element
+public enum StudioElement: Identifiable, Codable, Equatable {
+    case text(id: UUID, content: String, color: HexColor, style: StudioTextStyle, transform: StudioTransform)
+    case image(id: UUID, imageData: Data, filter: StudioPhotoFilter, transform: StudioTransform)
+    case shape(id: UUID, type: StudioShapeType, fillColor: HexColor, strokeColor: HexColor?, strokeWidth: CGFloat, transform: StudioTransform)
+    case sticker(id: UUID, assetName: String, isPremiumSticker: Bool, transform: StudioTransform)
 
     public var id: UUID {
         switch self {
@@ -199,7 +200,7 @@ public enum CanvasElement: Identifiable, Codable, Equatable {
         }
     }
 
-    public var transform: Transform {
+    public var transform: StudioTransform {
         get {
             switch self {
             case .text(_, _, _, _, let t): return t
@@ -217,17 +218,17 @@ public enum CanvasElement: Identifiable, Codable, Equatable {
             case .shape(let id, let type, let fill, let stroke, let width, _):
                 self = .shape(id: id, type: type, fillColor: fill, strokeColor: stroke, strokeWidth: width, transform: newValue)
             case .sticker(let id, let name, let premium, _):
-                self = .sticker(id: id, assetName: name, isPremium: premium, transform: newValue)
+                self = .sticker(id: id, assetName: name, isPremiumSticker: premium, transform: newValue)
             }
         }
     }
 
-    public var isPremium: Bool {
+    public var isPremiumContent: Bool {
         switch self {
         case .image(_, _, let filter, _):
-            return filter.isPremium
-        case .sticker(_, _, let isPremium, _):
-            return isPremium
+            return filter.isPremiumFilter
+        case .sticker(_, _, let isPremiumSticker, _):
+            return isPremiumSticker
         default:
             return false
         }
@@ -237,32 +238,32 @@ public enum CanvasElement: Identifiable, Codable, Equatable {
     public static func newText(
         content: String,
         color: HexColor = .black,
-        style: CanvasTextStyle = CanvasTextStyle(),
+        style: StudioTextStyle = StudioTextStyle(),
         at position: CGPoint = CGPoint(x: 187, y: 300)
-    ) -> CanvasElement {
+    ) -> StudioElement {
         .text(
             id: UUID(),
             content: content,
             color: color,
             style: style,
-            transform: Transform(offset: CGSize(width: position.x, height: position.y))
+            transform: StudioTransform(offset: CGSize(width: position.x, height: position.y))
         )
     }
 
     public static func newShape(
-        type: ShapeType,
+        type: StudioShapeType,
         fillColor: HexColor = .champagne,
         strokeColor: HexColor? = nil,
         strokeWidth: CGFloat = 0,
         at position: CGPoint = CGPoint(x: 187, y: 300)
-    ) -> CanvasElement {
+    ) -> StudioElement {
         .shape(
             id: UUID(),
             type: type,
             fillColor: fillColor,
             strokeColor: strokeColor,
             strokeWidth: strokeWidth,
-            transform: Transform(offset: CGSize(width: position.x, height: position.y))
+            transform: StudioTransform(offset: CGSize(width: position.x, height: position.y))
         )
     }
 
@@ -270,26 +271,26 @@ public enum CanvasElement: Identifiable, Codable, Equatable {
         assetName: String,
         isPremium: Bool = false,
         at position: CGPoint = CGPoint(x: 187, y: 300)
-    ) -> CanvasElement {
+    ) -> StudioElement {
         .sticker(
             id: UUID(),
             assetName: assetName,
-            isPremium: isPremium,
-            transform: Transform(offset: CGSize(width: position.x, height: position.y))
+            isPremiumSticker: isPremium,
+            transform: StudioTransform(offset: CGSize(width: position.x, height: position.y))
         )
     }
 }
 
-// MARK: - Canvas State
-public struct CanvasState: Codable, Equatable {
-    public var elements: [CanvasElement]
+// MARK: - Studio Canvas State
+public struct StudioCanvasState: Codable, Equatable {
+    public var elements: [StudioElement]
     public var backgroundColor: HexColor
     public var backgroundImageData: Data?
     public var canvasSize: CGSize
     public var selectedElementId: UUID?
 
     public init(
-        elements: [CanvasElement] = [],
+        elements: [StudioElement] = [],
         backgroundColor: HexColor = .white,
         backgroundImageData: Data? = nil,
         canvasSize: CGSize = CGSize(width: 375, height: 600),
@@ -303,27 +304,35 @@ public struct CanvasState: Codable, Equatable {
     }
 
     // Sorted by zIndex
-    public var sortedElements: [CanvasElement] {
+    public var sortedElements: [StudioElement] {
         elements.sorted { $0.transform.zIndex < $1.transform.zIndex }
     }
 
-    public var selectedElement: CanvasElement? {
+    public var selectedElement: StudioElement? {
         guard let id = selectedElementId else { return nil }
         return elements.first { $0.id == id }
     }
 
     public var hasPremiumContent: Bool {
-        elements.contains { $0.isPremium }
+        elements.contains { $0.isPremiumContent }
     }
 }
 
-// MARK: - Canvas Action (For Undo/Redo)
-public enum CanvasAction {
-    case addElement(CanvasElement)
+// MARK: - Studio Canvas Action (For Undo/Redo)
+public enum StudioCanvasAction {
+    case addElement(StudioElement)
     case removeElement(UUID)
-    case updateElement(UUID, CanvasElement)
-    case updateTransform(UUID, Transform)
+    case updateElement(UUID, StudioElement)
+    case updateTransform(UUID, StudioTransform)
     case reorder(UUID, Int) // element id, new zIndex
     case setBackground(HexColor)
     case setBackgroundImage(Data?)
+}
+
+// MARK: - Studio Gesture Type
+public enum StudioGestureType {
+    case drag
+    case scale
+    case rotate
+    case tap
 }

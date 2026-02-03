@@ -180,7 +180,7 @@ struct LayerSheet: View {
 // MARK: - Layer Row
 
 struct LayerRow: View {
-    let element: CanvasElement
+    let element: StudioElement
     let isSelected: Bool
     let isDragging: Bool
     let onSelect: () -> Void
@@ -330,7 +330,7 @@ struct LayerRow: View {
         }
     }
 
-    private func shapeIconName(for type: ShapeType) -> String {
+    private func shapeIconName(for type: StudioShapeType) -> String {
         switch type {
         case .rectangle: return "rectangle"
         case .circle:    return "circle"
@@ -484,15 +484,15 @@ extension CanvasViewModel {
         var element = elements[index]
         var transform = element.transform
         transform.zIndex = zIndex
-        element = element.withTransform(transform)
+        element = element.withStudioTransform(transform)
         elements[index] = element
     }
 }
 
-// MARK: - CanvasElement Extension
+// MARK: - StudioElement Extension
 
-extension CanvasElement {
-    func withTransform(_ newTransform: Transform) -> CanvasElement {
+extension StudioElement {
+    func withStudioTransform(_ newTransform: StudioTransform) -> StudioElement {
         switch self {
         case .text(let id, let content, let color, let style, _):
             return .text(id: id, content: content, color: color, style: style, transform: newTransform)
@@ -501,7 +501,7 @@ extension CanvasElement {
         case .shape(let id, let type, let fill, let stroke, let strokeWidth, _):
             return .shape(id: id, type: type, fillColor: fill, strokeColor: stroke, strokeWidth: strokeWidth, transform: newTransform)
         case .sticker(let id, let asset, let premium, _):
-            return .sticker(id: id, assetName: asset, isPremium: premium, transform: newTransform)
+            return .sticker(id: id, assetName: asset, isPremiumSticker: premium, transform: newTransform)
         }
     }
 }
@@ -519,7 +519,7 @@ extension CanvasElement {
             id: UUID(),
             content: "Emma & James",
             color: HexColor(hex: "2C2C2C"),
-            style: CanvasTextStyle(
+            style: StudioTextStyle(
                 fontFamily: "PlayfairDisplay-Bold",
                 fontSize: 32,
                 fontWeight: .bold,
@@ -527,7 +527,7 @@ extension CanvasElement {
                 lineHeight: 1.2,
                 alignment: .center
             ),
-            transform: Transform(zIndex: 2)
+            transform: StudioTransform(zIndex: 2)
         ))
         viewModel.addElement(.shape(
             id: UUID(),
@@ -535,13 +535,13 @@ extension CanvasElement {
             fillColor: HexColor(hex: "C9A9A6"),
             strokeColor: nil,
             strokeWidth: 0,
-            transform: Transform(zIndex: 1)
+            transform: StudioTransform(zIndex: 1)
         ))
         viewModel.addElement(.text(
             id: UUID(),
             content: "June 15, 2025",
             color: HexColor(hex: "6B6B6B"),
-            style: CanvasTextStyle(
+            style: StudioTextStyle(
                 fontFamily: "Manrope-Regular",
                 fontSize: 16,
                 fontWeight: .regular,
@@ -549,7 +549,7 @@ extension CanvasElement {
                 lineHeight: 1.4,
                 alignment: .center
             ),
-            transform: Transform(zIndex: 3)
+            transform: StudioTransform(zIndex: 3)
         ))
     }()
 

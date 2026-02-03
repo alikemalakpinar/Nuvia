@@ -57,7 +57,7 @@ public final class CanvasRenderer {
     // MARK: - Public API
 
     public static func render(
-        state: CanvasState,
+        state: StudioCanvasState,
         options: ExportOptions = .share
     ) async throws -> Data {
         let view = CanvasRenderView(state: state, includeBackground: options.includeBackground)
@@ -76,7 +76,7 @@ public final class CanvasRenderer {
         }
     }
 
-    public static func renderPreview(state: CanvasState) async -> UIImage? {
+    public static func renderPreview(state: StudioCanvasState) async -> UIImage? {
         let view = CanvasRenderView(state: state, includeBackground: true)
         let renderer = ImageRenderer(content: view)
         renderer.scale = UIScreen.main.scale
@@ -157,7 +157,7 @@ public final class CanvasRenderer {
 // MARK: - Canvas Render View (For Export)
 
 struct CanvasRenderView: View {
-    let state: CanvasState
+    let state: StudioCanvasState
     let includeBackground: Bool
 
     var body: some View {
@@ -192,7 +192,7 @@ struct CanvasRenderView: View {
 // MARK: - Canvas Element Render View
 
 struct CanvasElementRenderView: View {
-    let element: CanvasElement
+    let element: StudioElement
 
     var body: some View {
         Group {
@@ -210,7 +210,7 @@ struct CanvasElementRenderView: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFit()
-                        .applyFilter(filter)
+                        .applyStudioFilter(filter)
                 }
 
             case .shape(_, let type, let fillColor, let strokeColor, let strokeWidth, _):
@@ -231,12 +231,12 @@ struct CanvasElementRenderView: View {
         }
     }
 
-    private func fontFromStyle(_ style: CanvasTextStyle) -> Font {
+    private func fontFromStyle(_ style: StudioTextStyle) -> Font {
         .system(size: style.fontSize, weight: style.fontWeight.swiftUIWeight)
     }
 
     @ViewBuilder
-    private func shapeView(type: ShapeType, fill: HexColor, stroke: HexColor?, strokeWidth: CGFloat) -> some View {
+    private func shapeView(type: StudioShapeType, fill: HexColor, stroke: HexColor?, strokeWidth: CGFloat) -> some View {
         switch type {
         case .rectangle:
             if let strokeColor = stroke, strokeWidth > 0 {
@@ -305,7 +305,7 @@ struct CanvasElementRenderView: View {
 
 extension View {
     @ViewBuilder
-    func applyFilter(_ filter: PhotoFilter) -> some View {
+    func applyStudioFilter(_ filter: StudioPhotoFilter) -> some View {
         switch filter {
         case .none:
             self
@@ -342,7 +342,7 @@ extension View {
 public final class CanvasShareService {
 
     public static func share(
-        state: CanvasState,
+        state: StudioCanvasState,
         options: CanvasRenderer.ExportOptions = .share,
         from viewController: UIViewController? = nil
     ) async {
