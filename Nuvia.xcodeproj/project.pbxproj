@@ -50,6 +50,15 @@
 		A100000041 /* WeddingDayRunOfShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000041 /* WeddingDayRunOfShowView.swift */; };
 		A100000042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B100000042 /* Assets.xcassets */; };
 		A100000044 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000044 /* PaywallView.swift */; };
+		A100000045 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000045 /* DesignTokens.swift */; };
+		A100000046 /* CustomTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000046 /* CustomTransitions.swift */; };
+		A100000047 /* CanvasModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000047 /* CanvasModels.swift */; };
+		A100000048 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000048 /* CanvasViewModel.swift */; };
+		A100000049 /* GestureCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000049 /* GestureCoordinator.swift */; };
+		A100000050 /* CanvasRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000050 /* CanvasRenderer.swift */; };
+		A100000051 /* ScrollObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000051 /* ScrollObserver.swift */; };
+		A100000052 /* ParallaxHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000052 /* ParallaxHeader.swift */; };
+		A100000053 /* LiquidOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000053 /* LiquidOnboardingView.swift */; };
 		A95900812F31E2B0003D1348 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900802F31E2B0003D1348 /* FilterChip.swift */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +107,15 @@
 		B100000041 /* WeddingDayRunOfShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingDayRunOfShowView.swift; sourceTree = "<group>"; };
 		B100000042 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B100000044 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		B100000045 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
+		B100000046 /* CustomTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransitions.swift; sourceTree = "<group>"; };
+		B100000047 /* CanvasModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasModels.swift; sourceTree = "<group>"; };
+		B100000048 /* CanvasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
+		B100000049 /* GestureCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureCoordinator.swift; sourceTree = "<group>"; };
+		B100000050 /* CanvasRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasRenderer.swift; sourceTree = "<group>"; };
+		B100000051 /* ScrollObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollObserver.swift; sourceTree = "<group>"; };
+		B100000052 /* ParallaxHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHeader.swift; sourceTree = "<group>"; };
+		B100000053 /* LiquidOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidOnboardingView.swift; sourceTree = "<group>"; };
 		B100000043 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B100000099 /* Nuvia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nuvia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -197,6 +215,7 @@
 				G100000031 /* Colors */,
 				G100000032 /* Components */,
 				G100000033 /* Typography */,
+				G100000034 /* System */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -223,6 +242,15 @@
 				B100000022 /* NuviaTypography.swift */,
 			);
 			path = Typography;
+			sourceTree = "<group>";
+		};
+		G100000034 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				B100000045 /* DesignTokens.swift */,
+				B100000046 /* CustomTransitions.swift */,
+			);
+			path = System;
 			sourceTree = "<group>";
 		};
 		G100000040 /* Features */ = {
@@ -263,8 +291,18 @@
 			children = (
 				B100000024 /* MainTabView.swift */,
 				B100000025 /* TodayDashboardView.swift */,
+				G100000061 /* EditorialDashboard */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		G100000061 /* EditorialDashboard */ = {
+			isa = PBXGroup;
+			children = (
+				B100000051 /* ScrollObserver.swift */,
+				B100000052 /* ParallaxHeader.swift */,
+			);
+			path = EditorialDashboard;
 			sourceTree = "<group>";
 		};
 		G100000043 /* FileVault */ = {
@@ -295,8 +333,28 @@
 			isa = PBXGroup;
 			children = (
 				B100000029 /* InvitationEditorView.swift */,
+				G100000059 /* InvitationStudio */,
 			);
 			path = Invitation;
+			sourceTree = "<group>";
+		};
+		G100000059 /* InvitationStudio */ = {
+			isa = PBXGroup;
+			children = (
+				G100000060 /* CanvasEngine */,
+			);
+			path = InvitationStudio;
+			sourceTree = "<group>";
+		};
+		G100000060 /* CanvasEngine */ = {
+			isa = PBXGroup;
+			children = (
+				B100000047 /* CanvasModels.swift */,
+				B100000048 /* CanvasViewModel.swift */,
+				B100000049 /* GestureCoordinator.swift */,
+				B100000050 /* CanvasRenderer.swift */,
+			);
+			path = CanvasEngine;
 			sourceTree = "<group>";
 		};
 		G100000047 /* Journal */ = {
@@ -312,8 +370,17 @@
 			children = (
 				B100000031 /* CreateProjectView.swift */,
 				B100000032 /* OnboardingContainerView.swift */,
+				G100000062 /* LiquidOnboarding */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		G100000062 /* LiquidOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				B100000053 /* LiquidOnboardingView.swift */,
+			);
+			path = LiquidOnboarding;
 			sourceTree = "<group>";
 		};
 		G100000049 /* RSVP */ = {
@@ -510,6 +577,15 @@
 				A100000040 /* VendorManagementView.swift in Sources */,
 				A100000041 /* WeddingDayRunOfShowView.swift in Sources */,
 				A100000044 /* PaywallView.swift in Sources */,
+				A100000045 /* DesignTokens.swift in Sources */,
+				A100000046 /* CustomTransitions.swift in Sources */,
+				A100000047 /* CanvasModels.swift in Sources */,
+				A100000048 /* CanvasViewModel.swift in Sources */,
+				A100000049 /* GestureCoordinator.swift in Sources */,
+				A100000050 /* CanvasRenderer.swift in Sources */,
+				A100000051 /* ScrollObserver.swift in Sources */,
+				A100000052 /* ParallaxHeader.swift in Sources */,
+				A100000053 /* LiquidOnboardingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
