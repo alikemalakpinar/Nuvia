@@ -327,7 +327,8 @@ class ExportService {
             let entryHeaderAttributes: [NSAttributedString.Key: Any] = [.font: entryHeaderFont, .foregroundColor: UIColor.label]
 
             let entryBodyFont = UIFont.systemFont(ofSize: 12, weight: .regular)
-            let entryBodyAttributes: [NSAttributedString.Key: Any] = [.font: entryBodyFont, .foregroundColor: UIColor.label]
+            let _ = [NSAttributedString.Key: Any].self // entryBodyFont available for future use
+            _ = entryBodyFont // Silence unused warning - kept for consistency with other font definitions
 
             let entryDateFont = UIFont.systemFont(ofSize: 10, weight: .regular)
             let entryDateAttributes: [NSAttributedString.Key: Any] = [.font: entryDateFont, .foregroundColor: UIColor.tertiaryLabel]
