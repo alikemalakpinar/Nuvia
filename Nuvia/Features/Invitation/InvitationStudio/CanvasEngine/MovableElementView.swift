@@ -104,7 +104,7 @@ struct MovableElementView<Content: View>: View {
                 // Delete button (top-right corner)
                 DeleteHandle {
                     withAnimation(DesignTokens.Animation.snappy) {
-                        viewModel.removeElement(element.id)
+                        viewModel.removeElement(id: element.id)
                     }
                     HapticEngine.shared.notify(.warning)
                 }
@@ -118,7 +118,7 @@ struct MovableElementView<Content: View>: View {
     private var tapGesture: some Gesture {
         TapGesture()
             .onEnded { _ in
-                viewModel.selectElement(element.id)
+                viewModel.selectElement(id: element.id)
             }
     }
 
@@ -215,7 +215,7 @@ struct MovableElementView<Content: View>: View {
 
     // MARK: - Gesture Helpers
 
-    private func beginGesture(_ type: GestureType) {
+    private func beginGesture(_ type: CanvasViewModel.GestureType) {
         gestureStartTransform = transform
         isDragging = type == .drag
 
@@ -226,8 +226,8 @@ struct MovableElementView<Content: View>: View {
             HapticEngine.shared.impact(.light)
         case .scale, .rotate:
             HapticEngine.shared.impact(.medium)
-        default:
-            break
+        case .combined:
+            HapticEngine.shared.impact(.medium)
         }
     }
 
