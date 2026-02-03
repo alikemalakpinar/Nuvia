@@ -106,7 +106,7 @@ struct MovableElementView<Content: View>: View {
                     withAnimation(DesignTokens.Animation.snappy) {
                         viewModel.removeElement(id: element.id)
                     }
-                    HapticEngine.shared.notify(.warning)
+                    HapticEngine.shared.notification(.warning)
                 }
                 .position(x: size.width + 16, y: -16)
             }
@@ -550,7 +550,7 @@ struct StudioElementContentView: View {
             )
         ) {
             Text("Emma & James")
-                .font(DSTypography.display(.medium))
+                .font(DSTypography.display)
                 .foregroundColor(.nuviaPrimaryText)
         }
     }
