@@ -170,7 +170,7 @@ struct InvitationStudioView: View {
             .contentShape(Rectangle())
             .onTapGesture {
                 // Deselect element when tapping canvas background
-                viewModel.selectElement(nil)
+                viewModel.selectElement(id: nil)
             }
         }
     }
@@ -921,6 +921,18 @@ struct ExportOptionsSheet: View {
     @State private var isExporting = false
     @State private var selectedFormat: CanvasRenderer.ExportFormat = .png
     @State private var selectedResolution: CanvasRenderer.ExportResolution = .high
+    
+    // Helper to check format equality
+    private func isFormat(_ format: CanvasRenderer.ExportFormat) -> Bool {
+        switch (selectedFormat, format) {
+        case (.png, .png), (.pdf, .pdf):
+            return true
+        case (.jpeg, .jpeg):
+            return true
+        default:
+            return false
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -948,13 +960,13 @@ struct ExportOptionsSheet: View {
                         .foregroundColor(.nuviaSecondaryText)
 
                     HStack(spacing: DesignTokens.Spacing.sm) {
-                        ExportFormatButton(format: .png, isSelected: selectedFormat == .png) {
+                        ExportFormatButton(format: .png, isSelected: isFormat(.png)) {
                             selectedFormat = .png
                         }
-                        ExportFormatButton(format: .jpeg(quality: 0.9), isSelected: selectedFormat == .jpeg(quality: 0.9)) {
+                        ExportFormatButton(format: .jpeg(quality: 0.9), isSelected: isFormat(.jpeg(quality: 0.9))) {
                             selectedFormat = .jpeg(quality: 0.9)
                         }
-                        ExportFormatButton(format: .pdf, isSelected: selectedFormat == .pdf) {
+                        ExportFormatButton(format: .pdf, isSelected: isFormat(.pdf)) {
                             selectedFormat = .pdf
                         }
                     }
