@@ -32,7 +32,7 @@ struct LayerSheet: View {
         }
         .background(Color.nuviaSurface)
         .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.xl, style: .continuous))
-        .elevation(.overlay)
+        .elevation(DesignTokens.Elevation.overlay)
         .padding(.horizontal, DesignTokens.Spacing.md)
         .padding(.bottom, DesignTokens.Spacing.lg)
     }
@@ -42,13 +42,13 @@ struct LayerSheet: View {
     private var layerHeader: some View {
         HStack {
             Text("Layers")
-                .font(DSTypography.heading4)
+                .font(.system(size: 17, weight: .semibold))
                 .foregroundColor(.nuviaPrimaryText)
 
             Spacer()
 
             Text("\(viewModel.elements.count)")
-                .font(DSTypography.caption)
+                .font(.system(size: 12, weight: .medium))
                 .foregroundColor(.nuviaTertiaryText)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
@@ -114,11 +114,11 @@ struct LayerSheet: View {
                 .foregroundColor(.nuviaTertiaryText)
 
             Text("No Layers Yet")
-                .font(DSTypography.heading4)
+                .font(.system(size: 17, weight: .semibold))
                 .foregroundColor(.nuviaPrimaryText)
 
             Text("Add text, images, or shapes\nto build your invitation")
-                .font(DSTypography.bodySmall)
+                .font(.system(size: 13))
                 .foregroundColor(.nuviaSecondaryText)
                 .multilineTextAlignment(.center)
         }
@@ -211,12 +211,12 @@ struct LayerRow: View {
                 // Layer info
                 VStack(alignment: .leading, spacing: 2) {
                     Text(layerName)
-                        .font(DSTypography.body)
+                        .font(.system(size: 15))
                         .foregroundColor(.nuviaPrimaryText)
                         .lineLimit(1)
 
                     Text(layerSubtitle)
-                        .font(DSTypography.caption)
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.nuviaTertiaryText)
                         .lineLimit(1)
                 }
@@ -408,7 +408,7 @@ struct ActionButton: View {
                 }
 
                 Text(label)
-                    .font(DSTypography.captionSmall)
+                    .font(.system(size: 12, weight: .medium)Small)
                     .foregroundColor(.nuviaSecondaryText)
             }
         }
@@ -438,7 +438,7 @@ struct SmallActionButton: View {
                     .font(.system(size: 12, weight: .medium))
 
                 Text(label)
-                    .font(DSTypography.captionSmall)
+                    .font(.system(size: 12, weight: .medium)Small)
             }
             .foregroundColor(isDestructive ? Color(hex: "C97A7A") : .nuviaSecondaryText)
             .padding(.horizontal, 10)
