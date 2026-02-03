@@ -10,7 +10,7 @@ struct PropertyInspector: View {
 
     @State private var selectedSection: InspectorSection = .style
 
-    private var selectedElement: CanvasElement? {
+    private var selectedElement: StudioElement? {
         guard let id = viewModel.selectedElementId else { return nil }
         return viewModel.elements.first { $0.id == id }
     }
@@ -110,7 +110,7 @@ struct PropertyInspector: View {
     // MARK: - Inspector Content
 
     @ViewBuilder
-    private func inspectorContent(for element: CanvasElement) -> some View {
+    private func inspectorContent(for element: StudioElement) -> some View {
         switch selectedSection {
         case .style:
             styleSection(for: element)
@@ -124,7 +124,7 @@ struct PropertyInspector: View {
     // MARK: - Style Section
 
     @ViewBuilder
-    private func styleSection(for element: CanvasElement) -> some View {
+    private func styleSection(for element: StudioElement) -> some View {
         switch element {
         case .text(let id, let content, let color, let style, _):
             TextStyleInspector(
@@ -165,7 +165,7 @@ struct PropertyInspector: View {
     // MARK: - Transform Section
 
     @ViewBuilder
-    private func transformSection(for element: CanvasElement) -> some View {
+    private func transformSection(for element: StudioElement) -> some View {
         TransformInspector(
             elementId: element.id,
             transform: element.transform,
@@ -176,7 +176,7 @@ struct PropertyInspector: View {
     // MARK: - Effects Section
 
     @ViewBuilder
-    private func effectsSection(for element: CanvasElement) -> some View {
+    private func effectsSection(for element: StudioElement) -> some View {
         EffectsInspector(
             elementId: element.id,
             viewModel: viewModel
@@ -206,7 +206,7 @@ struct PropertyInspector: View {
 
     // MARK: - Helpers
 
-    private func elementTypeName(for element: CanvasElement) -> String {
+    private func elementTypeName(for element: StudioElement) -> String {
         switch element {
         case .text:    return "Text Element"
         case .image:   return "Image Element"
@@ -244,13 +244,13 @@ struct TextStyleInspector: View {
     let elementId: UUID
     let content: String
     let color: HexColor
-    let style: CanvasTextStyle
+    let style: StudioTextStyle
     @ObservedObject var viewModel: CanvasViewModel
 
     @State private var editedContent: String = ""
     @State private var selectedFontSize: CGFloat = 24
-    @State private var selectedWeight: CanvasFontWeight = .regular
-    @State private var selectedAlignment: CanvasTextAlignment = .center
+    @State private var selectedWeight: StudioFontWeight = .regular
+    @State private var selectedAlignment: StudioTextAlignment = .center
 
     var body: some View {
         VStack(spacing: DesignTokens.Spacing.lg) {
@@ -358,7 +358,7 @@ struct TextStyleInspector: View {
         }
     }
 
-    private func updateFontWeight(_ weight: CanvasFontWeight) {
+    private func updateFontWeight(_ weight: StudioFontWeight) {
         viewModel.updateTextStyle(id: elementId) { style in
             var newStyle = style
             newStyle.fontWeight = weight
@@ -372,7 +372,7 @@ struct TextStyleInspector: View {
         HapticEngine.shared.selection()
     }
 
-    private func updateAlignment(_ alignment: CanvasTextAlignment) {
+    private func updateAlignment(_ alignment: StudioTextAlignment) {
         viewModel.updateTextStyle(id: elementId) { style in
             var newStyle = style
             newStyle.alignment = alignment
@@ -386,7 +386,7 @@ struct TextStyleInspector: View {
 
 struct ImageStyleInspector: View {
     let elementId: UUID
-    let filter: PhotoFilter
+    let filter: StudioPhotoFilter
     @ObservedObject var viewModel: CanvasViewModel
 
     var body: some View {
@@ -397,7 +397,7 @@ struct ImageStyleInspector: View {
                     GridItem(.flexible()),
                     GridItem(.flexible())
                 ], spacing: DesignTokens.Spacing.sm) {
-                    ForEach(PhotoFilter.allCases, id: \.self) { filterOption in
+                    ForEach(StudioPhotoFilter.allCases, id: \.self) { filterOption in
                         FilterButton(
                             filter: filterOption,
                             isSelected: filter == filterOption,
@@ -411,7 +411,7 @@ struct ImageStyleInspector: View {
         }
     }
 
-    private func updateFilter(_ newFilter: PhotoFilter) {
+    private func updateFilter(_ newFilter: StudioPhotoFilter) {
         viewModel.updateImageFilter(id: elementId, filter: newFilter)
         HapticEngine.shared.selection()
     }
@@ -421,7 +421,7 @@ struct ImageStyleInspector: View {
 
 struct ShapeStyleInspector: View {
     let elementId: UUID
-    let shapeType: ShapeType
+    let shapeType: StudioShapeType
     let fillColor: HexColor
     let strokeColor: HexColor?
     let strokeWidth: CGFloat
@@ -532,7 +532,7 @@ struct StickerStyleInspector: View {
 
 struct TransformInspector: View {
     let elementId: UUID
-    let transform: Transform
+    let transform: StudioTransform
     @ObservedObject var viewModel: CanvasViewModel
 
     @State private var scale: CGFloat = 1.0
@@ -800,12 +800,12 @@ struct FontChip: View {
 // MARK: - Font Weight Picker
 
 struct FontWeightPicker: View {
-    let selected: CanvasFontWeight
-    let onSelect: (CanvasFontWeight) -> Void
+    let selected: StudioFontWeight
+    let onSelect: (StudioFontWeight) -> Void
 
     var body: some View {
         HStack(spacing: DesignTokens.Spacing.xs) {
-            ForEach(CanvasFontWeight.allCases, id: \.self) { weight in
+            ForEach(StudioFontWeight.allCases, id: \.self) { weight in
                 Button {
                     onSelect(weight)
                 } label: {
@@ -897,12 +897,12 @@ struct ColorSwatch: View {
 // MARK: - Alignment Picker
 
 struct AlignmentPicker: View {
-    let selected: CanvasTextAlignment
-    let onSelect: (CanvasTextAlignment) -> Void
+    let selected: StudioTextAlignment
+    let onSelect: (StudioTextAlignment) -> Void
 
     var body: some View {
         HStack(spacing: DesignTokens.Spacing.sm) {
-            ForEach(CanvasTextAlignment.allCases, id: \.self) { alignment in
+            ForEach(StudioTextAlignment.allCases, id: \.self) { alignment in
                 Button {
                     onSelect(alignment)
                 } label: {
@@ -923,7 +923,7 @@ struct AlignmentPicker: View {
 // MARK: - Filter Button
 
 struct FilterButton: View {
-    let filter: PhotoFilter
+    let filter: StudioPhotoFilter
     let isSelected: Bool
     let isPremium: Bool
     let action: () -> Void
@@ -985,9 +985,9 @@ struct QuickRotateButton: View {
     }
 }
 
-// MARK: - CanvasTextAlignment Extension
+// MARK: - StudioTextAlignment Extension
 
-extension CanvasTextAlignment {
+extension StudioTextAlignment {
     var icon: String {
         switch self {
         case .leading:  return "text.alignleft"
@@ -997,9 +997,9 @@ extension CanvasTextAlignment {
     }
 }
 
-// MARK: - PhotoFilter Extension
+// MARK: - StudioPhotoFilter Extension
 
-extension PhotoFilter {
+extension StudioPhotoFilter {
     var isPremium: Bool {
         switch self {
         case .none, .sepia, .mono:
@@ -1021,7 +1021,7 @@ extension CanvasViewModel {
         elements[index] = .text(id: elementId, content: content, color: color, style: style, transform: transform)
     }
 
-    func updateTextStyle(id: UUID, modifier: (CanvasTextStyle) -> CanvasTextStyle) {
+    func updateTextStyle(id: UUID, modifier: (StudioTextStyle) -> StudioTextStyle) {
         guard let index = elements.firstIndex(where: { $0.id == id }),
               case .text(let elementId, let content, let color, let style, let transform) = elements[index] else { return }
 
@@ -1038,7 +1038,7 @@ extension CanvasViewModel {
         elements[index] = .text(id: elementId, content: content, color: color, style: style, transform: transform)
     }
 
-    func updateImageFilter(id: UUID, filter: PhotoFilter) {
+    func updateImageFilter(id: UUID, filter: StudioPhotoFilter) {
         guard let index = elements.firstIndex(where: { $0.id == id }),
               case .image(let elementId, let data, _, let transform) = elements[index] else { return }
 
@@ -1101,11 +1101,11 @@ extension CanvasViewModel {
     let viewModel = CanvasViewModel(canvasSize: CGSize(width: 375, height: 500))
 
     let _ = {
-        let element = CanvasElement.text(
+        let element = StudioElement.text(
             id: UUID(),
             content: "Emma & James",
             color: HexColor(hex: "2C2C2C"),
-            style: CanvasTextStyle(
+            style: StudioTextStyle(
                 fontFamily: "PlayfairDisplay-Bold",
                 fontSize: 32,
                 fontWeight: .bold,
@@ -1113,7 +1113,7 @@ extension CanvasViewModel {
                 lineHeight: 1.2,
                 alignment: .center
             ),
-            transform: Transform()
+            transform: StudioTransform()
         )
         viewModel.addElement(element)
         viewModel.selectElement(element.id)

@@ -6,11 +6,11 @@ import SwiftUI
 
 struct MovableElementView<Content: View>: View {
     @ObservedObject var viewModel: CanvasViewModel
-    let element: CanvasElement
+    let element: StudioElement
     @ViewBuilder let content: () -> Content
 
     // Gesture tracking
-    @State private var gestureStartTransform: Transform?
+    @State private var gestureStartTransform: StudioTransform?
     @State private var isDragging = false
     @State private var isScaling = false
     @State private var isRotating = false
@@ -20,7 +20,7 @@ struct MovableElementView<Content: View>: View {
         viewModel.selectedElementId == element.id
     }
 
-    private var transform: Transform {
+    private var transform: StudioTransform {
         element.transform
     }
 
@@ -367,7 +367,7 @@ struct DeleteHandle: View {
 
 struct MovableElementModifier: ViewModifier {
     @ObservedObject var viewModel: CanvasViewModel
-    let element: CanvasElement
+    let element: StudioElement
 
     func body(content: Content) -> some View {
         MovableElementView(viewModel: viewModel, element: element) {
@@ -379,7 +379,7 @@ struct MovableElementModifier: ViewModifier {
 extension View {
     func movableElement(
         viewModel: CanvasViewModel,
-        element: CanvasElement
+        element: StudioElement
     ) -> some View {
         self.modifier(MovableElementModifier(viewModel: viewModel, element: element))
     }
@@ -387,8 +387,8 @@ extension View {
 
 // MARK: - Canvas Element Content View
 
-struct CanvasElementContentView: View {
-    let element: CanvasElement
+struct StudioElementContentView: View {
+    let element: StudioElement
 
     var body: some View {
         Group {
@@ -409,7 +409,7 @@ struct CanvasElementContentView: View {
     }
 
     @ViewBuilder
-    private func textView(content: String, color: HexColor, style: CanvasTextStyle) -> some View {
+    private func textView(content: String, color: HexColor, style: StudioTextStyle) -> some View {
         Text(content)
             .font(.system(size: style.fontSize, weight: style.fontWeight.swiftUIWeight))
             .foregroundColor(color.color)
@@ -424,12 +424,12 @@ struct CanvasElementContentView: View {
     }
 
     @ViewBuilder
-    private func imageView(data: Data, filter: PhotoFilter) -> some View {
+    private func imageView(data: Data, filter: StudioPhotoFilter) -> some View {
         if let uiImage = UIImage(data: data) {
             Image(uiImage: uiImage)
                 .resizable()
                 .scaledToFit()
-                .applyFilter(filter)
+                .applyStudioFilter(filter)
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         } else {
             placeholder
@@ -437,7 +437,7 @@ struct CanvasElementContentView: View {
     }
 
     @ViewBuilder
-    private func shapeView(type: ShapeType, fill: HexColor, stroke: HexColor?, strokeWidth: CGFloat) -> some View {
+    private func shapeView(type: StudioShapeType, fill: HexColor, stroke: HexColor?, strokeWidth: CGFloat) -> some View {
         switch type {
         case .rectangle:
             RoundedRectangle(cornerRadius: 8, style: .continuous)
@@ -538,7 +538,7 @@ struct CanvasElementContentView: View {
                 id: UUID(),
                 content: "Emma & James",
                 color: HexColor(hex: "2C2C2C"),
-                style: CanvasTextStyle(
+                style: StudioTextStyle(
                     fontFamily: "PlayfairDisplay-Bold",
                     fontSize: 32,
                     fontWeight: .bold,
@@ -546,7 +546,7 @@ struct CanvasElementContentView: View {
                     lineHeight: 1.2,
                     alignment: .center
                 ),
-                transform: Transform()
+                transform: StudioTransform()
             )
         ) {
             Text("Emma & James")

@@ -151,7 +151,7 @@ struct InvitationStudioView: View {
                     // Elements
                     ForEach(viewModel.sortedElements) { element in
                         MovableElementView(viewModel: viewModel, element: element) {
-                            CanvasElementContentView(element: element)
+                            StudioElementContentView(element: element)
                         }
                     }
                 }
@@ -382,11 +382,11 @@ struct InvitationStudioView: View {
         guard let project = currentProject else { return }
 
         // Add default elements based on project
-        let nameElement = CanvasElement.text(
+        let nameElement = StudioElement.text(
             id: UUID(),
             content: "\(project.partnerName1)\n&\n\(project.partnerName2)",
             color: HexColor(hex: "2C2C2C"),
-            style: CanvasTextStyle(
+            style: StudioTextStyle(
                 fontFamily: DSTypography.FontFamily.serifBold,
                 fontSize: 36,
                 fontWeight: .bold,
@@ -394,14 +394,14 @@ struct InvitationStudioView: View {
                 lineHeight: 1.3,
                 alignment: .center
             ),
-            transform: Transform(offset: CGSize(width: 0, height: -60), zIndex: 2)
+            transform: StudioTransform(offset: CGSize(width: 0, height: -60), zIndex: 2)
         )
 
-        let dateElement = CanvasElement.text(
+        let dateElement = StudioElement.text(
             id: UUID(),
             content: project.weddingDate.formatted(date: .complete, time: .omitted),
             color: HexColor(hex: "6B6B6B"),
-            style: CanvasTextStyle(
+            style: StudioTextStyle(
                 fontFamily: DSTypography.FontFamily.sansRegular,
                 fontSize: 14,
                 fontWeight: .regular,
@@ -409,16 +409,16 @@ struct InvitationStudioView: View {
                 lineHeight: 1.4,
                 alignment: .center
             ),
-            transform: Transform(offset: CGSize(width: 0, height: 60), zIndex: 1)
+            transform: StudioTransform(offset: CGSize(width: 0, height: 60), zIndex: 1)
         )
 
-        let heartElement = CanvasElement.shape(
+        let heartElement = StudioElement.shape(
             id: UUID(),
             type: .heart,
             fillColor: HexColor(hex: "C9A9A6"),
             strokeColor: nil,
             strokeWidth: 0,
-            transform: Transform(offset: CGSize(width: 0, height: 0), scale: 0.8, zIndex: 0)
+            transform: StudioTransform(offset: CGSize(width: 0, height: 0), scale: 0.8, zIndex: 0)
         )
 
         viewModel.addElement(heartElement)
@@ -556,7 +556,7 @@ enum ElementPickerTab: String, CaseIterable {
 struct ElementPickerPanel: View {
     @Binding var selectedTab: ElementPickerTab
     @ObservedObject var viewModel: CanvasViewModel
-    let onAddElement: (CanvasElement) -> Void
+    let onAddElement: (StudioElement) -> Void
     let onPremiumRequired: () -> Void
     let onClose: () -> Void
 
@@ -627,9 +627,9 @@ struct ElementPickerPanel: View {
 // MARK: - Element Pickers
 
 struct TextElementPicker: View {
-    let onAdd: (CanvasElement) -> Void
+    let onAdd: (StudioElement) -> Void
 
-    private let presets: [(label: String, fontSize: CGFloat, weight: CanvasFontWeight)] = [
+    private let presets: [(label: String, fontSize: CGFloat, weight: StudioFontWeight)] = [
         ("Heading", 32, .bold),
         ("Subheading", 24, .semiBold),
         ("Body", 16, .regular),
@@ -640,11 +640,11 @@ struct TextElementPicker: View {
         VStack(spacing: DesignTokens.Spacing.md) {
             ForEach(presets, id: \.label) { preset in
                 Button {
-                    let element = CanvasElement.text(
+                    let element = StudioElement.text(
                         id: UUID(),
                         content: "Your text here",
                         color: HexColor(hex: "2C2C2C"),
-                        style: CanvasTextStyle(
+                        style: StudioTextStyle(
                             fontFamily: preset.weight == .bold ? DSTypography.FontFamily.serifBold : DSTypography.FontFamily.sansRegular,
                             fontSize: preset.fontSize,
                             fontWeight: preset.weight,
@@ -652,7 +652,7 @@ struct TextElementPicker: View {
                             lineHeight: 1.3,
                             alignment: .center
                         ),
-                        transform: Transform()
+                        transform: StudioTransform()
                     )
                     onAdd(element)
                 } label: {
@@ -686,9 +686,9 @@ struct TextElementPicker: View {
 }
 
 struct ShapeElementPicker: View {
-    let onAdd: (CanvasElement) -> Void
+    let onAdd: (StudioElement) -> Void
 
-    private let shapes: [(type: ShapeType, icon: String, label: String)] = [
+    private let shapes: [(type: StudioShapeType, icon: String, label: String)] = [
         (.rectangle, "rectangle", "Rectangle"),
         (.circle, "circle", "Circle"),
         (.ellipse, "oval", "Ellipse"),
@@ -708,13 +708,13 @@ struct ShapeElementPicker: View {
         ], spacing: DesignTokens.Spacing.md) {
             ForEach(shapes, id: \.label) { shape in
                 Button {
-                    let element = CanvasElement.shape(
+                    let element = StudioElement.shape(
                         id: UUID(),
                         type: shape.type,
                         fillColor: HexColor(hex: "D4AF37"),
                         strokeColor: nil,
                         strokeWidth: 0,
-                        transform: Transform()
+                        transform: StudioTransform()
                     )
                     onAdd(element)
                 } label: {
@@ -740,7 +740,7 @@ struct ShapeElementPicker: View {
 }
 
 struct StickerElementPicker: View {
-    let onAdd: (CanvasElement) -> Void
+    let onAdd: (StudioElement) -> Void
     let onPremiumRequired: () -> Void
 
     private let stickers: [(icon: String, isPremium: Bool)] = [
@@ -770,11 +770,11 @@ struct StickerElementPicker: View {
                     if sticker.isPremium {
                         onPremiumRequired()
                     } else {
-                        let element = CanvasElement.sticker(
+                        let element = StudioElement.sticker(
                             id: UUID(),
                             assetName: "system:\(sticker.icon)",
-                            isPremium: sticker.isPremium,
-                            transform: Transform()
+                            isPremiumSticker: sticker.isPremium,
+                            transform: StudioTransform()
                         )
                         onAdd(element)
                     }
@@ -807,7 +807,7 @@ struct StickerElementPicker: View {
 }
 
 struct ImageElementPicker: View {
-    let onAdd: (CanvasElement) -> Void
+    let onAdd: (StudioElement) -> Void
 
     var body: some View {
         VStack(spacing: DesignTokens.Spacing.md) {
@@ -884,7 +884,7 @@ struct ImageElementPicker: View {
 struct StudioTemplate {
     let name: String
     let backgroundColor: HexColor?
-    let elements: [CanvasElement]
+    let elements: [StudioElement]
     let isPremium: Bool
 }
 

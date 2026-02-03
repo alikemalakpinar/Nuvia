@@ -8,33 +8,67 @@ import Combine
 public final class CanvasViewModel: ObservableObject {
 
     // MARK: - Published State
-    @Published public private(set) var state: CanvasState
+    @Published public private(set) var state: StudioCanvasState
     @Published public var selectedElementId: UUID?
     @Published public var isEditing: Bool = false
     @Published public var showPaywall: Bool = false
 
     // MARK: - Undo/Redo Stack
-    private var undoStack: [CanvasState] = []
-    private var redoStack: [CanvasState] = []
+    private var undoStack: [StudioCanvasState] = []
+    private var redoStack: [StudioCanvasState] = []
     private let maxUndoLevels = 50
 
     // MARK: - Gesture State
     @Published public var activeGesture: GestureType?
-    @Published public var gestureStartTransform: Transform?
+    @Published public var gestureStartTransform: StudioTransform?
 
     public enum GestureType {
         case drag, scale, rotate, combined
     }
 
+    // Canvas size property
+    public var canvasSize: CGSize {
+        state.canvasSize
+    }
+
+    // Elements accessor
+    public var elements: [StudioElement] {
+        get { state.elements }
+        set { state.elements = newValue }
+    }
+
+    // Sorted elements
+    public var sortedElements: [StudioElement] {
+        state.sortedElements
+    }
+
+    // Has premium content
+    public var hasPremiumContent: Bool {
+        state.hasPremiumContent
+    }
+
     // MARK: - Init
-    public init(initialState: CanvasState = CanvasState()) {
+    public init(initialState: StudioCanvasState = StudioCanvasState()) {
         self.state = initialState
+    }
+
+    public init(canvasSize: CGSize) {
+        self.state = StudioCanvasState(canvasSize: canvasSize)
+    }
+
+    // Save to history
+    func saveToHistory() {
+        undoStack.append(state)
+        if undoStack.count > maxUndoLevels {
+            undoStack.removeFirst()
+        }
+        redoStack.removeAll()
     }
 
     // MARK: - Element Management
 
-    public func addElement(_ element: CanvasElement) {
-        saveStateForUndo()
+    public func addElement(_ element: StudioElement) {
+        saveToHistory()
         var newElement = element
         // Set zIndex to top
         var transform = newElement.transform
@@ -46,7 +80,7 @@ public final class CanvasViewModel: ObservableObject {
     }
 
     public func removeElement(id: UUID) {
-        saveStateForUndo()
+        saveToHistory()
         state.elements.removeAll { $0.id == id }
         if selectedElementId == id {
             selectedElementId = nil
@@ -56,7 +90,7 @@ public final class CanvasViewModel: ObservableObject {
 
     public func duplicateElement(id: UUID) {
         guard let element = state.elements.first(where: { $0.id == id }) else { return }
-        saveStateForUndo()
+        saveToHistory()
 
         var newElement = element
         var transform = newElement.transform
@@ -73,7 +107,7 @@ public final class CanvasViewModel: ObservableObject {
         case .shape(_, let type, let fill, let stroke, let width, _):
             newElement = .shape(id: UUID(), type: type, fillColor: fill, strokeColor: stroke, strokeWidth: width, transform: transform)
         case .sticker(_, let name, let premium, _):
-            newElement = .sticker(id: UUID(), assetName: name, isPremium: premium, transform: transform)
+            newElement = .sticker(id: UUID(), assetName: name, isPremiumSticker: premium, transform: transform)
         }
 
         state.elements.append(newElement)
@@ -81,8 +115,8 @@ public final class CanvasViewModel: ObservableObject {
         HapticEngine.shared.impact(.light)
     }
 
-    public func updateElement(id: UUID, with updatedElement: CanvasElement) {
-        saveStateForUndo()
+    public func updateElement(id: UUID, with updatedElement: StudioElement) {
+        saveToHistory()
         if let index = state.elements.firstIndex(where: { $0.id == id }) {
             state.elements[index] = updatedElement
         }
@@ -101,7 +135,7 @@ public final class CanvasViewModel: ObservableObject {
 
     // MARK: - Transform Updates
 
-    public func updateTransform(id: UUID, transform: Transform) {
+    public func updateTransform(id: UUID, transform: StudioTransform) {
         if let index = state.elements.firstIndex(where: { $0.id == id }) {
             state.elements[index].transform = transform
         }
@@ -116,7 +150,7 @@ public final class CanvasViewModel: ObservableObject {
 
     public func endGesture(for id: UUID) {
         if gestureStartTransform != nil {
-            saveStateForUndo()
+            saveToHistory()
         }
         gestureStartTransform = nil
         activeGesture = nil
@@ -157,7 +191,7 @@ public final class CanvasViewModel: ObservableObject {
     // MARK: - Layer Ordering
 
     public func bringToFront(id: UUID) {
-        saveStateForUndo()
+        saveToHistory()
         let maxZ = state.elements.map { $0.transform.zIndex }.max() ?? 0
         if let index = state.elements.firstIndex(where: { $0.id == id }) {
             var element = state.elements[index]
@@ -169,7 +203,7 @@ public final class CanvasViewModel: ObservableObject {
     }
 
     public func sendToBack(id: UUID) {
-        saveStateForUndo()
+        saveToHistory()
         let minZ = state.elements.map { $0.transform.zIndex }.min() ?? 0
         if let index = state.elements.firstIndex(where: { $0.id == id }) {
             var element = state.elements[index]
@@ -183,18 +217,18 @@ public final class CanvasViewModel: ObservableObject {
     // MARK: - Background
 
     public func setBackgroundColor(_ color: HexColor) {
-        saveStateForUndo()
+        saveToHistory()
         state.backgroundColor = color
     }
 
     public func setBackgroundImage(_ data: Data?) {
-        saveStateForUndo()
+        saveToHistory()
         state.backgroundImageData = data
     }
 
     // MARK: - Undo/Redo
 
-    private func saveStateForUndo() {
+    private func saveToHistory() {
         undoStack.append(state)
         if undoStack.count > maxUndoLevels {
             undoStack.removeFirst()
@@ -241,8 +275,8 @@ public final class CanvasViewModel: ObservableObject {
     }
 
     public func importState(from data: Data) {
-        if let newState = try? JSONDecoder().decode(CanvasState.self, from: data) {
-            saveStateForUndo()
+        if let newState = try? JSONDecoder().decode(StudioCanvasState.self, from: data) {
+            saveToHistory()
             state = newState
         }
     }
@@ -250,8 +284,8 @@ public final class CanvasViewModel: ObservableObject {
     // MARK: - Templates
 
     public func loadTemplate(_ template: InvitationTemplate, partnerNames: (String, String), date: Date) {
-        saveStateForUndo()
-        state = CanvasState()
+        saveToHistory()
+        state = StudioCanvasState()
 
         // Add template-specific elements
         let nameText = "\(partnerNames.0)\n&\n\(partnerNames.1)"
@@ -261,7 +295,7 @@ public final class CanvasViewModel: ObservableObject {
         addElement(.newText(
             content: "You're Invited",
             color: template.accentHexColor,
-            style: CanvasTextStyle(fontSize: 18, fontWeight: .medium, letterSpacing: 4),
+            style: StudioTextStyle(fontSize: 18, fontWeight: .medium, letterSpacing: 4),
             at: CGPoint(x: 187, y: 100)
         ))
 
@@ -269,15 +303,15 @@ public final class CanvasViewModel: ObservableObject {
         addElement(.newText(
             content: nameText,
             color: .black,
-            style: CanvasTextStyle(fontSize: 36, fontWeight: .bold),
+            style: StudioTextStyle(fontSize: 36, fontWeight: .bold),
             at: CGPoint(x: 187, y: 250)
         ))
 
         // Date
         addElement(.newText(
             content: dateText,
-            color: HexColor("666666"),
-            style: CanvasTextStyle(fontSize: 14, fontWeight: .regular, letterSpacing: 1),
+            color: HexColor(hex: "666666"),
+            style: StudioTextStyle(fontSize: 14, fontWeight: .regular, letterSpacing: 1),
             at: CGPoint(x: 187, y: 400)
         ))
 
