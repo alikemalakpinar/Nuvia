@@ -159,13 +159,13 @@ enum VendorCategory: String, CaseIterable, Codable {
         case .invitation: return .categoryInvitation
         case .hair: return .nuviaCopper
         case .weddingDress: return .categoryDress
-        case .groomSuit: return .nuviaInfo
+        case .groomSuit: return .nuviaInfoStatic
         case .cake: return .categoryFood
-        case .lighting: return .nuviaWarning
-        case .transport: return .nuviaSecondaryText
+        case .lighting: return .nuviaWarningStatic
+        case .transport: return .nuviaSecondaryTextStatic
         case .catering: return .categoryFood
         case .jewelry: return .nuviaGoldFallback
-        case .other: return .nuviaTertiaryText
+        case .other: return .nuviaTertiaryTextStatic
         }
     }
 }
@@ -205,8 +205,8 @@ enum VendorStatus: String, CaseIterable, Codable {
     var color: Color {
         switch self {
         case .researching: return .statusPending
-        case .contacted: return .nuviaInfo
-        case .meeting: return .nuviaWarning
+        case .contacted: return .nuviaInfoStatic
+        case .meeting: return .nuviaWarningStatic
         case .selected: return .statusInProgress
         case .booked: return .statusCompleted
         case .cancelled: return .statusCancelled

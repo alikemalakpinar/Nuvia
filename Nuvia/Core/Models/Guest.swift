@@ -166,9 +166,9 @@ enum GuestGroup: String, CaseIterable, Codable {
     var color: Color {
         switch self {
         case .bride: return .categoryDress
-        case .groom: return .nuviaInfo
+        case .groom: return .nuviaInfoStatic
         case .mutual: return .nuviaGoldFallback
-        case .work: return .nuviaSecondaryText
+        case .work: return .nuviaSecondaryTextStatic
         case .friend: return .categoryMusic
         }
     }
@@ -204,8 +204,8 @@ enum RSVPStatus: String, CaseIterable, Codable {
         switch self {
         case .pending: return .statusPending
         case .attending: return .statusCompleted
-        case .notAttending: return .nuviaError
-        case .maybe: return .nuviaWarning
+        case .notAttending: return .nuviaErrorStatic
+        case .maybe: return .nuviaWarningStatic
         }
     }
 }

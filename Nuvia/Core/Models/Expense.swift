@@ -177,10 +177,10 @@ enum ExpenseCategory: String, CaseIterable, Codable {
         case .decor: return .categoryDecor
         case .jewelry: return .nuviaGoldFallback
         case .hair: return .nuviaCopper
-        case .transport: return .nuviaSecondaryText
-        case .honeymoon: return .nuviaInfo
-        case .home: return .nuviaSuccess
-        case .other: return .nuviaTertiaryText
+        case .transport: return .nuviaSecondaryTextStatic
+        case .honeymoon: return .nuviaInfoStatic
+        case .home: return .nuviaSuccessStatic
+        case .other: return .nuviaTertiaryTextStatic
         }
     }
 }

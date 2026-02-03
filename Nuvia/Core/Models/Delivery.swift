@@ -118,10 +118,10 @@ enum DeliveryStatus: String, CaseIterable, Codable {
     var color: Color {
         switch self {
         case .ordered: return .statusPending
-        case .shipped: return .nuviaInfo
-        case .outForDelivery: return .nuviaWarning
+        case .shipped: return .nuviaInfoStatic
+        case .outForDelivery: return .nuviaWarningStatic
         case .delivered: return .statusCompleted
-        case .installed: return .nuviaSuccess
+        case .installed: return .nuviaSuccessStatic
         }
     }
 }
