@@ -66,7 +66,7 @@ struct LiquidOnboardingView: View {
                         Button {
                             HapticEngine.shared.impact(.medium)
                             withAnimation(DesignTokens.Animation.smooth) {
-                                appState.hasCompletedOnboarding = true
+                                appState.isOnboardingComplete = true
                             }
                         } label: {
                             Text("Get Started")

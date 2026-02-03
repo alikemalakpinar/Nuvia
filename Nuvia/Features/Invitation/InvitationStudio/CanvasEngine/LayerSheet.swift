@@ -82,12 +82,12 @@ struct LayerSheet: View {
                         isSelected: viewModel.selectedElementId == element.id,
                         isDragging: draggedItem == element.id,
                         onSelect: {
-                            viewModel.selectElement(element.id)
+                            viewModel.selectElement(id: element.id)
                             HapticEngine.shared.selection()
                         },
                         onDelete: {
                             withAnimation(DesignTokens.Animation.snappy) {
-                                viewModel.removeElement(element.id)
+                                viewModel.removeElement(id: element.id)
                             }
                             HapticEngine.shared.notify(.warning)
                         },
@@ -137,7 +137,7 @@ struct LayerSheet: View {
             ) {
                 // Select first element
                 if let first = viewModel.sortedElements.first {
-                    viewModel.selectElement(first.id)
+                    viewModel.selectElement(id: first.id)
                 }
                 HapticEngine.shared.impact(.light)
             }
