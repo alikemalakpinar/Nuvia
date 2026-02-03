@@ -5,6 +5,7 @@ import SwiftUI
 // MARK: - Project Provider Protocol
 /// Protocol for accessing the current project - implemented by DataManager
 
+@MainActor
 public protocol ProjectProvider: AnyObject {
     var currentProject: WeddingProject? { get }
 }

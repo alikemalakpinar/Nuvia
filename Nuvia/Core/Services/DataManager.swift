@@ -2,14 +2,6 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-// MARK: - Project Provider Protocol
-
-/// Protocol for providing access to the current wedding project
-@MainActor
-protocol ProjectProvider: AnyObject {
-    var currentProject: WeddingProject? { get }
-}
-
 /// Merkezi veri yönetim servisi - Facade pattern
 /// Delegates to domain-specific services while maintaining backward compatibility
 @MainActor
