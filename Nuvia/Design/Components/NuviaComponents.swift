@@ -129,7 +129,7 @@ struct NuviaTextButton: View {
     }
 }
 
-// MARK: - Card (Glassmorphism)
+// MARK: - Card (Clean Surface - Modern & Minimal)
 
 struct NuviaCard<Content: View>: View {
     let content: Content
@@ -141,31 +141,15 @@ struct NuviaCard<Content: View>: View {
     var body: some View {
         content
             .padding(16)
-            .background(
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.ultraThinMaterial)
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.nuviaCardBackground.opacity(0.7))
-                }
-            )
+            .background(Color.nuviaCardBackground)
             .clipShape(RoundedRectangle(cornerRadius: 20))
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(
-                        LinearGradient(
-                            colors: [Color.white.opacity(0.12), Color.white.opacity(0.04)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 0.5
-                    )
-            )
-            .nuviaShadow(.subtle)
+            // Apple-style yumuşak gölge
+            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+            .shadow(color: Color.black.opacity(0.02), radius: 16, x: 0, y: 8)
     }
 }
 
-// MARK: - Glass Card (Full Glassmorphism)
+// MARK: - Glass Card (Sadece Hero alanlarında kullanılacak - hafifletildi)
 
 struct NuviaGlassCard<Content: View>: View {
     let content: Content
@@ -176,32 +160,18 @@ struct NuviaGlassCard<Content: View>: View {
 
     var body: some View {
         content
-            .padding(16)
+            .padding(20)
             .background(
-                ZStack {
-                    RoundedRectangle(cornerRadius: 24)
-                        .fill(.thinMaterial)
-                    RoundedRectangle(cornerRadius: 24)
-                        .fill(Color.nuviaCardBackground.opacity(0.4))
-                }
+                Color.nuviaCardBackground
             )
             .clipShape(RoundedRectangle(cornerRadius: 24))
-            .overlay(
-                RoundedRectangle(cornerRadius: 24)
-                    .stroke(
-                        LinearGradient(
-                            colors: [Color.white.opacity(0.2), Color.white.opacity(0.05)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 1
-                    )
-            )
-            .nuviaShadow(.elevated)
+            // Daha belirgin ama zarif gölge
+            .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 4)
+            .shadow(color: Color.black.opacity(0.03), radius: 24, x: 0, y: 12)
     }
 }
 
-// MARK: - Hero Card (Featured/Elevated)
+// MARK: - Hero Card (Featured/Elevated - Accent ile)
 
 struct NuviaHeroCard<Content: View>: View {
     let accentColor: Color
@@ -217,36 +187,23 @@ struct NuviaHeroCard<Content: View>: View {
             .padding(20)
             .background(
                 ZStack {
-                    RoundedRectangle(cornerRadius: 24)
-                        .fill(.thinMaterial)
-                    RoundedRectangle(cornerRadius: 24)
-                        .fill(Color.nuviaCardBackground.opacity(0.6))
-                    // Subtle accent glow at top
+                    Color.nuviaCardBackground
+                    // Üstte çok hafif accent glow
                     VStack {
                         LinearGradient(
-                            colors: [accentColor.opacity(0.08), .clear],
+                            colors: [accentColor.opacity(0.06), .clear],
                             startPoint: .top,
                             endPoint: .bottom
                         )
-                        .frame(height: 60)
+                        .frame(height: 80)
                         Spacer()
                     }
-                    .clipShape(RoundedRectangle(cornerRadius: 24))
                 }
             )
             .clipShape(RoundedRectangle(cornerRadius: 24))
-            .overlay(
-                RoundedRectangle(cornerRadius: 24)
-                    .stroke(
-                        LinearGradient(
-                            colors: [accentColor.opacity(0.3), Color.white.opacity(0.08), Color.white.opacity(0.03)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 1
-                    )
-            )
-            .nuviaShadow(.elevated)
+            // Premium gölge
+            .shadow(color: accentColor.opacity(0.08), radius: 16, x: 0, y: 4)
+            .shadow(color: Color.black.opacity(0.05), radius: 20, x: 0, y: 10)
     }
 }
 
@@ -264,14 +221,10 @@ struct NuviaCompactCard<Content: View>: View {
             .padding(12)
             .background(Color.nuviaTertiaryBackground)
             .clipShape(RoundedRectangle(cornerRadius: 12))
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.white.opacity(0.06), lineWidth: 0.5)
-            )
     }
 }
 
-// MARK: - Input Field
+// MARK: - Input Field (Clean & Modern)
 
 struct NuviaTextField: View {
     let title: String
@@ -308,7 +261,7 @@ struct NuviaTextField: View {
             HStack(spacing: 12) {
                 if let icon = icon {
                     Image(systemName: icon)
-                        .foregroundColor(isFocused ? .nuviaGoldFallback : .nuviaSecondaryText)
+                        .foregroundColor(isFocused ? .nuviaGoldFallback : .nuviaTertiaryText)
                         .frame(width: 20)
                         .animation(.easeInOut(duration: 0.2), value: isFocused)
                 }
@@ -327,9 +280,10 @@ struct NuviaTextField: View {
             .padding(16)
             .background(Color.nuviaTertiaryBackground)
             .cornerRadius(12)
+            // Sadece focus durumunda hafif border
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isFocused ? Color.nuviaGoldFallback.opacity(0.6) : Color.nuviaSecondaryText.opacity(0.2), lineWidth: isFocused ? 1.5 : 1)
+                    .stroke(isFocused ? Color.nuviaGoldFallback.opacity(0.5) : Color.clear, lineWidth: 1.5)
             )
             .animation(.easeInOut(duration: 0.2), value: isFocused)
         }
@@ -444,7 +398,7 @@ struct NuviaProgressRing: View {
     }
 }
 
-// MARK: - Countdown Display
+// MARK: - Countdown Display (Clean & Elegant)
 
 struct NuviaCountdown: View {
     let daysRemaining: Int
@@ -465,17 +419,10 @@ struct NuviaCountdown: View {
                 .foregroundColor(.nuviaTertiaryText)
         }
         .padding(24)
-        .background(
-            ZStack {
-                Color.nuviaCardBackground
-                Color.nuviaGlassOverlay
-            }
-        )
+        .background(Color.nuviaCardBackground)
         .cornerRadius(24)
-        .overlay(
-            RoundedRectangle(cornerRadius: 24)
-                .stroke(Color.nuviaGlassBorder, lineWidth: 0.5)
-        )
+        .shadow(color: Color.nuviaGoldFallback.opacity(0.08), radius: 16, x: 0, y: 4)
+        .shadow(color: Color.black.opacity(0.04), radius: 20, x: 0, y: 8)
     }
 }
 
@@ -643,7 +590,7 @@ struct NuviaSectionHeader: View {
     }
 }
 
-// MARK: - List Row
+// MARK: - List Row (Clean Surface)
 
 struct NuviaListRow<Leading: View, Trailing: View>: View {
     let leading: Leading
@@ -686,14 +633,11 @@ struct NuviaListRow<Leading: View, Trailing: View>: View {
         .padding(16)
         .background(Color.nuviaCardBackground)
         .cornerRadius(12)
-        .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.nuviaGlassBorder, lineWidth: 0.5)
-        )
+        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
     }
 }
 
-// MARK: - Quick Action Button
+// MARK: - Quick Action Button (Minimal & Elegant)
 
 struct NuviaQuickAction: View {
     let icon: String
@@ -708,24 +652,16 @@ struct NuviaQuickAction: View {
         } label: {
             VStack(spacing: 8) {
                 Image(systemName: icon)
-                    .font(.system(size: 22))
-                    .foregroundColor(color)
+                    .font(.system(size: 22, weight: .medium))
+                    .foregroundColor(.nuviaGoldFallback) // Tüm ikonlar tek renk (Gold)
                     .frame(width: 52, height: 52)
-                    .background(
-                        ZStack {
-                            color.opacity(0.12)
-                            Color.white.opacity(0.03)
-                        }
-                    )
+                    .background(Color.nuviaTertiaryBackground)
                     .cornerRadius(16)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(color.opacity(0.2), lineWidth: 0.5)
-                    )
+                    .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 2)
 
                 Text(title)
                     .font(NuviaTypography.caption2())
-                    .foregroundColor(.nuviaPrimaryText)
+                    .foregroundColor(.nuviaSecondaryText)
                     .lineLimit(1)
             }
         }
@@ -761,7 +697,7 @@ struct NuviaStatusIndicator: View {
     }
 }
 
-// MARK: - Filter Chip
+// MARK: - Filter Chip (Clean & Modern)
 
 struct NuviaFilterChip: View {
     let title: String
@@ -776,15 +712,11 @@ struct NuviaFilterChip: View {
         } label: {
             Text(title)
                 .font(NuviaTypography.caption())
-                .foregroundColor(isSelected ? .nuviaMidnight : .nuviaSecondaryText)
+                .foregroundColor(isSelected ? .white : .nuviaSecondaryText)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
                 .background(isSelected ? color : Color.nuviaTertiaryBackground)
                 .cornerRadius(20)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(isSelected ? color.opacity(0.5) : Color.nuviaGlassBorder, lineWidth: 0.5)
-                )
         }
         .accessibilityLabel(title)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
