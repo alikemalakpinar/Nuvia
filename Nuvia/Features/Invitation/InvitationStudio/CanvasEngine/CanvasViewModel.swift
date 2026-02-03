@@ -275,7 +275,7 @@ public final class CanvasViewModel: ObservableObject {
 
     // MARK: - Templates
 
-    public func loadTemplate(_ template: InvitationTemplate, partnerNames: (String, String), date: Date) {
+    func loadTemplate(_ template: InvitationTemplate, partnerNames: (String, String), date: Date) {
         saveToHistory()
         state = StudioCanvasState()
 
