@@ -101,11 +101,11 @@ enum MainTab: String, CaseIterable {
     /// Localized display name
     var displayName: String {
         switch self {
-        case .today: return L10n.Tab.today
-        case .plan: return L10n.Tab.plan
-        case .budget: return L10n.Tab.budget
-        case .guests: return L10n.Tab.guests
-        case .home: return L10n.Tab.home
+        case .today: return "Today"
+        case .plan: return "Plan"
+        case .budget: return "Budget"
+        case .guests: return "Guests"
+        case .home: return "Home"
         }
     }
 
