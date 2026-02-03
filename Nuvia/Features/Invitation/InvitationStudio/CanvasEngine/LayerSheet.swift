@@ -83,13 +83,13 @@ struct LayerSheet: View {
                         isDragging: draggedItem == element.id,
                         onSelect: {
                             viewModel.selectElement(id: element.id)
-                            NuviaHaptics.shared.selection()
+                            UISelectionFeedbackGenerator().selectionChanged()
                         },
                         onDelete: {
                             withAnimation(DesignTokens.Animation.snappy) {
                                 viewModel.removeElement(id: element.id)
                             }
-                            NuviaHaptics.shared.notification(.warning)
+                            UINotificationFeedbackGenerator().notificationOccurred(.warning)
                         },
                         onMoveUp: {
                             moveLayer(element.id, direction: .up)
@@ -139,7 +139,7 @@ struct LayerSheet: View {
                 if let first = viewModel.sortedElements.first {
                     viewModel.selectElement(id: first.id)
                 }
-                NuviaHaptics.shared.impact(.light)
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
             }
 
             // Flatten/Merge (Premium)
@@ -149,7 +149,7 @@ struct LayerSheet: View {
                 isPremium: true
             ) {
                 // Premium feature
-                NuviaHaptics.shared.notification(.warning)
+                UINotificationFeedbackGenerator().notificationOccurred(.warning)
             }
 
             // Clear All
@@ -161,7 +161,7 @@ struct LayerSheet: View {
                 withAnimation(DesignTokens.Animation.smooth) {
                     viewModel.clearCanvas()
                 }
-                NuviaHaptics.shared.notification(.error)
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
             }
         }
         .padding(DesignTokens.Spacing.md)
@@ -173,7 +173,7 @@ struct LayerSheet: View {
         withAnimation(DesignTokens.Animation.snappy) {
             viewModel.moveLayer(id, direction: direction)
         }
-        NuviaHaptics.shared.impact(.light)
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
 }
 
@@ -360,7 +360,7 @@ struct LayerRow: View {
             // Duplicate
             SmallActionButton(icon: "plus.square.on.square", label: "Copy") {
                 // TODO: Implement duplicate
-                NuviaHaptics.shared.impact(.light)
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
             }
 
             Spacer()

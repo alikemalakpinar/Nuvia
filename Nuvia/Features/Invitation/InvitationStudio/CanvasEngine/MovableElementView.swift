@@ -36,7 +36,7 @@ struct MovableElementView<Content: View>: View {
             .animation(DesignTokens.Animation.snappy, value: transform)
             .onChange(of: isSelected) { _, selected in
                 if selected {
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 }
             }
     }
@@ -106,7 +106,7 @@ struct MovableElementView<Content: View>: View {
                     withAnimation(DesignTokens.Animation.snappy) {
                         viewModel.removeElement(id: element.id)
                     }
-                    NuviaHaptics.shared.notification(.warning)
+                    UINotificationFeedbackGenerator().notificationOccurred(.warning)
                 }
                 .position(x: size.width + 16, y: -16)
             }
@@ -223,11 +223,11 @@ struct MovableElementView<Content: View>: View {
 
         switch type {
         case .drag:
-            NuviaHaptics.shared.impact(.light)
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
         case .scale, .rotate:
-            NuviaHaptics.shared.impact(.medium)
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         case .combined:
-            NuviaHaptics.shared.impact(.medium)
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         }
     }
 

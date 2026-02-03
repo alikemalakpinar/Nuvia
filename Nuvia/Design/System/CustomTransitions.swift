@@ -119,7 +119,7 @@ struct InteractiveDismissModifier: ViewModifier {
             .onEnded { value in
                 isDragging = false
                 if value.translation.height > threshold {
-                    NuviaHaptics.shared.impact(.medium)
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     withAnimation(DesignTokens.Animation.smooth) {
                         isPresented = false
                     }

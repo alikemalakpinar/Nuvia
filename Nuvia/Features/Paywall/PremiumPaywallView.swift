@@ -149,7 +149,7 @@ struct PremiumPaywallView: View {
                     withAnimation(DesignTokens.Animation.snappy) {
                         selectedPlan = plan
                     }
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 }
             }
         }
@@ -287,7 +287,7 @@ struct PremiumPaywallView: View {
 
     private func startPurchase() {
         isProcessing = true
-        NuviaHaptics.shared.impact(.medium)
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
 
         // Simulate purchase
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -295,7 +295,7 @@ struct PremiumPaywallView: View {
             withAnimation {
                 showSuccessAnimation = true
             }
-            NuviaHaptics.shared.notification(.success)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 dismiss()

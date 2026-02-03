@@ -86,7 +86,7 @@ struct PropertyInspector: View {
                     withAnimation(DesignTokens.Animation.snappy) {
                         selectedSection = section
                     }
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 } label: {
                     VStack(spacing: 4) {
                         Image(systemName: section.icon)
@@ -347,7 +347,7 @@ struct TextStyleInspector: View {
             newStyle.fontFamily = family
             return newStyle
         }
-        NuviaHaptics.shared.selection()
+        UISelectionFeedbackGenerator().selectionChanged()
     }
 
     private func updateFontSize(_ size: CGFloat) {
@@ -364,12 +364,12 @@ struct TextStyleInspector: View {
             newStyle.fontWeight = weight
             return newStyle
         }
-        NuviaHaptics.shared.selection()
+        UISelectionFeedbackGenerator().selectionChanged()
     }
 
     private func updateTextColor(_ hex: String) {
         viewModel.updateTextColor(id: elementId, color: HexColor(hex: hex))
-        NuviaHaptics.shared.selection()
+        UISelectionFeedbackGenerator().selectionChanged()
     }
 
     private func updateAlignment(_ alignment: StudioTextAlignment) {
@@ -378,7 +378,7 @@ struct TextStyleInspector: View {
             newStyle.alignment = alignment
             return newStyle
         }
-        NuviaHaptics.shared.selection()
+        UISelectionFeedbackGenerator().selectionChanged()
     }
 }
 
@@ -413,7 +413,7 @@ struct ImageStyleInspector: View {
 
     private func updateFilter(_ newFilter: StudioPhotoFilter) {
         viewModel.updateImageFilter(id: elementId, filter: newFilter)
-        NuviaHaptics.shared.selection()
+        UISelectionFeedbackGenerator().selectionChanged()
     }
 }
 
@@ -475,13 +475,13 @@ struct ShapeStyleInspector: View {
 
     private func updateFillColor(_ hex: String) {
         viewModel.updateShapeColors(id: elementId, fillColor: HexColor(hex: hex), strokeColor: strokeColor)
-        NuviaHaptics.shared.selection()
+        UISelectionFeedbackGenerator().selectionChanged()
     }
 
     private func updateStrokeColor(_ hex: String) {
         let newStrokeColor = hex == "TRANSPARENT" ? nil : HexColor(hex: hex)
         viewModel.updateShapeColors(id: elementId, fillColor: fillColor, strokeColor: newStrokeColor)
-        NuviaHaptics.shared.selection()
+        UISelectionFeedbackGenerator().selectionChanged()
     }
 
     private func updateStrokeWidth(_ width: CGFloat) {
@@ -632,12 +632,12 @@ struct TransformInspector: View {
 
     private func updateRotation(_ degrees: Double) {
         viewModel.updateElementRotation(id: elementId, rotation: Angle(degrees: degrees))
-        NuviaHaptics.shared.impact(.light)
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
 
     private func centerElement() {
         viewModel.centerElement(id: elementId)
-        NuviaHaptics.shared.impact(.medium)
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
 }
 
@@ -659,7 +659,7 @@ struct EffectsInspector: View {
 
                     Button {
                         // Show premium paywall
-                        NuviaHaptics.shared.notification(.warning)
+                        UINotificationFeedbackGenerator().notificationOccurred(.warning)
                     } label: {
                         HStack {
                             Image(systemName: "crown.fill")
@@ -758,7 +758,7 @@ struct FontPicker: View {
                         if !font.isPremium {
                             onSelect(font.name)
                         } else {
-                            NuviaHaptics.shared.notification(.warning)
+                            UINotificationFeedbackGenerator().notificationOccurred(.warning)
                         }
                     }
                 }
