@@ -203,11 +203,3 @@ struct BudgetSummary {
         totalSpent > totalBudget
     }
 }
-
-// MARK: - L10n Extension for Budget
-
-extension L10n {
-    public enum Budget {
-        public static let installment = "budget.installment".localized
-    }
-}

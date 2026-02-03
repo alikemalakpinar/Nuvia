@@ -1,5 +1,20 @@
 import SwiftUI
 
+// MARK: - Seedable RNG for stable particle positions
+
+struct SeedableRNG: RandomNumberGenerator {
+    private var state: UInt64
+
+    init(seed: UInt64) {
+        self.state = seed
+    }
+
+    mutating func next() -> UInt64 {
+        state = state &* 6364136223846793005 &+ 1442695040888963407
+        return state
+    }
+}
+
 /// Premium Onboarding Container
 /// 5-screen flow with parallax, spring animations, and haptic feedback
 struct OnboardingContainerView: View {
@@ -451,7 +466,7 @@ struct ModeCard: View {
                         lineWidth: isSelected ? 2 : 0.5
                     )
             )
-            .nuviaShadow(isSelected ? .medium : .subtle)
+            .nuviaShadow(isSelected ? NuviaShadow.medium : NuviaShadow.subtle)
         }
         .pressEffect()
         .animation(.spring(response: 0.3), value: isSelected)

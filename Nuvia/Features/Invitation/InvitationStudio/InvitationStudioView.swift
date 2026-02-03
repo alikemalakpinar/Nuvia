@@ -7,6 +7,7 @@ import SwiftData
 
 struct InvitationStudioView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
     @Query private var projects: [WeddingProject]
     @EnvironmentObject var appState: AppState
 
@@ -224,8 +225,6 @@ struct InvitationStudioView: View {
     }
 
     // MARK: - Bottom Toolbar (Floating Glass Design)
-
-    @Environment(\.colorScheme) private var colorScheme
 
     private var bottomToolbar: some View {
         VStack(spacing: DesignTokens.Spacing.xs) {

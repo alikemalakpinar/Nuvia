@@ -90,6 +90,7 @@ public enum L10n {
         public static let remaining = "budget.label.remaining".localized
 
         public static let addExpense = "budget.action.addExpense".localized
+        public static let installment = "budget.installment".localized
     }
 
     // MARK: - Guests
