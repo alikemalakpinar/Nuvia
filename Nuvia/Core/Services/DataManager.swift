@@ -2,8 +2,16 @@ import Foundation
 import SwiftData
 import SwiftUI
 
+// MARK: - Project Provider Protocol
+/// Protocol for accessing the current project - defined here to ensure compilation
+
+@MainActor
+protocol ProjectProvider: AnyObject {
+    var currentProject: WeddingProject? { get }
+}
+
 /// Merkezi veri yönetim servisi - Facade pattern
-/// Delegates to domain-specific services while maintaining backward compatibility
+/// Contains all business logic directly for compilation reliability
 @MainActor
 class DataManager: ObservableObject, ProjectProvider {
     private let modelContext: ModelContext
@@ -11,29 +19,6 @@ class DataManager: ObservableObject, ProjectProvider {
     @Published var currentProject: WeddingProject?
     @Published var isLoading = false
     @Published var errorMessage: String?
-
-    // MARK: - Domain Services
-
-    private(set) lazy var budgetService: BudgetService = {
-        BudgetService(modelContext: modelContext, projectProvider: self)
-    }()
-
-    private(set) lazy var guestService: GuestService = {
-        GuestService(modelContext: modelContext, projectProvider: self)
-    }()
-
-    private(set) lazy var projectService: ProjectService = {
-        ProjectService(modelContext: modelContext, projectProvider: self)
-    }()
-
-    private(set) lazy var riskService: RiskService = {
-        RiskService(
-            projectProvider: self,
-            guestService: guestService,
-            budgetService: budgetService,
-            projectService: projectService
-        )
-    }()
 
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
