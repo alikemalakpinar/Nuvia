@@ -145,3 +145,28 @@
 "project.preferences" = "Preferences";
 "project.allowChildren" = "Allow Children";
 "project.currency" = "Currency";
+
+// MARK: - Budget
+
+"budget.installment" = "Installment";
+
+// MARK: - Risk Alerts
+
+"risk.budget.overrun.title" = "Budget Exceeded";
+"risk.budget.overrun.message" = "Total spending exceeded your budget. Review expenses.";
+"risk.budget.warning.title" = "Budget Warning";
+"risk.budget.warning.message" = "%d%% of budget has been used.";
+
+"risk.tasks.overdue.title" = "%d Overdue Tasks";
+"risk.tasks.overdue.message" = "You have incomplete tasks. Review priorities.";
+"risk.tasks.pileup.title" = "Busy Week Ahead";
+"risk.tasks.pileup.message" = "You have %d tasks this week. Consider rescheduling some.";
+
+"risk.rsvp.urgent.title" = "RSVP Urgent";
+"risk.rsvp.urgent.message" = "%d guests haven't responded and only %d days until the wedding.";
+
+"risk.seating.conflict.title" = "%d Seating Conflicts";
+"risk.seating.conflict.message" = "Your seating plan has conflicts to resolve.";
+
+"risk.payments.overdue.title" = "%d Overdue Payments";
+"risk.payments.overdue.message" = "%@%d in payments are past due.";

@@ -145,3 +145,28 @@
 "project.preferences" = "Tercihler";
 "project.allowChildren" = "Çocuk Davetli";
 "project.currency" = "Para Birimi";
+
+// MARK: - Budget
+
+"budget.installment" = "Taksit";
+
+// MARK: - Risk Alerts
+
+"risk.budget.overrun.title" = "Bütçe Aşıldı";
+"risk.budget.overrun.message" = "Toplam harcama bütçeyi aştı. Harcamaları gözden geçirin.";
+"risk.budget.warning.title" = "Bütçe Uyarısı";
+"risk.budget.warning.message" = "Bütçenin %%%d'ı kullanıldı.";
+
+"risk.tasks.overdue.title" = "%d Gecikmiş Görev";
+"risk.tasks.overdue.message" = "Tamamlanmamış görevleriniz var. Öncelikleri gözden geçirin.";
+"risk.tasks.pileup.title" = "Yoğun Hafta";
+"risk.tasks.pileup.message" = "Bu hafta %d görev var. Bazılarını ertelemeyi düşünün.";
+
+"risk.rsvp.urgent.title" = "RSVP Acil";
+"risk.rsvp.urgent.message" = "%d kişi henüz yanıt vermedi ve düğüne %d gün kaldı.";
+
+"risk.seating.conflict.title" = "%d Oturma Çatışması";
+"risk.seating.conflict.message" = "Oturma planınızda çözülmesi gereken çatışmalar var.";
+
+"risk.payments.overdue.title" = "%d Gecikmiş Ödeme";
+"risk.payments.overdue.message" = "%@%d tutarında ödeme gecikmiş.";
