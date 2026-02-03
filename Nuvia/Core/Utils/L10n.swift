@@ -149,6 +149,41 @@ public enum L10n {
         public static let empty = "notifications.empty".localized
         public static let markAllRead = "notifications.action.markAllRead".localized
     }
+
+    // MARK: - Invitation Studio
+
+    public enum Studio {
+        public static let title = "studio.title".localized
+        public static let add = "studio.add".localized
+        public static let layers = "studio.layers".localized
+        public static let edit = "studio.edit".localized
+        public static let templates = "studio.templates".localized
+        public static let export = "studio.export".localized
+        public static let addElement = "studio.addElement".localized
+        public static let text = "studio.text".localized
+        public static let shapes = "studio.shapes".localized
+        public static let stickers = "studio.stickers".localized
+        public static let images = "studio.images".localized
+        public static let heading = "studio.heading".localized
+        public static let subheading = "studio.subheading".localized
+        public static let body = "studio.body".localized
+        public static let caption = "studio.caption".localized
+        public static func tapToAdd(_ element: String) -> String {
+            String(format: "studio.tapToAdd".localized, element)
+        }
+        public static let chooseFromLibrary = "studio.chooseFromLibrary".localized
+        public static let selectPhoto = "studio.selectPhoto".localized
+        public static let takePhoto = "studio.takePhoto".localized
+        public static let captureImage = "studio.captureImage".localized
+        public static let comingSoon = "studio.comingSoon".localized
+        public static let format = "studio.format".localized
+        public static let resolution = "studio.resolution".localized
+        public static let standard = "studio.standard".localized
+        public static let high = "studio.high".localized
+        public static let print = "studio.print".localized
+        public static let exportShare = "studio.exportShare".localized
+        public static let exporting = "studio.exporting".localized
+    }
 }
 
 // MARK: - String Extension

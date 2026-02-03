@@ -217,113 +217,153 @@ struct InvitationStudioView: View {
     private var canvasGesture: some Gesture {
         MagnificationGesture()
             .onChanged { value in
-                let newScale = max(0.5, min(3.0, value))
+                // Clamp scale between 50% and 200% for stable experience
+                let newScale = max(0.5, min(2.0, value))
                 canvasScale = newScale
             }
     }
 
-    // MARK: - Bottom Toolbar
+    // MARK: - Bottom Toolbar (Floating Glass Design)
+
+    @Environment(\.colorScheme) private var colorScheme
 
     private var bottomToolbar: some View {
-        VStack(spacing: 0) {
-            // Quick action bar
+        VStack(spacing: DesignTokens.Spacing.xs) {
+            // Quick action bar (floating glass)
             quickActionBar
 
-            // Main toolbar
+            // Main toolbar (floating glass capsule)
             HStack(spacing: 0) {
                 // Add elements
-                ToolbarTab(icon: "plus.circle.fill", label: "Add", isActive: showElementPicker) {
-                    withAnimation(DesignTokens.Animation.snappy) {
+                GlassToolbarTab(icon: "plus.circle.fill", label: L10n.Studio.add, isActive: showElementPicker) {
+                    withAnimation(MotionCurves.quick) {
                         showElementPicker.toggle()
                         showLayerSheet = false
                         showPropertyInspector = false
                     }
+                    HapticManager.shared.selection()
                 }
 
                 // Layers
-                ToolbarTab(icon: "square.3.layers.3d", label: "Layers", isActive: showLayerSheet) {
-                    withAnimation(DesignTokens.Animation.snappy) {
+                GlassToolbarTab(icon: "square.3.layers.3d", label: L10n.Studio.layers, isActive: showLayerSheet) {
+                    withAnimation(MotionCurves.quick) {
                         showLayerSheet.toggle()
                         showElementPicker = false
                         showPropertyInspector = false
                     }
+                    HapticManager.shared.selection()
                 }
 
                 // Properties
-                ToolbarTab(
+                GlassToolbarTab(
                     icon: "slider.horizontal.3",
-                    label: "Edit",
+                    label: L10n.Studio.edit,
                     isActive: showPropertyInspector,
                     badge: viewModel.selectedElementId != nil ? "1" : nil
                 ) {
-                    withAnimation(DesignTokens.Animation.snappy) {
+                    withAnimation(MotionCurves.quick) {
                         showPropertyInspector.toggle()
                         showElementPicker = false
                         showLayerSheet = false
                     }
+                    HapticManager.shared.selection()
                 }
 
                 // Templates
-                ToolbarTab(icon: "square.grid.2x2", label: "Templates", isActive: false) {
+                GlassToolbarTab(icon: "square.grid.2x2", label: L10n.Studio.templates, isActive: false) {
                     showTemplatePicker = true
+                    HapticManager.shared.selection()
                 }
 
                 // Export
-                ToolbarTab(icon: "square.and.arrow.up", label: "Export", isActive: false, isPrimary: true) {
+                GlassToolbarTab(icon: "square.and.arrow.up", label: L10n.Studio.export, isActive: false, isPrimary: true) {
                     checkPremiumAndExport()
+                    HapticManager.shared.buttonTap()
                 }
             }
+            .padding(.horizontal, DesignTokens.Spacing.sm)
             .padding(.vertical, DesignTokens.Spacing.sm)
-            .background(Color.nuviaSurface)
+            .background(
+                // Floating glass capsule
+                Capsule()
+                    .fill(.ultraThinMaterial)
+                    .overlay(
+                        Capsule()
+                            .strokeBorder(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(colorScheme == .dark ? 0.15 : 0.6),
+                                        Color.white.opacity(colorScheme == .dark ? 0.05 : 0.2)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 0.5
+                            )
+                    )
+                    .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: -4)
+            )
+            .padding(.horizontal, DesignTokens.Spacing.md)
+            .padding(.bottom, DesignTokens.Spacing.sm)
         }
     }
 
     private var quickActionBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: DesignTokens.Spacing.sm) {
-                // Zoom controls
-                QuickActionChip(icon: "minus.magnifyingglass") {
-                    withAnimation(DesignTokens.Animation.snappy) {
+                // Zoom controls (clamped 50%-200%)
+                GlassQuickActionChip(icon: "minus.magnifyingglass") {
+                    withAnimation(MotionCurves.quick) {
                         canvasScale = max(0.5, canvasScale - 0.25)
                     }
+                    HapticManager.shared.selection()
                 }
 
                 Text("\(Int(canvasScale * 100))%")
-                    .font(DSTypography.label(.small))
+                    .font(NuviaTypography.caption())
                     .foregroundColor(.nuviaTertiaryText)
                     .frame(width: 50)
 
-                QuickActionChip(icon: "plus.magnifyingglass") {
-                    withAnimation(DesignTokens.Animation.snappy) {
-                        canvasScale = min(3.0, canvasScale + 0.25)
+                GlassQuickActionChip(icon: "plus.magnifyingglass") {
+                    withAnimation(MotionCurves.quick) {
+                        // Clamp to 200% max
+                        canvasScale = min(2.0, canvasScale + 0.25)
                     }
+                    HapticManager.shared.selection()
                 }
 
                 Divider()
                     .frame(height: 24)
+                    .background(Color.nuviaTertiaryText.opacity(0.3))
 
                 // Fit to screen
-                QuickActionChip(icon: "arrow.up.left.and.arrow.down.right") {
-                    withAnimation(DesignTokens.Animation.snappy) {
+                GlassQuickActionChip(icon: "arrow.up.left.and.arrow.down.right") {
+                    withAnimation(MotionCurves.default) {
                         canvasScale = 1.0
                         canvasOffset = .zero
                     }
+                    HapticManager.shared.selection()
                 }
 
                 // Center selected
                 if viewModel.selectedElementId != nil {
-                    QuickActionChip(icon: "arrow.up.and.down.and.arrow.left.and.right") {
+                    GlassQuickActionChip(icon: "arrow.up.and.down.and.arrow.left.and.right") {
                         if let id = viewModel.selectedElementId {
                             viewModel.centerElement(id: id)
-                            HapticEngine.shared.impact(.medium)
+                            HapticManager.shared.impact(.medium)
                         }
                     }
                 }
             }
             .padding(.horizontal, DesignTokens.Spacing.md)
-            .padding(.vertical, DesignTokens.Spacing.xs)
+            .padding(.vertical, DesignTokens.Spacing.sm)
         }
-        .background(Color.nuviaTertiaryBackground.opacity(0.5))
+        .background(
+            // Glass background
+            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
+                .fill(.ultraThinMaterial.opacity(0.8))
+        )
+        .padding(.horizontal, DesignTokens.Spacing.md)
     }
 
     // MARK: - Floating Panels
@@ -522,6 +562,78 @@ struct ToolbarTab: View {
             return .nuviaChampagne
         }
         return isActive ? .nuviaChampagne : .nuviaSecondaryText
+    }
+}
+
+// MARK: - Glass Toolbar Components
+
+struct GlassToolbarTab: View {
+    let icon: String
+    let label: String
+    let isActive: Bool
+    var badge: String? = nil
+    var isPrimary: Bool = false
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 2) {
+                ZStack(alignment: .topTrailing) {
+                    Image(systemName: icon)
+                        .font(.system(size: 18, weight: isActive ? .semibold : .medium))
+                        .foregroundStyle(isActive || isPrimary ? AnyShapeStyle(Color.nuviaGradient) : AnyShapeStyle(Color.nuviaPrimaryText))
+                        .scaleEffect(isActive ? 1.1 : 1.0)
+                        .animation(MotionCurves.bouncy, value: isActive)
+
+                    if let badge = badge {
+                        Text(badge)
+                            .font(.system(size: 8, weight: .bold))
+                            .foregroundColor(.white)
+                            .frame(width: 14, height: 14)
+                            .background(Color.nuviaGoldFallback)
+                            .clipShape(Circle())
+                            .offset(x: 6, y: -6)
+                    }
+                }
+
+                Text(label)
+                    .font(NuviaTypography.caption2())
+                    .foregroundColor(isActive || isPrimary ? .nuviaGoldFallback : .nuviaSecondaryText)
+                    .lineLimit(1)
+            }
+            .frame(width: 54, height: 44)
+            .background(
+                // Subtle highlight for active tab
+                Capsule()
+                    .fill(isActive ? Color.nuviaGoldFallback.opacity(0.12) : Color.clear)
+                    .animation(MotionCurves.quick, value: isActive)
+            )
+        }
+        .accessibilityLabel(label)
+        .accessibilityAddTraits(isActive ? .isSelected : [])
+    }
+}
+
+struct GlassQuickActionChip: View {
+    let icon: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.nuviaPrimaryText)
+                .frame(width: 36, height: 36)
+                .background(
+                    Circle()
+                        .fill(.ultraThinMaterial)
+                        .overlay(
+                            Circle()
+                                .strokeBorder(Color.white.opacity(0.2), lineWidth: 0.5)
+                        )
+                )
+                .shadow(color: Color.black.opacity(0.06), radius: 4, x: 0, y: 2)
+        }
     }
 }
 

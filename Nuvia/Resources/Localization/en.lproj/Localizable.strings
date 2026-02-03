@@ -170,3 +170,34 @@
 
 "risk.payments.overdue.title" = "%d Overdue Payments";
 "risk.payments.overdue.message" = "%@%d in payments are past due.";
+
+// MARK: - Invitation Studio
+
+"studio.title" = "Invitation Studio";
+"studio.add" = "Add";
+"studio.layers" = "Layers";
+"studio.edit" = "Edit";
+"studio.templates" = "Templates";
+"studio.export" = "Export";
+"studio.addElement" = "Add Element";
+"studio.text" = "Text";
+"studio.shapes" = "Shapes";
+"studio.stickers" = "Stickers";
+"studio.images" = "Images";
+"studio.heading" = "Heading";
+"studio.subheading" = "Subheading";
+"studio.body" = "Body";
+"studio.caption" = "Caption";
+"studio.tapToAdd" = "Tap to add %@";
+"studio.chooseFromLibrary" = "Choose from Library";
+"studio.selectPhoto" = "Select a photo from your device";
+"studio.takePhoto" = "Take a Photo";
+"studio.captureImage" = "Capture a new image";
+"studio.comingSoon" = "Coming Soon";
+"studio.format" = "Format";
+"studio.resolution" = "Resolution";
+"studio.standard" = "Standard";
+"studio.high" = "High";
+"studio.print" = "Print";
+"studio.exportShare" = "Export & Share";
+"studio.exporting" = "Exporting...";

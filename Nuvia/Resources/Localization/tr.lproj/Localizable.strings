@@ -170,3 +170,34 @@
 
 "risk.payments.overdue.title" = "%d Gecikmiş Ödeme";
 "risk.payments.overdue.message" = "%@%d tutarında ödeme gecikmiş.";
+
+// MARK: - Invitation Studio
+
+"studio.title" = "Davetiye Stüdyosu";
+"studio.add" = "Ekle";
+"studio.layers" = "Katmanlar";
+"studio.edit" = "Düzenle";
+"studio.templates" = "Şablonlar";
+"studio.export" = "Dışa Aktar";
+"studio.addElement" = "Öğe Ekle";
+"studio.text" = "Metin";
+"studio.shapes" = "Şekiller";
+"studio.stickers" = "Çıkartmalar";
+"studio.images" = "Görseller";
+"studio.heading" = "Başlık";
+"studio.subheading" = "Alt Başlık";
+"studio.body" = "Gövde";
+"studio.caption" = "Açıklama";
+"studio.tapToAdd" = "%@ eklemek için dokunun";
+"studio.chooseFromLibrary" = "Kütüphaneden Seç";
+"studio.selectPhoto" = "Cihazınızdan bir fotoğraf seçin";
+"studio.takePhoto" = "Fotoğraf Çek";
+"studio.captureImage" = "Yeni bir görsel yakala";
+"studio.comingSoon" = "Yakında";
+"studio.format" = "Format";
+"studio.resolution" = "Çözünürlük";
+"studio.standard" = "Standart";
+"studio.high" = "Yüksek";
+"studio.print" = "Baskı";
+"studio.exportShare" = "Dışa Aktar ve Paylaş";
+"studio.exporting" = "Dışa aktarılıyor...";
