@@ -49,6 +49,7 @@
 		A100000040 /* VendorManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000040 /* VendorManagementView.swift */; };
 		A100000041 /* WeddingDayRunOfShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000041 /* WeddingDayRunOfShowView.swift */; };
 		A100000042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B100000042 /* Assets.xcassets */; };
+		A100000044 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000044 /* PaywallView.swift */; };
 		A95900812F31E2B0003D1348 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900802F31E2B0003D1348 /* FilterChip.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +97,7 @@
 		B100000040 /* VendorManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorManagementView.swift; sourceTree = "<group>"; };
 		B100000041 /* WeddingDayRunOfShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingDayRunOfShowView.swift; sourceTree = "<group>"; };
 		B100000042 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B100000044 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		B100000043 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B100000099 /* Nuvia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nuvia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -234,6 +236,7 @@
 				G100000046 /* Invitation */,
 				G100000047 /* Journal */,
 				G100000048 /* Onboarding */,
+				G100000058 /* Paywall */,
 				G100000049 /* RSVP */,
 				G100000050 /* Seating */,
 				G100000051 /* Settings */,
@@ -386,6 +389,14 @@
 			path = WeddingDay;
 			sourceTree = "<group>";
 		};
+		G100000058 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				B100000044 /* PaywallView.swift */,
+			);
+			path = Paywall;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -498,6 +509,7 @@
 				A100000039 /* TimelineView.swift in Sources */,
 				A100000040 /* VendorManagementView.swift in Sources */,
 				A100000041 /* WeddingDayRunOfShowView.swift in Sources */,
+				A100000044 /* PaywallView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
