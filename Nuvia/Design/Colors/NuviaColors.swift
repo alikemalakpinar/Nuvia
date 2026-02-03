@@ -1,154 +1,165 @@
 import SwiftUI
 
 /// Nuvia Renk Paleti
-/// Premium & Luxury his için Dark Mode + Champagne Gold accent
+/// "Bridal White & Soft Luxury" - Ferah, Aydınlık ve Premium tasarım dili
 extension Color {
 
     // MARK: - Primary Brand Colors
 
-    /// Ana marka rengi - Champagne Gold
+    /// Ana marka rengi - Antique Gold (Beyaz zeminde daha tok görünür)
     static let nuviaGold = Color("NuviaGold", bundle: nil)
-    static let nuviaGoldFallback = Color(red: 0.96, green: 0.87, blue: 0.70) // #F5DEB3
+    static let nuviaGoldFallback = Color(red: 0.75, green: 0.60, blue: 0.40) // Daha tok, antik altın
 
-    /// Bakır accent
-    static let nuviaCopper = Color(red: 0.72, green: 0.45, blue: 0.20) // #B87333
+    /// Rose Gold accent - Düğün teması için
+    static let nuviaRoseGold = Color(red: 0.72, green: 0.53, blue: 0.50) // #B8877F
 
-    /// Derin gece mavisi - Dark mode zemin
-    static let nuviaMidnight = Color(red: 0.07, green: 0.09, blue: 0.15) // #121727
+    /// Bakır accent - Daha yumuşak ton
+    static let nuviaCopper = Color(red: 0.65, green: 0.45, blue: 0.35) // Yumuşatılmış bakır
 
-    /// Kömür grisi - Alternatif zemin
-    static let nuviaCharcoal = Color(red: 0.12, green: 0.13, blue: 0.18) // #1F212E
+    /// Soft Navy - Aksanlarda kullanım için (eskiden zemin)
+    static let nuviaMidnight = Color(red: 0.20, green: 0.25, blue: 0.35) // Yumuşak lacivert
 
-    // MARK: - Semantic Colors
+    /// Warm Gray - Alt başlıklar ve ikonlar için
+    static let nuviaCharcoal = Color(red: 0.35, green: 0.35, blue: 0.38) // Sıcak gri
 
-    /// Başarı rengi
-    static let nuviaSuccess = Color(red: 0.20, green: 0.78, blue: 0.55) // #34C78C
+    // MARK: - Semantic Colors (Pastel tonlara çekildi)
 
-    /// Uyarı rengi
-    static let nuviaWarning = Color(red: 1.0, green: 0.76, blue: 0.30) // #FFC24D
+    /// Başarı rengi - Soft Sage Green
+    static let nuviaSuccess = Color(red: 0.40, green: 0.70, blue: 0.55) // Yumuşak yeşil
 
-    /// Hata rengi
-    static let nuviaError = Color(red: 0.96, green: 0.36, blue: 0.36) // #F55C5C
+    /// Uyarı rengi - Soft Amber
+    static let nuviaWarning = Color(red: 0.90, green: 0.70, blue: 0.35) // Yumuşak amber
 
-    /// Bilgi rengi
-    static let nuviaInfo = Color(red: 0.40, green: 0.65, blue: 0.96) // #66A6F5
+    /// Hata rengi - Soft Rose
+    static let nuviaError = Color(red: 0.85, green: 0.45, blue: 0.45) // Yumuşak kırmızı
 
-    // MARK: - Background Colors
+    /// Bilgi rengi - Soft Blue
+    static let nuviaInfo = Color(red: 0.50, green: 0.65, blue: 0.85) // Yumuşak mavi
 
-    /// Ana arka plan
+    // MARK: - Background Colors (FERAH & AYDINLIK)
+
+    /// Ana arka plan - Porselen Beyazı / Warm Alabaster
     static var nuviaBackground: Color {
         Color(uiColor: UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
-                ? UIColor(red: 0.07, green: 0.09, blue: 0.15, alpha: 1.0)
-                : UIColor.systemBackground
+                ? UIColor(red: 0.11, green: 0.11, blue: 0.12, alpha: 1.0) // Çok yumuşak siyah
+                : UIColor(red: 0.98, green: 0.98, blue: 0.97, alpha: 1.0) // #FAFAF8 Warm Alabaster
         })
     }
 
-    /// İkincil arka plan (kartlar için)
+    /// Kart arka planı - Saf Beyaz
     static var nuviaCardBackground: Color {
         Color(uiColor: UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
-                ? UIColor(red: 0.12, green: 0.13, blue: 0.18, alpha: 1.0)
-                : UIColor.secondarySystemBackground
+                ? UIColor(red: 0.16, green: 0.16, blue: 0.17, alpha: 1.0)
+                : UIColor.white // Saf beyaz kartlar
         })
     }
 
-    /// Üçüncül arka plan
+    /// Üçüncül arka plan - Çok hafif gri (input alanları için)
     static var nuviaTertiaryBackground: Color {
         Color(uiColor: UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
-                ? UIColor(red: 0.17, green: 0.18, blue: 0.24, alpha: 1.0)
-                : UIColor.tertiarySystemBackground
+                ? UIColor(red: 0.20, green: 0.20, blue: 0.22, alpha: 1.0)
+                : UIColor(red: 0.96, green: 0.96, blue: 0.95, alpha: 1.0) // #F5F5F3
         })
     }
 
-    // MARK: - Text Colors
+    // MARK: - Text Colors (Okunabilirlik için optimize edildi)
 
-    /// Birincil metin
+    /// Birincil metin - Koyu gri (siyah değil, daha yumuşak)
     static var nuviaPrimaryText: Color {
         Color(uiColor: UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
                 ? UIColor.white
-                : UIColor.label
+                : UIColor(red: 0.15, green: 0.15, blue: 0.17, alpha: 1.0) // #262629
         })
     }
 
-    /// İkincil metin
+    /// İkincil metin - Orta gri
     static var nuviaSecondaryText: Color {
         Color(uiColor: UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
                 ? UIColor(white: 0.7, alpha: 1.0)
-                : UIColor.secondaryLabel
+                : UIColor(red: 0.45, green: 0.45, blue: 0.48, alpha: 1.0) // #73737A
         })
     }
 
-    /// Üçüncül metin
+    /// Üçüncül metin - Açık gri
     static var nuviaTertiaryText: Color {
         Color(uiColor: UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
                 ? UIColor(white: 0.5, alpha: 1.0)
-                : UIColor.tertiaryLabel
+                : UIColor(red: 0.60, green: 0.60, blue: 0.62, alpha: 1.0) // #99999E
         })
     }
 
-    // MARK: - Category Colors (Düğün kategorileri için)
+    // MARK: - Category Colors (Düğün temasına uygun pastel tonlar)
 
-    static let categoryVenue = Color(red: 0.55, green: 0.40, blue: 0.75)      // Mor
-    static let categoryPhoto = Color(red: 0.30, green: 0.60, blue: 0.85)      // Mavi
-    static let categoryMusic = Color(red: 0.85, green: 0.40, blue: 0.55)      // Pembe
-    static let categoryFlowers = Color(red: 0.45, green: 0.75, blue: 0.55)    // Yeşil
-    static let categoryDress = Color(red: 0.95, green: 0.70, blue: 0.75)      // Açık pembe
-    static let categoryFood = Color(red: 0.95, green: 0.55, blue: 0.35)       // Turuncu
-    static let categoryInvitation = Color(red: 0.65, green: 0.55, blue: 0.80) // Lavanta
-    static let categoryDecor = Color(red: 0.75, green: 0.65, blue: 0.50)      // Bej
+    static let categoryVenue = Color(red: 0.60, green: 0.50, blue: 0.75)      // Soft Lavender
+    static let categoryPhoto = Color(red: 0.45, green: 0.65, blue: 0.80)      // Dusty Blue
+    static let categoryMusic = Color(red: 0.80, green: 0.50, blue: 0.60)      // Dusty Rose
+    static let categoryFlowers = Color(red: 0.55, green: 0.72, blue: 0.60)    // Sage Green
+    static let categoryDress = Color(red: 0.90, green: 0.75, blue: 0.78)      // Blush Pink
+    static let categoryFood = Color(red: 0.85, green: 0.60, blue: 0.45)       // Terracotta
+    static let categoryInvitation = Color(red: 0.70, green: 0.62, blue: 0.78) // Wisteria
+    static let categoryDecor = Color(red: 0.78, green: 0.70, blue: 0.58)      // Champagne
 
-    // MARK: - Priority Colors
+    // MARK: - Priority Colors (Daha yumuşak tonlar)
 
-    static let priorityLow = Color(red: 0.45, green: 0.75, blue: 0.55)
-    static let priorityMedium = Color(red: 1.0, green: 0.76, blue: 0.30)
-    static let priorityHigh = Color(red: 0.96, green: 0.36, blue: 0.36)
+    static let priorityLow = Color(red: 0.55, green: 0.72, blue: 0.60)    // Sage
+    static let priorityMedium = Color(red: 0.90, green: 0.70, blue: 0.35) // Amber
+    static let priorityHigh = Color(red: 0.85, green: 0.50, blue: 0.50)   // Coral
 
     // MARK: - Status Colors
 
-    static let statusPending = Color(red: 0.60, green: 0.60, blue: 0.65)
-    static let statusInProgress = Color(red: 0.40, green: 0.65, blue: 0.96)
-    static let statusCompleted = Color(red: 0.20, green: 0.78, blue: 0.55)
-    static let statusCancelled = Color(red: 0.50, green: 0.50, blue: 0.55)
+    static let statusPending = Color(red: 0.55, green: 0.55, blue: 0.58)
+    static let statusInProgress = Color(red: 0.50, green: 0.65, blue: 0.85)
+    static let statusCompleted = Color(red: 0.40, green: 0.70, blue: 0.55)
+    static let statusCancelled = Color(red: 0.60, green: 0.60, blue: 0.62)
 
-    // MARK: - Gradient
+    // MARK: - Gradient (Daha zarif, düğün temalı)
 
-    /// Premium gradient
+    /// Premium gradient - Rose Gold to Gold
     static var nuviaGradient: LinearGradient {
         LinearGradient(
             colors: [
-                Color(red: 0.96, green: 0.87, blue: 0.70),
-                Color(red: 0.72, green: 0.45, blue: 0.20)
+                Color(red: 0.80, green: 0.65, blue: 0.50), // Warm Gold
+                Color(red: 0.72, green: 0.53, blue: 0.50)  // Rose Gold
             ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
     }
 
-    /// Subtle background gradient
+    /// Subtle background gradient - Artık çok hafif
     static var nuviaBackgroundGradient: LinearGradient {
         LinearGradient(
             colors: [
-                Color(red: 0.07, green: 0.09, blue: 0.15),
-                Color(red: 0.10, green: 0.12, blue: 0.20)
+                Color(red: 0.98, green: 0.98, blue: 0.97),
+                Color(red: 0.96, green: 0.95, blue: 0.94)
             ],
             startPoint: .top,
             endPoint: .bottom
         )
     }
 
-    /// Glass overlay for glassmorphism
+    /// Soft overlay for subtle depth
     static var nuviaGlassOverlay: Color {
-        Color.white.opacity(0.06)
+        Color(uiColor: UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor.white.withAlphaComponent(0.06)
+                : UIColor.black.withAlphaComponent(0.02)
+        })
     }
 
-    /// Glass border for glassmorphism
+    /// Subtle border for cards
     static var nuviaGlassBorder: Color {
-        Color.white.opacity(0.12)
+        Color(uiColor: UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor.white.withAlphaComponent(0.12)
+                : UIColor.black.withAlphaComponent(0.06)
+        })
     }
 }
 

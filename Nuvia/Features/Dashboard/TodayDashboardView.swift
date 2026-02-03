@@ -18,12 +18,14 @@ struct TodayDashboardView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 24) { // Daha fazla whitespace - ferahlık
                     if let project = currentProject {
-                        CountdownCard(project: project)
+                        // Önce görevler - "Sırada ne var?" sorusunun cevabı
+                        TodayTasksCard(project: project)
                             .cardEntrance(delay: 0)
 
-                        TodayTasksCard(project: project)
+                        // Countdown ikinci sırada, daha az dominant
+                        CountdownCard(project: project)
                             .cardEntrance(delay: 0.05)
 
                         QuickActionsGrid()
@@ -47,7 +49,8 @@ struct TodayDashboardView: View {
                         )
                     }
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 20) // Biraz daha geniş margin
+                .padding(.top, 8)
                 .padding(.bottom, 100)
             }
             .background(Color.nuviaBackground)
@@ -182,22 +185,23 @@ struct TodayTasksCard: View {
 
     var body: some View {
         NuviaCard {
-            VStack(spacing: 16) {
-                NuviaSectionHeader("Bugünün Görevleri", actionTitle: "Tümü") {
+            VStack(spacing: 20) { // Daha fazla iç boşluk
+                NuviaSectionHeader("Sırada Ne Var?", actionTitle: "Tümü") {
                     // Navigate to tasks
                 }
 
                 if todaysTasks.isEmpty && overdueTasks.isEmpty {
-                    HStack {
+                    HStack(spacing: 12) {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.nuviaSuccess)
-                        Text("Bugün için görev yok!")
+                            .font(.system(size: 24))
+                        Text("Harika! Bugün için görev yok.")
                             .font(NuviaTypography.body())
                             .foregroundColor(.nuviaSecondaryText)
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 12)
                 } else {
-                    VStack(spacing: 8) {
+                    VStack(spacing: 10) { // Görevler arası boşluk artırıldı
                         // Overdue tasks first
                         ForEach(overdueTasks, id: \.id) { task in
                             TaskRowCompact(task: task, isOverdue: true)
@@ -266,7 +270,7 @@ struct QuickActionsGrid: View {
     @State private var showVendors = false
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) { // Daha fazla boşluk
             NuviaSectionHeader("Hızlı Erişim", actionTitle: nil) {}
 
             LazyVGrid(columns: [
@@ -274,17 +278,17 @@ struct QuickActionsGrid: View {
                 GridItem(.flexible()),
                 GridItem(.flexible()),
                 GridItem(.flexible())
-            ], spacing: 16) {
+            ], spacing: 20) { // Grid spacing artırıldı
                 NuviaQuickAction(icon: "clock.badge.checkmark", title: "Run of Show", color: .nuviaGoldFallback) {
                     showRunOfShow = true
                 }
-                NuviaQuickAction(icon: "person.2.badge.gearshape", title: "Tedarikçi", color: .nuviaInfo) {
+                NuviaQuickAction(icon: "person.2.badge.gearshape", title: "Tedarikçi", color: .nuviaGoldFallback) {
                     showVendors = true
                 }
-                NuviaQuickAction(icon: "lock.doc", title: "Dosya Kasası", color: .nuviaWarning) {
+                NuviaQuickAction(icon: "lock.doc", title: "Dosya Kasası", color: .nuviaGoldFallback) {
                     showFileVault = true
                 }
-                NuviaQuickAction(icon: "leaf.fill", title: "Zen Modu", color: .nuviaSuccess) {
+                NuviaQuickAction(icon: "leaf.fill", title: "Zen Modu", color: .nuviaGoldFallback) {
                     showZenMode = true
                 }
             }
@@ -294,17 +298,17 @@ struct QuickActionsGrid: View {
                 GridItem(.flexible()),
                 GridItem(.flexible()),
                 GridItem(.flexible())
-            ], spacing: 16) {
-                NuviaQuickAction(icon: "music.note.list", title: "Müzik", color: .categoryMusic) {
+            ], spacing: 20) {
+                NuviaQuickAction(icon: "music.note.list", title: "Müzik", color: .nuviaGoldFallback) {
                     showMusicVoting = true
                 }
-                NuviaQuickAction(icon: "photo.on.rectangle", title: "Fotoğraf", color: .categoryPhoto) {
+                NuviaQuickAction(icon: "photo.on.rectangle", title: "Fotoğraf", color: .nuviaGoldFallback) {
                     showPhotoStream = true
                 }
-                NuviaQuickAction(icon: "person.badge.shield.checkmark", title: "Check-in", color: .categoryVenue) {
+                NuviaQuickAction(icon: "person.badge.shield.checkmark", title: "Check-in", color: .nuviaGoldFallback) {
                     showCheckIn = true
                 }
-                NuviaQuickAction(icon: "heart.text.square", title: "Sonrası", color: .categoryDress) {
+                NuviaQuickAction(icon: "heart.text.square", title: "Sonrası", color: .nuviaGoldFallback) {
                     showPostWedding = true
                 }
             }
@@ -335,20 +339,21 @@ struct UpcomingPaymentsCard: View {
 
     var body: some View {
         NuviaCard {
-            VStack(spacing: 16) {
+            VStack(spacing: 20) { // Daha fazla iç boşluk
                 NuviaSectionHeader("Yaklaşan Ödemeler", actionTitle: "Tümü") {}
 
                 if upcomingPayments.isEmpty {
-                    HStack {
+                    HStack(spacing: 12) {
                         Image(systemName: "checkmark.seal.fill")
                             .foregroundColor(.nuviaSuccess)
+                            .font(.system(size: 24))
                         Text("Yaklaşan ödeme yok")
                             .font(NuviaTypography.body())
                             .foregroundColor(.nuviaSecondaryText)
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 12)
                 } else {
-                    VStack(spacing: 8) {
+                    VStack(spacing: 10) {
                         ForEach(upcomingPayments, id: \.id) { expense in
                             PaymentRowCompact(expense: expense, currency: project.currency)
                         }
@@ -418,10 +423,10 @@ struct RSVPSummaryCard: View {
 
     var body: some View {
         NuviaCard {
-            VStack(spacing: 16) {
+            VStack(spacing: 20) { // Daha fazla iç boşluk
                 NuviaSectionHeader("RSVP Özeti", actionTitle: "Detay") {}
 
-                HStack(spacing: 24) {
+                HStack(spacing: 32) { // Daha geniş aralık
                     RSVPStatItem(
                         count: attending,
                         label: "Geliyor",
@@ -478,17 +483,18 @@ struct UpcomingDeliveriesCard: View {
 
     var body: some View {
         NuviaCard {
-            VStack(spacing: 16) {
+            VStack(spacing: 20) { // Daha fazla iç boşluk
                 NuviaSectionHeader("Yaklaşan Teslimatlar", actionTitle: "Tümü") {}
 
-                HStack {
+                HStack(spacing: 12) {
                     Image(systemName: "shippingbox.fill")
                         .foregroundColor(.nuviaInfo)
+                        .font(.system(size: 24))
                     Text("Henüz teslimat yok")
                         .font(NuviaTypography.body())
                         .foregroundColor(.nuviaSecondaryText)
                 }
-                .padding(.vertical, 8)
+                .padding(.vertical, 12)
             }
         }
     }

@@ -42,7 +42,7 @@ struct MainTabView: View {
     }
 }
 
-// MARK: - Custom Tab Bar
+// MARK: - Custom Tab Bar (Clean & Light)
 
 struct CustomTabBar: View {
     @Binding var selectedTab: MainTab
@@ -78,35 +78,13 @@ struct CustomTabBar: View {
             }
         }
         .padding(.horizontal, 8)
-        .padding(.top, 8)
+        .padding(.top, 12)
         .padding(.bottom, 24)
         .background(
-            ZStack {
-                // Glassmorphism background
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .ignoresSafeArea()
-
-                Rectangle()
-                    .fill(Color.nuviaCharcoal.opacity(0.85))
-                    .ignoresSafeArea()
-
-                // Top border glow
-                VStack {
-                    LinearGradient(
-                        colors: [
-                            Color.nuviaGoldFallback.opacity(0.08),
-                            Color.clear
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 1)
-                    Spacer()
-                }
+            // Clean, light background
+            Color.nuviaCardBackground
                 .ignoresSafeArea()
-            }
-            .shadow(color: .black.opacity(0.4), radius: 16, y: -6)
+                .shadow(color: Color.black.opacity(0.06), radius: 12, y: -4)
         )
     }
 }
@@ -121,18 +99,18 @@ struct TabBarButton: View {
             VStack(spacing: 4) {
                 Image(systemName: isSelected ? tab.selectedIcon : tab.icon)
                     .font(.system(size: 22, weight: isSelected ? .semibold : .regular))
-                    .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaSecondaryText)
-                    .scaleEffect(isSelected ? 1.1 : 1.0)
+                    .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaTertiaryText)
+                    .scaleEffect(isSelected ? 1.05 : 1.0)
                     .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
 
                 Text(tab.rawValue)
                     .font(NuviaTypography.caption2())
-                    .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaSecondaryText)
+                    .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaTertiaryText)
 
-                // Active indicator
+                // Active indicator - ince ve zarif
                 Capsule()
                     .fill(Color.nuviaGoldFallback)
-                    .frame(width: isSelected ? 16 : 0, height: 2)
+                    .frame(width: isSelected ? 20 : 0, height: 3)
                     .animation(.spring(response: 0.3), value: isSelected)
             }
             .frame(maxWidth: .infinity)
@@ -143,7 +121,6 @@ struct TabBarButton: View {
 
 struct QuickAddButton: View {
     let action: () -> Void
-    @State private var glowPulse = false
 
     var body: some View {
         Button {
@@ -151,27 +128,19 @@ struct QuickAddButton: View {
             action()
         } label: {
             ZStack {
-                // Pulsing glow
-                Circle()
-                    .fill(Color.nuviaGoldFallback.opacity(0.15))
-                    .frame(width: 68, height: 68)
-                    .scaleEffect(glowPulse ? 1.15 : 1.0)
-                    .opacity(glowPulse ? 0.3 : 0.6)
-                    .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: glowPulse)
-
                 Circle()
                     .fill(Color.nuviaGradient)
                     .frame(width: 56, height: 56)
-                    .nuviaShadow(.elevated)
+                    .shadow(color: Color.nuviaGoldFallback.opacity(0.3), radius: 12, x: 0, y: 4)
+                    .shadow(color: Color.black.opacity(0.08), radius: 8, x: 0, y: 2)
 
                 Image(systemName: "plus")
                     .font(.system(size: 24, weight: .semibold))
-                    .foregroundColor(.nuviaMidnight)
+                    .foregroundColor(.white)
             }
         }
         .pressEffect()
         .offset(y: -20)
-        .onAppear { glowPulse = true }
         .accessibilityLabel("Hızlı ekle")
     }
 }
@@ -291,7 +260,7 @@ struct QuickAddTypeCard: View {
             VStack(spacing: 12) {
                 Image(systemName: type.icon)
                     .font(.system(size: 32))
-                    .foregroundColor(type.color)
+                    .foregroundColor(isSelected ? type.color : .nuviaSecondaryText)
 
                 Text(type.rawValue)
                     .font(NuviaTypography.bodyBold())
@@ -299,21 +268,16 @@ struct QuickAddTypeCard: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: 100)
-            .background(
-                ZStack {
-                    Color.nuviaCardBackground
-                    Color.nuviaGlassOverlay
-                }
-            )
+            .background(Color.nuviaCardBackground)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(
-                        isSelected ? type.color : Color.nuviaGlassBorder,
-                        lineWidth: isSelected ? 2 : 0.5
+                        isSelected ? type.color : Color.clear,
+                        lineWidth: 2
                     )
             )
-            .nuviaShadow(isSelected ? .medium : .subtle)
+            .shadow(color: isSelected ? type.color.opacity(0.15) : Color.black.opacity(0.04), radius: isSelected ? 12 : 8, x: 0, y: 4)
         }
         .pressEffect()
     }
