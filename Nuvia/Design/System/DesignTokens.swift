@@ -132,58 +132,209 @@ public struct DSColors {
 }
 
 // MARK: - Design System Typography
+// Custom Fonts: Playfair Display (serif) + Manrope (sans-serif)
 
 public struct DSTypography {
 
-    // Display (Hero text, large numbers)
+    // MARK: - Font Family Names
+    public struct FontFamily {
+        // Playfair Display - Elegant editorial serif for headers
+        public static let serifRegular = "PlayfairDisplay-Regular"
+        public static let serifMedium = "PlayfairDisplay-Medium"
+        public static let serifSemiBold = "PlayfairDisplay-SemiBold"
+        public static let serifBold = "PlayfairDisplay-Bold"
+        public static let serifBlack = "PlayfairDisplay-Black"
+        public static let serifItalic = "PlayfairDisplay-Italic"
+        public static let serifBoldItalic = "PlayfairDisplay-BoldItalic"
+
+        // Manrope - Modern geometric sans for body
+        public static let sansLight = "Manrope-Light"
+        public static let sansRegular = "Manrope-Regular"
+        public static let sansMedium = "Manrope-Medium"
+        public static let sansSemiBold = "Manrope-SemiBold"
+        public static let sansBold = "Manrope-Bold"
+        public static let sansExtraBold = "Manrope-ExtraBold"
+    }
+
+    // MARK: - Display Styles (Hero/Magazine)
+    // Uses Playfair Display - High contrast, dramatic serif
+
     public static func display(_ size: DisplaySize) -> Font {
         switch size {
-        case .large:  return .system(size: 56, weight: .bold, design: .serif)
-        case .medium: return .system(size: 44, weight: .bold, design: .serif)
-        case .small:  return .system(size: 34, weight: .bold, design: .serif)
+        case .large:
+            return customFont(FontFamily.serifBold, size: 56, fallbackWeight: .bold, design: .serif)
+        case .medium:
+            return customFont(FontFamily.serifBold, size: 44, fallbackWeight: .bold, design: .serif)
+        case .small:
+            return customFont(FontFamily.serifSemiBold, size: 34, fallbackWeight: .semibold, design: .serif)
         }
     }
 
-    // Headings
+    // MARK: - Headings
+    // H1-H2: Playfair Display (emotional)
+    // H3-H4: Manrope (functional)
+
     public static func heading(_ level: HeadingLevel) -> Font {
         switch level {
-        case .h1: return .system(size: 28, weight: .bold, design: .serif)
-        case .h2: return .system(size: 24, weight: .semibold, design: .serif)
-        case .h3: return .system(size: 20, weight: .semibold, design: .default)
-        case .h4: return .system(size: 17, weight: .semibold, design: .default)
+        case .h1:
+            return customFont(FontFamily.serifBold, size: 28, fallbackWeight: .bold, design: .serif)
+        case .h2:
+            return customFont(FontFamily.serifSemiBold, size: 24, fallbackWeight: .semibold, design: .serif)
+        case .h3:
+            return customFont(FontFamily.sansSemiBold, size: 20, fallbackWeight: .semibold, design: .default)
+        case .h4:
+            return customFont(FontFamily.sansSemiBold, size: 17, fallbackWeight: .semibold, design: .default)
         }
     }
 
-    // Body
+    // MARK: - Body Styles
+    // Uses Manrope - Clean, readable sans-serif
+
     public static func body(_ variant: BodyVariant = .regular) -> Font {
         switch variant {
-        case .large:   return .system(size: 17, weight: .regular, design: .default)
-        case .regular: return .system(size: 15, weight: .regular, design: .default)
-        case .small:   return .system(size: 13, weight: .regular, design: .default)
-        case .bold:    return .system(size: 15, weight: .semibold, design: .default)
+        case .large:
+            return customFont(FontFamily.sansRegular, size: 17, fallbackWeight: .regular, design: .default)
+        case .regular:
+            return customFont(FontFamily.sansRegular, size: 15, fallbackWeight: .regular, design: .default)
+        case .small:
+            return customFont(FontFamily.sansRegular, size: 13, fallbackWeight: .regular, design: .default)
+        case .bold:
+            return customFont(FontFamily.sansSemiBold, size: 15, fallbackWeight: .semibold, design: .default)
         }
     }
 
-    // Utility
+    // MARK: - Label/Utility Styles
+    // Uses Manrope - Compact, clear
+
     public static func label(_ size: LabelSize = .regular) -> Font {
         switch size {
-        case .large:   return .system(size: 14, weight: .medium, design: .default)
-        case .regular: return .system(size: 12, weight: .medium, design: .default)
-        case .small:   return .system(size: 10, weight: .semibold, design: .default)
+        case .large:
+            return customFont(FontFamily.sansMedium, size: 14, fallbackWeight: .medium, design: .default)
+        case .regular:
+            return customFont(FontFamily.sansMedium, size: 12, fallbackWeight: .medium, design: .default)
+        case .small:
+            return customFont(FontFamily.sansSemiBold, size: 10, fallbackWeight: .semibold, design: .default)
         }
     }
 
-    // Special
-    public static let countdown = Font.system(size: 72, weight: .thin, design: .rounded)
-    public static let overline = Font.system(size: 11, weight: .semibold, design: .default)
-    public static let button = Font.system(size: 16, weight: .semibold, design: .default)
-    public static let caption = Font.system(size: 12, weight: .regular, design: .default)
+    // MARK: - Special Styles
 
-    // Enums
+    /// Large countdown numbers - Uses Manrope ExtraBold
+    public static var countdown: Font {
+        customFont(FontFamily.sansExtraBold, size: 72, fallbackWeight: .heavy, design: .rounded)
+    }
+
+    /// Overline/Eyebrow text
+    public static var overline: Font {
+        customFont(FontFamily.sansSemiBold, size: 11, fallbackWeight: .semibold, design: .default)
+    }
+
+    /// Button text
+    public static var button: Font {
+        customFont(FontFamily.sansSemiBold, size: 16, fallbackWeight: .semibold, design: .default)
+    }
+
+    /// Caption text
+    public static var caption: Font {
+        customFont(FontFamily.sansRegular, size: 12, fallbackWeight: .regular, design: .default)
+    }
+
+    /// Quote/Testimonial - Playfair Italic
+    public static var quote: Font {
+        customFont(FontFamily.serifItalic, size: 20, fallbackWeight: .regular, design: .serif)
+    }
+
+    /// Currency/Price display
+    public static var currency: Font {
+        customFont(FontFamily.sansSemiBold, size: 24, fallbackWeight: .semibold, design: .monospaced)
+    }
+
+    /// Navigation title
+    public static var navTitle: Font {
+        customFont(FontFamily.sansSemiBold, size: 17, fallbackWeight: .semibold, design: .default)
+    }
+
+    /// Large navigation title
+    public static var navLargeTitle: Font {
+        customFont(FontFamily.serifBold, size: 34, fallbackWeight: .bold, design: .serif)
+    }
+
+    // MARK: - Enums
+
     public enum DisplaySize { case large, medium, small }
     public enum HeadingLevel { case h1, h2, h3, h4 }
     public enum BodyVariant { case large, regular, small, bold }
     public enum LabelSize { case large, regular, small }
+
+    // MARK: - Custom Font Helper
+
+    /// Creates a custom font with system fallback
+    private static func customFont(
+        _ name: String,
+        size: CGFloat,
+        fallbackWeight: Font.Weight,
+        design: Font.Design
+    ) -> Font {
+        // Try custom font first
+        if let _ = UIFont(name: name, size: size) {
+            return Font.custom(name, size: size)
+        }
+        // Fallback to system font
+        return .system(size: size, weight: fallbackWeight, design: design)
+    }
+}
+
+// MARK: - Font Registration Helper
+
+public enum FontRegistration {
+    /// Call this in AppDelegate or App init to register custom fonts
+    public static func registerCustomFonts() {
+        let fontNames = [
+            // Playfair Display
+            "PlayfairDisplay-Regular",
+            "PlayfairDisplay-Medium",
+            "PlayfairDisplay-SemiBold",
+            "PlayfairDisplay-Bold",
+            "PlayfairDisplay-Black",
+            "PlayfairDisplay-Italic",
+            "PlayfairDisplay-BoldItalic",
+            // Manrope
+            "Manrope-Light",
+            "Manrope-Regular",
+            "Manrope-Medium",
+            "Manrope-SemiBold",
+            "Manrope-Bold",
+            "Manrope-ExtraBold"
+        ]
+
+        for fontName in fontNames {
+            if let url = Bundle.main.url(forResource: fontName, withExtension: "ttf") {
+                registerFont(from: url)
+            } else if let url = Bundle.main.url(forResource: fontName, withExtension: "otf") {
+                registerFont(from: url)
+            }
+        }
+    }
+
+    private static func registerFont(from url: URL) {
+        guard let fontDataProvider = CGDataProvider(url: url as CFURL),
+              let font = CGFont(fontDataProvider) else {
+            return
+        }
+
+        var error: Unmanaged<CFError>?
+        CTFontManagerRegisterGraphicsFont(font, &error)
+    }
+
+    /// Debug helper to list all available fonts
+    public static func printAvailableFonts() {
+        for family in UIFont.familyNames.sorted() {
+            print("Family: \(family)")
+            for name in UIFont.fontNames(forFamilyName: family) {
+                print("  - \(name)")
+            }
+        }
+    }
 }
 
 // MARK: - View Extensions for Design Tokens

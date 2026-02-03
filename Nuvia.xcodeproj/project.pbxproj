@@ -59,6 +59,13 @@
 		A100000051 /* ScrollObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000051 /* ScrollObserver.swift */; };
 		A100000052 /* ParallaxHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000052 /* ParallaxHeader.swift */; };
 		A100000053 /* LiquidOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000053 /* LiquidOnboardingView.swift */; };
+		A100000054 /* MovableElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000054 /* MovableElementView.swift */; };
+		A100000055 /* LayerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000055 /* LayerSheet.swift */; };
+		A100000056 /* PropertyInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000056 /* PropertyInspector.swift */; };
+		A100000057 /* InvitationStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000057 /* InvitationStudioView.swift */; };
+		A100000058 /* MagazineLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000058 /* MagazineLayoutView.swift */; };
+		A100000059 /* CountdownArcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000059 /* CountdownArcView.swift */; };
+		A100000060 /* PremiumPaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000060 /* PremiumPaywallView.swift */; };
 		A95900812F31E2B0003D1348 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900802F31E2B0003D1348 /* FilterChip.swift */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +123,13 @@
 		B100000051 /* ScrollObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollObserver.swift; sourceTree = "<group>"; };
 		B100000052 /* ParallaxHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHeader.swift; sourceTree = "<group>"; };
 		B100000053 /* LiquidOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidOnboardingView.swift; sourceTree = "<group>"; };
+		B100000054 /* MovableElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovableElementView.swift; sourceTree = "<group>"; };
+		B100000055 /* LayerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerSheet.swift; sourceTree = "<group>"; };
+		B100000056 /* PropertyInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyInspector.swift; sourceTree = "<group>"; };
+		B100000057 /* InvitationStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationStudioView.swift; sourceTree = "<group>"; };
+		B100000058 /* MagazineLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineLayoutView.swift; sourceTree = "<group>"; };
+		B100000059 /* CountdownArcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownArcView.swift; sourceTree = "<group>"; };
+		B100000060 /* PremiumPaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPaywallView.swift; sourceTree = "<group>"; };
 		B100000043 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B100000099 /* Nuvia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nuvia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -301,6 +315,8 @@
 			children = (
 				B100000051 /* ScrollObserver.swift */,
 				B100000052 /* ParallaxHeader.swift */,
+				B100000058 /* MagazineLayoutView.swift */,
+				B100000059 /* CountdownArcView.swift */,
 			);
 			path = EditorialDashboard;
 			sourceTree = "<group>";
@@ -342,6 +358,7 @@
 			isa = PBXGroup;
 			children = (
 				G100000060 /* CanvasEngine */,
+				B100000057 /* InvitationStudioView.swift */,
 			);
 			path = InvitationStudio;
 			sourceTree = "<group>";
@@ -353,6 +370,9 @@
 				B100000048 /* CanvasViewModel.swift */,
 				B100000049 /* GestureCoordinator.swift */,
 				B100000050 /* CanvasRenderer.swift */,
+				B100000054 /* MovableElementView.swift */,
+				B100000055 /* LayerSheet.swift */,
+				B100000056 /* PropertyInspector.swift */,
 			);
 			path = CanvasEngine;
 			sourceTree = "<group>";
@@ -460,6 +480,7 @@
 			isa = PBXGroup;
 			children = (
 				B100000044 /* PaywallView.swift */,
+				B100000060 /* PremiumPaywallView.swift */,
 			);
 			path = Paywall;
 			sourceTree = "<group>";
@@ -586,6 +607,13 @@
 				A100000051 /* ScrollObserver.swift in Sources */,
 				A100000052 /* ParallaxHeader.swift in Sources */,
 				A100000053 /* LiquidOnboardingView.swift in Sources */,
+				A100000054 /* MovableElementView.swift in Sources */,
+				A100000055 /* LayerSheet.swift in Sources */,
+				A100000056 /* PropertyInspector.swift in Sources */,
+				A100000057 /* InvitationStudioView.swift in Sources */,
+				A100000058 /* MagazineLayoutView.swift in Sources */,
+				A100000059 /* CountdownArcView.swift in Sources */,
+				A100000060 /* PremiumPaywallView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
