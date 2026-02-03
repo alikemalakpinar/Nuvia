@@ -214,8 +214,8 @@ struct TodayDashboardView: View {
                         .foregroundColor(.nuviaPrimaryText)
                         .lineLimit(2)
 
-                    if !task.notes.isEmpty {
-                        Text(task.notes)
+                    if let desc = task.taskDescription, !desc.isEmpty {
+                        Text(desc)
                             .font(NuviaTypography.body())
                             .foregroundColor(.nuviaSecondaryText)
                             .lineLimit(2)

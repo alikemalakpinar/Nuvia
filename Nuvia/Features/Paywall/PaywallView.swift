@@ -109,31 +109,31 @@ struct PaywallView: View {
 
     private var featuresSection: some View {
         VStack(spacing: 20) {
-            FeatureRow(
+            PaywallFeatureRow(
                 icon: "person.3.fill",
                 title: "Unlimited Guests",
                 description: "No limits on your guest list"
             )
 
-            FeatureRow(
+            PaywallFeatureRow(
                 icon: "paintpalette.fill",
                 title: "Full Invitation Studio",
                 description: "All templates, fonts & stickers"
             )
 
-            FeatureRow(
+            PaywallFeatureRow(
                 icon: "sparkles",
                 title: "AI Wedding Assistant",
                 description: "Smart suggestions & planning help"
             )
 
-            FeatureRow(
+            PaywallFeatureRow(
                 icon: "chart.bar.fill",
                 title: "Advanced Analytics",
                 description: "Budget insights & RSVP tracking"
             )
 
-            FeatureRow(
+            PaywallFeatureRow(
                 icon: "square.and.arrow.up.fill",
                 title: "Premium Exports",
                 description: "PDF, Excel & print-ready files"
@@ -321,9 +321,9 @@ enum SubscriptionPlan {
     }
 }
 
-// MARK: - Feature Row
+// MARK: - Paywall Feature Row
 
-struct FeatureRow: View {
+struct PaywallFeatureRow: View {
     let icon: String
     let title: String
     let description: String
