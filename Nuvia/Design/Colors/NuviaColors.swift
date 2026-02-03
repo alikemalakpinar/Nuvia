@@ -28,7 +28,7 @@ public final class ThemeManager {
         withAnimation(DesignTokens.Animation.smooth) {
             currentTheme = theme
         }
-        HapticEngine.shared.selection()
+        NuviaHaptics.shared.selection()
         return true
     }
 

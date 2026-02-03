@@ -132,7 +132,7 @@ struct InvitationStudioView: View {
             // Title
             VStack(spacing: 2) {
                 Text("Invitation Studio")
-                    .font(DSTypography.heading(.h4))
+                    .font(DSTypography.heading4)
                     .foregroundColor(.nuviaPrimaryText)
 
                 if let project = currentProject {
@@ -151,7 +151,7 @@ struct InvitationStudioView: View {
                     isEnabled: viewModel.canUndo
                 ) {
                     viewModel.undo()
-                    HapticEngine.shared.impact(.light)
+                    NuviaHaptics.shared.impact(.light)
                 }
 
                 ToolbarIconButton(
@@ -159,7 +159,7 @@ struct InvitationStudioView: View {
                     isEnabled: viewModel.canRedo
                 ) {
                     viewModel.redo()
-                    HapticEngine.shared.impact(.light)
+                    NuviaHaptics.shared.impact(.light)
                 }
             }
         }
@@ -271,7 +271,7 @@ struct InvitationStudioView: View {
                         showLayerSheet = false
                         showPropertyInspector = false
                     }
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 }
 
                 // Layers
@@ -281,7 +281,7 @@ struct InvitationStudioView: View {
                         showElementPicker = false
                         showPropertyInspector = false
                     }
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 }
 
                 // Properties
@@ -296,19 +296,19 @@ struct InvitationStudioView: View {
                         showElementPicker = false
                         showLayerSheet = false
                     }
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 }
 
                 // Templates
                 GlassToolbarTab(icon: "square.grid.2x2", label: StudioStrings.templates, isActive: false) {
                     showTemplatePicker = true
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 }
 
                 // Export
                 GlassToolbarTab(icon: "square.and.arrow.up", label: StudioStrings.export, isActive: false, isPrimary: true) {
                     checkPremiumAndExport()
-                    HapticEngine.shared.impact(.medium)
+                    NuviaHaptics.shared.impact(.medium)
                 }
             }
             .padding(.horizontal, StudioSpacing.sm)
@@ -346,7 +346,7 @@ struct InvitationStudioView: View {
                     withAnimation(MotionCurves.quick) {
                         canvasScale = max(0.5, canvasScale - 0.25)
                     }
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 }
 
                 Text("\(Int(canvasScale * 100))%")
@@ -359,7 +359,7 @@ struct InvitationStudioView: View {
                         // Clamp to 200% max
                         canvasScale = min(2.0, canvasScale + 0.25)
                     }
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 }
 
                 Divider()
@@ -372,7 +372,7 @@ struct InvitationStudioView: View {
                         canvasScale = 1.0
                         canvasOffset = .zero
                     }
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 }
 
                 // Center selected
@@ -380,7 +380,7 @@ struct InvitationStudioView: View {
                     GlassQuickActionChip(icon: "arrow.up.and.down.and.arrow.left.and.right") {
                         if let id = viewModel.selectedElementId {
                             viewModel.centerElement(id: id)
-                            HapticEngine.shared.impact(.medium)
+                            NuviaHaptics.shared.impact(.medium)
                         }
                     }
                 }
@@ -409,7 +409,7 @@ struct InvitationStudioView: View {
                     viewModel: viewModel,
                     onAddElement: { element in
                         viewModel.addElement(element)
-                        HapticEngine.shared.notify(.success)
+                        NuviaHaptics.shared.notification(.success)
                     },
                     onPremiumRequired: {
                         showPaywall = true
@@ -510,7 +510,7 @@ struct InvitationStudioView: View {
             viewModel.addElement(element)
         }
 
-        HapticEngine.shared.notify(.success)
+        NuviaHaptics.shared.notification(.success)
     }
 
     private func checkPremiumAndExport() {
@@ -572,7 +572,7 @@ struct ToolbarTab: View {
                 }
 
                 Text(label)
-                    .font(DSTypography.label(.small))
+                    .font(DSTypography.captionSmall)
                     .foregroundColor(labelColor)
             }
             .frame(maxWidth: .infinity)
@@ -707,7 +707,7 @@ struct ElementPickerPanel: View {
             // Header
             HStack {
                 Text("Add Element")
-                    .font(DSTypography.heading(.h4))
+                    .font(DSTypography.heading4)
                     .foregroundColor(.nuviaPrimaryText)
 
                 Spacer()
@@ -729,7 +729,7 @@ struct ElementPickerPanel: View {
                         }
                     } label: {
                         Text(tab.rawValue)
-                            .font(DSTypography.label(.regular))
+                            .font(DSTypography.caption)
                             .foregroundColor(selectedTab == tab ? .nuviaChampagne : .nuviaSecondaryText)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, StudioSpacing.sm)
@@ -801,7 +801,7 @@ struct TextElementPicker: View {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(preset.label)
-                                .font(DSTypography.body(.bold))
+                                .font(DSTypography.bodyBold)
                                 .foregroundColor(.nuviaPrimaryText)
 
                             Text("Tap to add \(preset.label.lowercased())")
@@ -871,7 +871,7 @@ struct ShapeElementPicker: View {
                             )
 
                         Text(shape.label)
-                            .font(DSTypography.label(.small))
+                            .font(DSTypography.captionSmall)
                             .foregroundColor(.nuviaSecondaryText)
                     }
                 }
@@ -956,7 +956,7 @@ struct ImageElementPicker: View {
             // Photo library button
             Button {
                 // Open photo picker
-                HapticEngine.shared.impact(.medium)
+                NuviaHaptics.shared.impact(.medium)
             } label: {
                 HStack {
                     Image(systemName: "photo.on.rectangle")
@@ -965,7 +965,7 @@ struct ImageElementPicker: View {
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Choose from Library")
-                            .font(DSTypography.body(.bold))
+                            .font(DSTypography.bodyBold)
                             .foregroundColor(.nuviaPrimaryText)
 
                         Text("Select a photo from your device")
@@ -988,7 +988,7 @@ struct ImageElementPicker: View {
             // Camera button
             Button {
                 // Open camera
-                HapticEngine.shared.impact(.medium)
+                NuviaHaptics.shared.impact(.medium)
             } label: {
                 HStack {
                     Image(systemName: "camera.fill")
@@ -997,7 +997,7 @@ struct ImageElementPicker: View {
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Take a Photo")
-                            .font(DSTypography.body(.bold))
+                            .font(DSTypography.bodyBold)
                             .foregroundColor(.nuviaPrimaryText)
 
                         Text("Capture a new image")
@@ -1038,7 +1038,7 @@ struct StudioTemplatePicker: View {
         NavigationStack {
             ScrollView {
                 Text("Coming Soon")
-                    .font(DSTypography.body(.regular))
+                    .font(DSTypography.body)
                     .foregroundColor(.nuviaSecondaryText)
                     .padding()
             }
@@ -1098,7 +1098,7 @@ struct ExportOptionsSheet: View {
                 // Format options
                 VStack(alignment: .leading, spacing: StudioSpacing.sm) {
                     Text("Format")
-                        .font(DSTypography.label(.large))
+                        .font(DSTypography.overline)
                         .foregroundColor(.nuviaSecondaryText)
 
                     HStack(spacing: StudioSpacing.sm) {
@@ -1117,7 +1117,7 @@ struct ExportOptionsSheet: View {
                 // Resolution options
                 VStack(alignment: .leading, spacing: StudioSpacing.sm) {
                     Text("Resolution")
-                        .font(DSTypography.label(.large))
+                        .font(DSTypography.overline)
                         .foregroundColor(.nuviaSecondaryText)
 
                     HStack(spacing: StudioSpacing.sm) {
@@ -1209,7 +1209,7 @@ struct ExportFormatButton: View {
     var body: some View {
         Button(action: action) {
             Text(label)
-                .font(DSTypography.label(.regular))
+                .font(DSTypography.caption)
                 .foregroundColor(isSelected ? .white : .nuviaPrimaryText)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, StudioSpacing.sm)
@@ -1248,9 +1248,9 @@ struct ResolutionButton: View {
         Button(action: action) {
             VStack(spacing: 2) {
                 Text(label)
-                    .font(DSTypography.body(.bold))
+                    .font(DSTypography.bodyBold)
                 Text(subtitle)
-                    .font(DSTypography.label(.small))
+                    .font(DSTypography.captionSmall)
             }
             .foregroundColor(isSelected ? .white : .nuviaPrimaryText)
             .frame(maxWidth: .infinity)

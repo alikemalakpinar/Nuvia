@@ -36,7 +36,7 @@ struct MovableElementView<Content: View>: View {
             .animation(DesignTokens.Animation.snappy, value: transform)
             .onChange(of: isSelected) { _, selected in
                 if selected {
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 }
             }
     }
@@ -106,7 +106,7 @@ struct MovableElementView<Content: View>: View {
                     withAnimation(DesignTokens.Animation.snappy) {
                         viewModel.removeElement(id: element.id)
                     }
-                    HapticEngine.shared.notification(.warning)
+                    NuviaHaptics.shared.notification(.warning)
                 }
                 .position(x: size.width + 16, y: -16)
             }
@@ -223,11 +223,11 @@ struct MovableElementView<Content: View>: View {
 
         switch type {
         case .drag:
-            HapticEngine.shared.impact(.light)
+            NuviaHaptics.shared.impact(.light)
         case .scale, .rotate:
-            HapticEngine.shared.impact(.medium)
+            NuviaHaptics.shared.impact(.medium)
         case .combined:
-            HapticEngine.shared.impact(.medium)
+            NuviaHaptics.shared.impact(.medium)
         }
     }
 

@@ -42,13 +42,13 @@ struct LayerSheet: View {
     private var layerHeader: some View {
         HStack {
             Text("Layers")
-                .font(DSTypography.heading(.h4))
+                .font(DSTypography.heading4)
                 .foregroundColor(.nuviaPrimaryText)
 
             Spacer()
 
             Text("\(viewModel.elements.count)")
-                .font(DSTypography.label(.regular))
+                .font(DSTypography.caption)
                 .foregroundColor(.nuviaTertiaryText)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
@@ -83,13 +83,13 @@ struct LayerSheet: View {
                         isDragging: draggedItem == element.id,
                         onSelect: {
                             viewModel.selectElement(id: element.id)
-                            HapticEngine.shared.selection()
+                            NuviaHaptics.shared.selection()
                         },
                         onDelete: {
                             withAnimation(DesignTokens.Animation.snappy) {
                                 viewModel.removeElement(id: element.id)
                             }
-                            HapticEngine.shared.notify(.warning)
+                            NuviaHaptics.shared.notification(.warning)
                         },
                         onMoveUp: {
                             moveLayer(element.id, direction: .up)
@@ -114,11 +114,11 @@ struct LayerSheet: View {
                 .foregroundColor(.nuviaTertiaryText)
 
             Text("No Layers Yet")
-                .font(DSTypography.heading(.h4))
+                .font(DSTypography.heading4)
                 .foregroundColor(.nuviaPrimaryText)
 
             Text("Add text, images, or shapes\nto build your invitation")
-                .font(DSTypography.body(.small))
+                .font(DSTypography.bodySmall)
                 .foregroundColor(.nuviaSecondaryText)
                 .multilineTextAlignment(.center)
         }
@@ -139,7 +139,7 @@ struct LayerSheet: View {
                 if let first = viewModel.sortedElements.first {
                     viewModel.selectElement(id: first.id)
                 }
-                HapticEngine.shared.impact(.light)
+                NuviaHaptics.shared.impact(.light)
             }
 
             // Flatten/Merge (Premium)
@@ -149,7 +149,7 @@ struct LayerSheet: View {
                 isPremium: true
             ) {
                 // Premium feature
-                HapticEngine.shared.notify(.warning)
+                NuviaHaptics.shared.notification(.warning)
             }
 
             // Clear All
@@ -161,7 +161,7 @@ struct LayerSheet: View {
                 withAnimation(DesignTokens.Animation.smooth) {
                     viewModel.clearCanvas()
                 }
-                HapticEngine.shared.notify(.error)
+                NuviaHaptics.shared.notification(.error)
             }
         }
         .padding(DesignTokens.Spacing.md)
@@ -173,7 +173,7 @@ struct LayerSheet: View {
         withAnimation(DesignTokens.Animation.snappy) {
             viewModel.moveLayer(id, direction: direction)
         }
-        HapticEngine.shared.impact(.light)
+        NuviaHaptics.shared.impact(.light)
     }
 }
 
@@ -211,7 +211,7 @@ struct LayerRow: View {
                 // Layer info
                 VStack(alignment: .leading, spacing: 2) {
                     Text(layerName)
-                        .font(DSTypography.body(.regular))
+                        .font(DSTypography.body)
                         .foregroundColor(.nuviaPrimaryText)
                         .lineLimit(1)
 
@@ -360,7 +360,7 @@ struct LayerRow: View {
             // Duplicate
             SmallActionButton(icon: "plus.square.on.square", label: "Copy") {
                 // TODO: Implement duplicate
-                HapticEngine.shared.impact(.light)
+                NuviaHaptics.shared.impact(.light)
             }
 
             Spacer()
@@ -408,7 +408,7 @@ struct ActionButton: View {
                 }
 
                 Text(label)
-                    .font(DSTypography.label(.small))
+                    .font(DSTypography.captionSmall)
                     .foregroundColor(.nuviaSecondaryText)
             }
         }
@@ -438,7 +438,7 @@ struct SmallActionButton: View {
                     .font(.system(size: 12, weight: .medium))
 
                 Text(label)
-                    .font(DSTypography.label(.small))
+                    .font(DSTypography.captionSmall)
             }
             .foregroundColor(isDestructive ? Color(hex: "C97A7A") : .nuviaSecondaryText)
             .padding(.horizontal, 10)

@@ -52,7 +52,7 @@ struct PropertyInspector: View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Properties")
-                    .font(DSTypography.heading(.h4))
+                    .font(DSTypography.heading4)
                     .foregroundColor(.nuviaPrimaryText)
 
                 if let element = selectedElement {
@@ -86,14 +86,14 @@ struct PropertyInspector: View {
                     withAnimation(DesignTokens.Animation.snappy) {
                         selectedSection = section
                     }
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 } label: {
                     VStack(spacing: 4) {
                         Image(systemName: section.icon)
                             .font(.system(size: 16, weight: .medium))
 
                         Text(section.title)
-                            .font(DSTypography.label(.small))
+                            .font(DSTypography.captionSmall)
                     }
                     .foregroundColor(selectedSection == section ? .nuviaChampagne : .nuviaTertiaryText)
                     .frame(maxWidth: .infinity)
@@ -192,11 +192,11 @@ struct PropertyInspector: View {
                 .foregroundColor(.nuviaTertiaryText)
 
             Text("No Selection")
-                .font(DSTypography.heading(.h4))
+                .font(DSTypography.heading4)
                 .foregroundColor(.nuviaPrimaryText)
 
             Text("Tap an element on the canvas\nto edit its properties")
-                .font(DSTypography.body(.small))
+                .font(DSTypography.bodySmall)
                 .foregroundColor(.nuviaSecondaryText)
                 .multilineTextAlignment(.center)
         }
@@ -257,7 +257,7 @@ struct TextStyleInspector: View {
             // Text content
             PropertySection(title: "Content") {
                 TextField("Enter text", text: $editedContent)
-                    .font(DSTypography.body(.regular))
+                    .font(DSTypography.body)
                     .textFieldStyle(.plain)
                     .padding(DesignTokens.Spacing.sm)
                     .background(
@@ -289,7 +289,7 @@ struct TextStyleInspector: View {
                         }
 
                     Text("\(Int(selectedFontSize))pt")
-                        .font(DSTypography.label(.regular))
+                        .font(DSTypography.caption)
                         .foregroundColor(.nuviaPrimaryText)
                         .frame(width: 50)
                 }
@@ -347,7 +347,7 @@ struct TextStyleInspector: View {
             newStyle.fontFamily = family
             return newStyle
         }
-        HapticEngine.shared.selection()
+        NuviaHaptics.shared.selection()
     }
 
     private func updateFontSize(_ size: CGFloat) {
@@ -364,12 +364,12 @@ struct TextStyleInspector: View {
             newStyle.fontWeight = weight
             return newStyle
         }
-        HapticEngine.shared.selection()
+        NuviaHaptics.shared.selection()
     }
 
     private func updateTextColor(_ hex: String) {
         viewModel.updateTextColor(id: elementId, color: HexColor(hex: hex))
-        HapticEngine.shared.selection()
+        NuviaHaptics.shared.selection()
     }
 
     private func updateAlignment(_ alignment: StudioTextAlignment) {
@@ -378,7 +378,7 @@ struct TextStyleInspector: View {
             newStyle.alignment = alignment
             return newStyle
         }
-        HapticEngine.shared.selection()
+        NuviaHaptics.shared.selection()
     }
 }
 
@@ -413,7 +413,7 @@ struct ImageStyleInspector: View {
 
     private func updateFilter(_ newFilter: StudioPhotoFilter) {
         viewModel.updateImageFilter(id: elementId, filter: newFilter)
-        HapticEngine.shared.selection()
+        NuviaHaptics.shared.selection()
     }
 }
 
@@ -462,7 +462,7 @@ struct ShapeStyleInspector: View {
                         }
 
                     Text("\(String(format: "%.1f", currentStrokeWidth))pt")
-                        .font(DSTypography.label(.regular))
+                        .font(DSTypography.caption)
                         .foregroundColor(.nuviaPrimaryText)
                         .frame(width: 50)
                 }
@@ -475,13 +475,13 @@ struct ShapeStyleInspector: View {
 
     private func updateFillColor(_ hex: String) {
         viewModel.updateShapeColors(id: elementId, fillColor: HexColor(hex: hex), strokeColor: strokeColor)
-        HapticEngine.shared.selection()
+        NuviaHaptics.shared.selection()
     }
 
     private func updateStrokeColor(_ hex: String) {
         let newStrokeColor = hex == "TRANSPARENT" ? nil : HexColor(hex: hex)
         viewModel.updateShapeColors(id: elementId, fillColor: fillColor, strokeColor: newStrokeColor)
-        HapticEngine.shared.selection()
+        NuviaHaptics.shared.selection()
     }
 
     private func updateStrokeWidth(_ width: CGFloat) {
@@ -512,7 +512,7 @@ struct StickerStyleInspector: View {
                             Image(systemName: "crown.fill")
                                 .font(.system(size: 12))
                             Text("Premium Sticker")
-                                .font(DSTypography.label(.small))
+                                .font(DSTypography.captionSmall)
                         }
                         .foregroundColor(.nuviaChampagne)
                     }
@@ -550,7 +550,7 @@ struct TransformInspector: View {
                         }
 
                     Text("\(Int(scale * 100))%")
-                        .font(DSTypography.label(.regular))
+                        .font(DSTypography.caption)
                         .foregroundColor(.nuviaPrimaryText)
                         .frame(width: 50)
                 }
@@ -566,7 +566,7 @@ struct TransformInspector: View {
                         }
 
                     Text("\(Int(rotation))°")
-                        .font(DSTypography.label(.regular))
+                        .font(DSTypography.caption)
                         .foregroundColor(.nuviaPrimaryText)
                         .frame(width: 50)
                 }
@@ -605,7 +605,7 @@ struct TransformInspector: View {
                         Text("X: \(Int(transform.offset.width))")
                         Text("Y: \(Int(transform.offset.height))")
                     }
-                    .font(DSTypography.label(.regular))
+                    .font(DSTypography.caption)
                     .foregroundColor(.nuviaSecondaryText)
 
                     Spacer()
@@ -614,7 +614,7 @@ struct TransformInspector: View {
                         centerElement()
                     } label: {
                         Text("Center")
-                            .font(DSTypography.label(.regular))
+                            .font(DSTypography.caption)
                             .foregroundColor(.nuviaChampagne)
                     }
                 }
@@ -632,12 +632,12 @@ struct TransformInspector: View {
 
     private func updateRotation(_ degrees: Double) {
         viewModel.updateElementRotation(id: elementId, rotation: Angle(degrees: degrees))
-        HapticEngine.shared.impact(.light)
+        NuviaHaptics.shared.impact(.light)
     }
 
     private func centerElement() {
         viewModel.centerElement(id: elementId)
-        HapticEngine.shared.impact(.medium)
+        NuviaHaptics.shared.impact(.medium)
     }
 }
 
@@ -653,19 +653,19 @@ struct EffectsInspector: View {
             PropertySection(title: "Shadow", isPremium: true) {
                 VStack(spacing: DesignTokens.Spacing.sm) {
                     Text("Unlock Premium to add shadows")
-                        .font(DSTypography.body(.small))
+                        .font(DSTypography.bodySmall)
                         .foregroundColor(.nuviaSecondaryText)
                         .frame(maxWidth: .infinity)
 
                     Button {
                         // Show premium paywall
-                        HapticEngine.shared.notify(.warning)
+                        NuviaHaptics.shared.notification(.warning)
                     } label: {
                         HStack {
                             Image(systemName: "crown.fill")
                             Text("Upgrade to Premium")
                         }
-                        .font(DSTypography.label(.regular))
+                        .font(DSTypography.caption)
                         .foregroundColor(.white)
                         .padding(.horizontal, DesignTokens.Spacing.md)
                         .padding(.vertical, DesignTokens.Spacing.sm)
@@ -689,7 +689,7 @@ struct EffectsInspector: View {
             // Opacity
             PropertySection(title: "Opacity") {
                 Text("Coming Soon")
-                    .font(DSTypography.body(.small))
+                    .font(DSTypography.bodySmall)
                     .foregroundColor(.nuviaTertiaryText)
                     .frame(maxWidth: .infinity)
                     .padding(DesignTokens.Spacing.md)
@@ -713,7 +713,7 @@ struct PropertySection<Content: View>: View {
         VStack(alignment: .leading, spacing: DesignTokens.Spacing.sm) {
             HStack {
                 Text(title)
-                    .font(DSTypography.label(.large))
+                    .font(DSTypography.overline)
                     .foregroundColor(.nuviaSecondaryText)
 
                 if isPremium {
@@ -758,7 +758,7 @@ struct FontPicker: View {
                         if !font.isPremium {
                             onSelect(font.name)
                         } else {
-                            HapticEngine.shared.notify(.warning)
+                            NuviaHaptics.shared.notification(.warning)
                         }
                     }
                 }
@@ -950,7 +950,7 @@ struct FilterButton: View {
                 }
 
                 Text(filter.rawValue)
-                    .font(DSTypography.label(.small))
+                    .font(DSTypography.captionSmall)
                     .foregroundColor(isSelected ? .nuviaChampagne : .nuviaSecondaryText)
             }
             .padding(4)
@@ -973,7 +973,7 @@ struct QuickRotateButton: View {
     var body: some View {
         Button(action: action) {
             Text(label ?? "\(Int(degrees))°")
-                .font(DSTypography.label(.small))
+                .font(DSTypography.captionSmall)
                 .foregroundColor(.nuviaPrimaryText)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
