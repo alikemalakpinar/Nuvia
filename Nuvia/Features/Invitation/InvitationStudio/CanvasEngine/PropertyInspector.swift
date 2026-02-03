@@ -1069,7 +1069,8 @@ extension CanvasViewModel {
         var element = elements[index]
         var transform = element.transform
         transform.scale = scale
-        elements[index] = element.withTransform(transform)
+        element.transform = transform
+        elements[index] = element
     }
 
     func updateElementRotation(id: UUID, rotation: Angle) {
@@ -1079,7 +1080,8 @@ extension CanvasViewModel {
         var element = elements[index]
         var transform = element.transform
         transform.rotation = rotation
-        elements[index] = element.withTransform(transform)
+        element.transform = transform
+        elements[index] = element
     }
 
     func centerElement(id: UUID) {
@@ -1089,7 +1091,8 @@ extension CanvasViewModel {
         var element = elements[index]
         var transform = element.transform
         transform.offset = .zero
-        elements[index] = element.withTransform(transform)
+        element.transform = transform
+        elements[index] = element
     }
 }
 
@@ -1116,7 +1119,7 @@ extension CanvasViewModel {
             transform: StudioTransform()
         )
         viewModel.addElement(element)
-        viewModel.selectElement(element.id)
+        viewModel.selectElement(id: element.id)
     }()
 
     ZStack {
