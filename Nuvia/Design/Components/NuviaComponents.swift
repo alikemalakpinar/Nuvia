@@ -83,7 +83,7 @@ struct NuviaPrimaryButton: View {
         switch style {
         case .filled: return .nuviaInverseText
         case .outlined: return .nuviaPrimaryAction
-        case .ghost: return .nuviaChampagne
+        case .ghost: return .nuviaChampagneStatic
         }
     }
 
@@ -208,7 +208,7 @@ struct HeroCard<Content: View>: View {
     let accentColor: Color
     let content: Content
 
-    init(accent: Color = .nuviaChampagne, @ViewBuilder content: () -> Content) {
+    init(accent: Color = .nuviaChampagneStatic, @ViewBuilder content: () -> Content) {
         self.accentColor = accent
         self.content = content()
     }
@@ -241,7 +241,7 @@ struct NuviaHeroCard<Content: View>: View {
     let accentColor: Color
     let content: Content
 
-    init(accent: Color = .nuviaChampagne, @ViewBuilder content: () -> Content) {
+    init(accent: Color = .nuviaChampagneStatic, @ViewBuilder content: () -> Content) {
         self.accentColor = accent
         self.content = content()
     }
@@ -412,7 +412,7 @@ struct NuviaProgressRing: View {
         size: CGFloat = 80,
         lineWidth: CGFloat = 6,
         showPercentage: Bool = true,
-        accentColor: Color = .nuviaChampagne
+        accentColor: Color = .nuviaChampagneStatic
     ) {
         self.progress = progress
         self.size = size
@@ -512,7 +512,7 @@ struct NuviaTag: View {
         }
     }
 
-    init(_ text: String, color: Color = .nuviaChampagne, size: TagSize = .medium) {
+    init(_ text: String, color: Color = .nuviaChampagneStatic, size: TagSize = .medium) {
         self.text = text
         self.color = color
         self.size = size
@@ -736,7 +736,7 @@ struct NuviaStatusIndicator: View {
 struct NuviaFilterChip: View {
     let title: String
     let isSelected: Bool
-    var color: Color = .nuviaChampagne
+    var color: Color = .nuviaChampagneStatic
     let action: () -> Void
 
     var body: some View {

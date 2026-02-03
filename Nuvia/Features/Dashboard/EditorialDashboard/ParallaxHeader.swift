@@ -184,8 +184,8 @@ struct CountdownHero: View {
     }
 }
 
-// MARK: - Editorial Card
-struct EditorialCard<Content: View>: View {
+// MARK: - Scroll Reveal Card
+struct ScrollRevealCard<Content: View>: View {
     let scrollState: ScrollState
     let id: String
     @ViewBuilder let content: () -> Content

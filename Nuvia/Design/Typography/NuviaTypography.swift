@@ -330,7 +330,7 @@ extension Text {
         self
             .font(NuviaTypography.quote())
             .italic()
-            .foregroundColor(.nuviaSecondaryText)
+            .foregroundColor(.nuviaSecondaryTextStatic)
             .lineSpacing(8)
     }
 }
