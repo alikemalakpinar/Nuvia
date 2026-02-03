@@ -131,13 +131,13 @@ enum FileAttachmentType: String, CaseIterable, Codable {
 
     var color: Color {
         switch self {
-        case .contract: return .nuviaInfo
-        case .receipt: return .nuviaSuccess
+        case .contract: return .nuviaInfoStatic
+        case .receipt: return .nuviaSuccessStatic
         case .photo: return .categoryPhoto
-        case .document: return .nuviaSecondaryText
-        case .id: return .nuviaWarning
+        case .document: return .nuviaSecondaryTextStatic
+        case .id: return .nuviaWarningStatic
         case .inspiration: return .categoryDress
-        case .other: return .nuviaTertiaryText
+        case .other: return .nuviaTertiaryTextStatic
         }
     }
 
