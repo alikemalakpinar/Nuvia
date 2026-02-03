@@ -215,9 +215,11 @@ extension EnvironmentValues {
 
 extension Color {
     /// Get current theme's color dynamically
-    /// Using nonisolated(unsafe) as this is only accessed from SwiftUI view bodies (main thread)
+    /// Using MainActor.assumeIsolated as this is only accessed from SwiftUI view bodies (main thread)
     nonisolated(unsafe) public static var themed: ThemeColors {
-        ThemeManager.shared.currentTheme.colors
+        MainActor.assumeIsolated {
+            ThemeManager.shared.currentTheme.colors
+        }
     }
 }
 
