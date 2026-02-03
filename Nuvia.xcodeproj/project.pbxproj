@@ -49,11 +49,9 @@
 		A100000040 /* VendorManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000040 /* VendorManagementView.swift */; };
 		A100000041 /* WeddingDayRunOfShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000041 /* WeddingDayRunOfShowView.swift */; };
 		A100000042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B100000042 /* Assets.xcassets */; };
-		A959007F2F315F56003D1348 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A959007E2F315F56003D1348 /* HapticManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A959007E2F315F56003D1348 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		B100000001 /* NuviaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuviaApp.swift; sourceTree = "<group>"; };
 		B100000002 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B100000003 /* Delivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delivery.swift; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 			children = (
 				B100000031 /* CreateProjectView.swift */,
 				B100000032 /* OnboardingContainerView.swift */,
-				A959007E2F315F56003D1348 /* HapticManager.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -472,7 +469,6 @@
 				A100000014 /* Vendor.swift in Sources */,
 				A100000015 /* WeddingProject.swift in Sources */,
 				A100000016 /* BiometricService.swift in Sources */,
-				A959007F2F315F56003D1348 /* HapticManager.swift in Sources */,
 				A100000017 /* DataManager.swift in Sources */,
 				A100000018 /* ExportService.swift in Sources */,
 				A100000019 /* NotificationManager.swift in Sources */,
