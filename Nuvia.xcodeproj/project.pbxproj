@@ -145,6 +145,27 @@
 		B100000059 /* CountdownArcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownArcView.swift; sourceTree = "<group>"; };
 		B100000060 /* PremiumPaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPaywallView.swift; sourceTree = "<group>"; };
 		B100000099 /* Nuvia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nuvia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B100000061 /* BudgetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetService.swift; sourceTree = "<group>"; };
+		B100000062 /* GuestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestService.swift; sourceTree = "<group>"; };
+		B100000063 /* ProjectService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectService.swift; sourceTree = "<group>"; };
+		B100000064 /* RiskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskService.swift; sourceTree = "<group>"; };
+		B100000065 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
+		B100000066 /* DSColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSColors.swift; sourceTree = "<group>"; };
+		B100000067 /* DSTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSTypography.swift; sourceTree = "<group>"; };
+		B100000068 /* DSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSButton.swift; sourceTree = "<group>"; };
+		B100000069 /* DSCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSCard.swift; sourceTree = "<group>"; };
+		B100000070 /* DSEmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSEmptyState.swift; sourceTree = "<group>"; };
+		B100000071 /* DSModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSModifiers.swift; sourceTree = "<group>"; };
+		B100000072 /* DSRadii.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSRadii.swift; sourceTree = "<group>"; };
+		B100000073 /* DSShadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSShadows.swift; sourceTree = "<group>"; };
+		B100000074 /* DSSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSSpacing.swift; sourceTree = "<group>"; };
+		B100000075 /* DSTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSTheme.swift; sourceTree = "<group>"; };
+		B100000076 /* MotionCurves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionCurves.swift; sourceTree = "<group>"; };
+		B100000077 /* NuviaHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuviaHaptics.swift; sourceTree = "<group>"; };
+		B100000078 /* ReduceMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReduceMotion.swift; sourceTree = "<group>"; };
+		B100000079 /* MagazineWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineWidgets.swift; sourceTree = "<group>"; };
+		B100000080 /* ParallaxHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHeroView.swift; sourceTree = "<group>"; };
+		B100000081 /* InvitationTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationTemplate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,10 +221,72 @@
 		G100000020 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				G100000080 /* DesignSystem */,
 				G100000021 /* Models */,
 				G100000022 /* Services */,
+				G100000081 /* System */,
+				G100000082 /* Utils */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		G100000080 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				G100000083 /* Components */,
+				G100000084 /* Modifiers */,
+				G100000085 /* Theme */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		G100000083 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B100000068 /* DSButton.swift */,
+				B100000069 /* DSCard.swift */,
+				B100000070 /* DSEmptyState.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		G100000084 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				B100000071 /* DSModifiers.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		G100000085 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				B100000066 /* DSColors.swift */,
+				B100000072 /* DSRadii.swift */,
+				B100000073 /* DSShadows.swift */,
+				B100000074 /* DSSpacing.swift */,
+				B100000075 /* DSTheme.swift */,
+				B100000067 /* DSTypography.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		G100000081 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				B100000076 /* MotionCurves.swift */,
+				B100000077 /* NuviaHaptics.swift */,
+				B100000078 /* ReduceMotion.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		G100000082 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B100000065 /* L10n.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		G100000021 /* Models */ = {
@@ -230,9 +313,13 @@
 			isa = PBXGroup;
 			children = (
 				B100000016 /* BiometricService.swift */,
+				B100000061 /* BudgetService.swift */,
 				B100000017 /* DataManager.swift */,
 				B100000018 /* ExportService.swift */,
+				B100000062 /* GuestService.swift */,
 				B100000019 /* NotificationManager.swift */,
+				B100000063 /* ProjectService.swift */,
+				B100000064 /* RiskService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -317,6 +404,8 @@
 		G100000042 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				G100000086 /* EditorialComponents */,
+				G100000061 /* EditorialDashboard */,
 				B100000024 /* MainTabView.swift */,
 				B100000025 /* TodayDashboardView.swift */,
 				G100000061 /* EditorialDashboard */,
@@ -640,6 +729,27 @@
 				A100000058 /* MagazineLayoutView.swift in Sources */,
 				A100000059 /* CountdownArcView.swift in Sources */,
 				A100000060 /* PremiumPaywallView.swift in Sources */,
+				A100000061 /* BudgetService.swift in Sources */,
+				A100000062 /* GuestService.swift in Sources */,
+				A100000063 /* ProjectService.swift in Sources */,
+				A100000064 /* RiskService.swift in Sources */,
+				A100000065 /* L10n.swift in Sources */,
+				A100000066 /* DSColors.swift in Sources */,
+				A100000067 /* DSTypography.swift in Sources */,
+				A100000068 /* DSButton.swift in Sources */,
+				A100000069 /* DSCard.swift in Sources */,
+				A100000070 /* DSEmptyState.swift in Sources */,
+				A100000071 /* DSModifiers.swift in Sources */,
+				A100000072 /* DSRadii.swift in Sources */,
+				A100000073 /* DSShadows.swift in Sources */,
+				A100000074 /* DSSpacing.swift in Sources */,
+				A100000075 /* DSTheme.swift in Sources */,
+				A100000076 /* MotionCurves.swift in Sources */,
+				A100000077 /* NuviaHaptics.swift in Sources */,
+				A100000078 /* ReduceMotion.swift in Sources */,
+				A100000079 /* MagazineWidgets.swift in Sources */,
+				A100000080 /* ParallaxHeroView.swift in Sources */,
+				A100000081 /* InvitationTemplate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
