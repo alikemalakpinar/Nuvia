@@ -64,13 +64,13 @@ struct InvitationEditorView: View {
 
                     // Bottom Action Bar
                     HStack(spacing: 16) {
-                        NuviaPrimaryButton("Preview", icon: "eye", style: .outlined) {
+                        NuviaPrimaryButton("Preview", icon: "eye", style: .outlined, action: {
                             // Show preview
-                        }
+                        })
 
-                        NuviaPrimaryButton("Export", icon: "square.and.arrow.up") {
+                        NuviaPrimaryButton("Export", icon: "square.and.arrow.up", action: {
                             checkPremiumAndExport()
-                        }
+                        })
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 20)
