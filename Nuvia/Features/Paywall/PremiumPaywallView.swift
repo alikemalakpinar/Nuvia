@@ -677,6 +677,7 @@ struct PremiumFeature {
     let title: String
     let subtitle: String
 
+    @MainActor
     static let allFeatures: [PremiumFeature] = [
         PremiumFeature(
             icon: "wand.and.stars",
