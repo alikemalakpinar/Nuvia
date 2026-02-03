@@ -137,7 +137,7 @@ struct OnboardingContainerView: View {
     }
 
     private func completeOnboarding() {
-        HapticManager.shared.success()
+        HapticManager.shared.taskCompleted()
         withAnimation(.easeInOut(duration: 0.5)) {
             appState.isOnboardingComplete = true
         }

@@ -669,7 +669,7 @@ struct AddDeliverySheet: View {
                         delivery.notes = notes.isEmpty ? nil : notes
                         modelContext.insert(delivery)
                         try? modelContext.save()
-                        HapticManager.shared.success()
+                        HapticManager.shared.taskCompleted()
                         dismiss()
                     }
                     .foregroundColor(.nuviaGoldFallback)
