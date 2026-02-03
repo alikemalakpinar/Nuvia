@@ -260,7 +260,7 @@ struct TickMark: View {
         let innerX = cos(radians) * innerRadius
         let innerY = sin(radians) * innerRadius
 
-        return Path { path in
+        Path { path in
             path.move(to: CGPoint(x: size/2 + innerX, y: size/2 + innerY))
             path.addLine(to: CGPoint(x: size/2 + outerX, y: size/2 + outerY))
         }
@@ -333,7 +333,7 @@ struct CountdownCard: View {
     private var progressMessage: some View {
         let percentage = min(100, max(0, Int(Double(totalDays - daysRemaining) / Double(totalDays) * 100)))
 
-        return VStack(spacing: DesignTokens.Spacing.xs) {
+        VStack(spacing: DesignTokens.Spacing.xs) {
             Text("\(percentage)% of your planning journey complete")
                 .font(DSTypography.body(.small))
                 .foregroundColor(.nuviaSecondaryText)
@@ -516,7 +516,7 @@ struct TimeSeparator: View {
     let weddingDate = Calendar.current.date(byAdding: .day, value: 127, to: Date())!
     let totalDays = 365
 
-    return ScrollView {
+    ScrollView {
         VStack(spacing: DesignTokens.Spacing.xl) {
             CountdownCard(
                 daysRemaining: 127,

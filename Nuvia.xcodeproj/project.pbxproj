@@ -65,6 +65,7 @@
 		A100000058 /* MagazineLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000058 /* MagazineLayoutView.swift */; };
 		A100000059 /* CountdownArcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000059 /* CountdownArcView.swift */; };
 		A100000060 /* PremiumPaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000060 /* PremiumPaywallView.swift */; };
+		A100000045 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000045 /* DesignTokens.swift */; };
 		A95900812F31E2B0003D1348 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900802F31E2B0003D1348 /* FilterChip.swift */; };
 		A959008F2F322D29003D1348 /* View+Elevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A959008E2F322D29003D1348 /* View+Elevation.swift */; };
 /* End PBXBuildFile section */
@@ -709,6 +710,7 @@
 				A100000063 /* ProjectService.swift in Sources */,
 				A100000064 /* RiskService.swift in Sources */,
 				A100000065 /* L10n.swift in Sources */,
+				A100000045 /* DesignTokens.swift in Sources */,
 				A100000066 /* DSColors.swift in Sources */,
 				A100000067 /* DSTypography.swift in Sources */,
 				A100000068 /* DSButton.swift in Sources */,

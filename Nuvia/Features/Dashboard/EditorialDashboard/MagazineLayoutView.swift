@@ -537,7 +537,7 @@ struct ProgressRingCard: View {
         PreviewItem(title: "Decorations", color: .nuviaTerracotta)
     ]
 
-    return ScrollView {
+    ScrollView {
         VStack(spacing: DesignTokens.Spacing.xl) {
             MagazineSectionView(
                 title: "Your Tasks",
