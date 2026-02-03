@@ -287,6 +287,10 @@ extension Color {
     public static let nuviaRoseGold = Color(hex: "C9A9A6")
     public static let nuviaGold = Color(hex: "D4AF37")
 
+    // Glass effect colors
+    public static let nuviaGlassOverlay = Color.white.opacity(0.05)
+    public static let nuviaGlassBorder = Color.white.opacity(0.1)
+
     // Category Colors (static)
     public static let categoryVenue = Color(hex: "B5A3C4")
     public static let categoryPhoto = Color(hex: "A3B5C4")
@@ -455,5 +459,67 @@ struct PressEffectModifier: ViewModifier {
                     .onChanged { _ in isPressed = true }
                     .onEnded { _ in isPressed = false }
             )
+    }
+}
+
+// MARK: - Nuvia Shadow System
+
+public enum NuviaShadow {
+    case none, subtle, medium, elevated
+
+    public var color: Color { .black }
+
+    public var opacity: Double {
+        switch self {
+        case .none: return 0
+        case .subtle: return 0.05
+        case .medium: return 0.1
+        case .elevated: return 0.15
+        }
+    }
+
+    public var radius: CGFloat {
+        switch self {
+        case .none: return 0
+        case .subtle: return 8
+        case .medium: return 16
+        case .elevated: return 24
+        }
+    }
+
+    public var y: CGFloat {
+        switch self {
+        case .none: return 0
+        case .subtle: return 2
+        case .medium: return 6
+        case .elevated: return 10
+        }
+    }
+}
+
+extension View {
+    public func nuviaShadow(_ level: NuviaShadow) -> some View {
+        self.shadow(
+            color: level.color.opacity(level.opacity),
+            radius: level.radius,
+            x: 0,
+            y: level.y
+        )
+    }
+}
+
+// MARK: - Seeded Random Number Generator
+
+public struct SeedableRNG: RandomNumberGenerator {
+    private var state: UInt64
+
+    public init(seed: UInt64) {
+        self.state = seed
+    }
+
+    public mutating func next() -> UInt64 {
+        // Linear congruential generator
+        state = state &* 6364136223846793005 &+ 1442695040888963407
+        return state
     }
 }
