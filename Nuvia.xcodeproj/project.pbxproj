@@ -50,7 +50,6 @@
 		A100000041 /* WeddingDayRunOfShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000041 /* WeddingDayRunOfShowView.swift */; };
 		A100000042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B100000042 /* Assets.xcassets */; };
 		A100000044 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000044 /* PaywallView.swift */; };
-		A100000045 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000045 /* DesignTokens.swift */; };
 		A100000046 /* CustomTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000046 /* CustomTransitions.swift */; };
 		A100000047 /* CanvasModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000047 /* CanvasModels.swift */; };
 		A100000048 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000048 /* CanvasViewModel.swift */; };
@@ -67,31 +66,24 @@
 		A100000059 /* CountdownArcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000059 /* CountdownArcView.swift */; };
 		A100000060 /* PremiumPaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000060 /* PremiumPaywallView.swift */; };
 		A95900812F31E2B0003D1348 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900802F31E2B0003D1348 /* FilterChip.swift */; };
-		A100000061 /* BudgetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000061 /* BudgetService.swift */; };
-		A100000062 /* GuestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000062 /* GuestService.swift */; };
-		A100000063 /* ProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000063 /* ProjectService.swift */; };
-		A100000064 /* RiskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000064 /* RiskService.swift */; };
-		A100000065 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000065 /* L10n.swift */; };
-		A100000066 /* DSColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000066 /* DSColors.swift */; };
-		A100000067 /* DSTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000067 /* DSTypography.swift */; };
-		A100000068 /* DSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000068 /* DSButton.swift */; };
-		A100000069 /* DSCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000069 /* DSCard.swift */; };
-		A100000070 /* DSEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000070 /* DSEmptyState.swift */; };
-		A100000071 /* DSModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000071 /* DSModifiers.swift */; };
-		A100000072 /* DSRadii.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000072 /* DSRadii.swift */; };
-		A100000073 /* DSShadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000073 /* DSShadows.swift */; };
-		A100000074 /* DSSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000074 /* DSSpacing.swift */; };
-		A100000075 /* DSTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000075 /* DSTheme.swift */; };
-		A100000076 /* MotionCurves.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000076 /* MotionCurves.swift */; };
-		A100000077 /* NuviaHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000077 /* NuviaHaptics.swift */; };
-		A100000078 /* ReduceMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000078 /* ReduceMotion.swift */; };
-		A100000079 /* MagazineWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000079 /* MagazineWidgets.swift */; };
-		A100000080 /* ParallaxHeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000080 /* ParallaxHeroView.swift */; };
-		A100000081 /* InvitationTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000081 /* InvitationTemplate.swift */; };
+		A95900872F322C61003D1348 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900862F322C61003D1348 /* Localization.swift */; };
+		A95900892F322CD5003D1348 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900882F322CD5003D1348 /* L10n.swift */; };
+		A959008B2F322CEB003D1348 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = A959008A2F322CEB003D1348 /* DesignTokens.swift */; };
+		A959008D2F322D14003D1348 /* MotionCurves.swift in Sources */ = {isa = PBXBuildFile; fileRef = A959008C2F322D14003D1348 /* MotionCurves.swift */; };
+		A959008F2F322D29003D1348 /* View+Elevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A959008E2F322D29003D1348 /* View+Elevation.swift */; };
+		A95900912F322D29003D1348 /* L10n+Studio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900902F322D29003D1348 /* L10n+Studio.swift */; };
+		A95900932F322D63003D1348 /* FIXES_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = A95900922F322D63003D1348 /* FIXES_SUMMARY.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A95900802F31E2B0003D1348 /* FilterChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChip.swift; sourceTree = "<group>"; };
+		A95900862F322C61003D1348 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		A95900882F322CD5003D1348 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
+		A959008A2F322CEB003D1348 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
+		A959008C2F322D14003D1348 /* MotionCurves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionCurves.swift; sourceTree = "<group>"; };
+		A959008E2F322D29003D1348 /* View+Elevation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Elevation.swift"; sourceTree = "<group>"; };
+		A95900902F322D29003D1348 /* L10n+Studio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "L10n+Studio.swift"; sourceTree = "<group>"; };
+		A95900922F322D63003D1348 /* FIXES_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIXES_SUMMARY.md; sourceTree = "<group>"; };
 		B100000001 /* NuviaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuviaApp.swift; sourceTree = "<group>"; };
 		B100000002 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B100000003 /* Delivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delivery.swift; sourceTree = "<group>"; };
@@ -134,6 +126,7 @@
 		B100000040 /* VendorManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorManagementView.swift; sourceTree = "<group>"; };
 		B100000041 /* WeddingDayRunOfShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingDayRunOfShowView.swift; sourceTree = "<group>"; };
 		B100000042 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B100000043 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B100000044 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		B100000045 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		B100000046 /* CustomTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransitions.swift; sourceTree = "<group>"; };
@@ -151,7 +144,6 @@
 		B100000058 /* MagazineLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineLayoutView.swift; sourceTree = "<group>"; };
 		B100000059 /* CountdownArcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownArcView.swift; sourceTree = "<group>"; };
 		B100000060 /* PremiumPaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPaywallView.swift; sourceTree = "<group>"; };
-		B100000043 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B100000099 /* Nuvia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nuvia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B100000061 /* BudgetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetService.swift; sourceTree = "<group>"; };
 		B100000062 /* GuestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestService.swift; sourceTree = "<group>"; };
@@ -221,6 +213,7 @@
 			children = (
 				B100000001 /* NuviaApp.swift */,
 				B100000002 /* RootView.swift */,
+				A95900862F322C61003D1348 /* Localization.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -415,28 +408,10 @@
 				G100000061 /* EditorialDashboard */,
 				B100000024 /* MainTabView.swift */,
 				B100000025 /* TodayDashboardView.swift */,
+				G100000061 /* EditorialDashboard */,
+				A95900882F322CD5003D1348 /* L10n.swift */,
 			);
 			path = Dashboard;
-			sourceTree = "<group>";
-		};
-		G100000086 /* EditorialComponents */ = {
-			isa = PBXGroup;
-			children = (
-				B100000079 /* MagazineWidgets.swift */,
-				B100000080 /* ParallaxHeroView.swift */,
-			);
-			path = EditorialComponents;
-			sourceTree = "<group>";
-		};
-		G100000061 /* EditorialDashboard */ = {
-			isa = PBXGroup;
-			children = (
-				B100000051 /* ScrollObserver.swift */,
-				B100000052 /* ParallaxHeader.swift */,
-				B100000058 /* MagazineLayoutView.swift */,
-				B100000059 /* CountdownArcView.swift */,
-			);
-			path = EditorialDashboard;
 			sourceTree = "<group>";
 		};
 		G100000043 /* FileVault */ = {
@@ -472,30 +447,6 @@
 			path = Invitation;
 			sourceTree = "<group>";
 		};
-		G100000059 /* InvitationStudio */ = {
-			isa = PBXGroup;
-			children = (
-				G100000060 /* CanvasEngine */,
-				B100000057 /* InvitationStudioView.swift */,
-			);
-			path = InvitationStudio;
-			sourceTree = "<group>";
-		};
-		G100000060 /* CanvasEngine */ = {
-			isa = PBXGroup;
-			children = (
-				B100000047 /* CanvasModels.swift */,
-				B100000050 /* CanvasRenderer.swift */,
-				B100000048 /* CanvasViewModel.swift */,
-				B100000049 /* GestureCoordinator.swift */,
-				B100000081 /* InvitationTemplate.swift */,
-				B100000055 /* LayerSheet.swift */,
-				B100000054 /* MovableElementView.swift */,
-				B100000056 /* PropertyInspector.swift */,
-			);
-			path = CanvasEngine;
-			sourceTree = "<group>";
-		};
 		G100000047 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,14 +463,6 @@
 				G100000062 /* LiquidOnboarding */,
 			);
 			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		G100000062 /* LiquidOnboarding */ = {
-			isa = PBXGroup;
-			children = (
-				B100000053 /* LiquidOnboardingView.swift */,
-			);
-			path = LiquidOnboarding;
 			sourceTree = "<group>";
 		};
 		G100000049 /* RSVP */ = {
@@ -604,6 +547,53 @@
 			path = Paywall;
 			sourceTree = "<group>";
 		};
+		G100000059 /* InvitationStudio */ = {
+			isa = PBXGroup;
+			children = (
+				G100000060 /* CanvasEngine */,
+				B100000057 /* InvitationStudioView.swift */,
+				A959008A2F322CEB003D1348 /* DesignTokens.swift */,
+				A959008C2F322D14003D1348 /* MotionCurves.swift */,
+				A959008E2F322D29003D1348 /* View+Elevation.swift */,
+				A95900902F322D29003D1348 /* L10n+Studio.swift */,
+				A95900922F322D63003D1348 /* FIXES_SUMMARY.md */,
+			);
+			path = InvitationStudio;
+			sourceTree = "<group>";
+		};
+		G100000060 /* CanvasEngine */ = {
+			isa = PBXGroup;
+			children = (
+				B100000047 /* CanvasModels.swift */,
+				B100000048 /* CanvasViewModel.swift */,
+				B100000049 /* GestureCoordinator.swift */,
+				B100000050 /* CanvasRenderer.swift */,
+				B100000054 /* MovableElementView.swift */,
+				B100000055 /* LayerSheet.swift */,
+				B100000056 /* PropertyInspector.swift */,
+			);
+			path = CanvasEngine;
+			sourceTree = "<group>";
+		};
+		G100000061 /* EditorialDashboard */ = {
+			isa = PBXGroup;
+			children = (
+				B100000051 /* ScrollObserver.swift */,
+				B100000052 /* ParallaxHeader.swift */,
+				B100000058 /* MagazineLayoutView.swift */,
+				B100000059 /* CountdownArcView.swift */,
+			);
+			path = EditorialDashboard;
+			sourceTree = "<group>";
+		};
+		G100000062 /* LiquidOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				B100000053 /* LiquidOnboardingView.swift */,
+			);
+			path = LiquidOnboarding;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -664,6 +654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A100000042 /* Assets.xcassets in Resources */,
+				A95900932F322D63003D1348 /* FIXES_SUMMARY.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,6 +674,7 @@
 				A100000007 /* JournalEntry.swift in Sources */,
 				A100000008 /* NotificationRule.swift in Sources */,
 				A100000009 /* Room.swift in Sources */,
+				A95900892F322CD5003D1348 /* L10n.swift in Sources */,
 				A100000010 /* SeatingTable.swift in Sources */,
 				A100000011 /* ShoppingList.swift in Sources */,
 				A100000012 /* Task.swift in Sources */,
@@ -700,6 +692,9 @@
 				A100000024 /* MainTabView.swift in Sources */,
 				A100000025 /* TodayDashboardView.swift in Sources */,
 				A95900812F31E2B0003D1348 /* FilterChip.swift in Sources */,
+				A95900872F322C61003D1348 /* Localization.swift in Sources */,
+				A959008F2F322D29003D1348 /* View+Elevation.swift in Sources */,
+				A95900912F322D29003D1348 /* L10n+Studio.swift in Sources */,
 				A100000026 /* FileVaultView.swift in Sources */,
 				A100000027 /* GuestListView.swift in Sources */,
 				A100000028 /* HomeSetupDashboardView.swift in Sources */,
@@ -707,6 +702,7 @@
 				A100000030 /* JournalView.swift in Sources */,
 				A100000031 /* CreateProjectView.swift in Sources */,
 				A100000032 /* OnboardingContainerView.swift in Sources */,
+				A959008B2F322CEB003D1348 /* DesignTokens.swift in Sources */,
 				A100000033 /* RSVPManagementView.swift in Sources */,
 				A100000034 /* SeatingPlanView.swift in Sources */,
 				A100000035 /* SettingsView.swift in Sources */,
@@ -717,7 +713,6 @@
 				A100000040 /* VendorManagementView.swift in Sources */,
 				A100000041 /* WeddingDayRunOfShowView.swift in Sources */,
 				A100000044 /* PaywallView.swift in Sources */,
-				A100000045 /* DesignTokens.swift in Sources */,
 				A100000046 /* CustomTransitions.swift in Sources */,
 				A100000047 /* CanvasModels.swift in Sources */,
 				A100000048 /* CanvasViewModel.swift in Sources */,
@@ -725,6 +720,7 @@
 				A100000050 /* CanvasRenderer.swift in Sources */,
 				A100000051 /* ScrollObserver.swift in Sources */,
 				A100000052 /* ParallaxHeader.swift in Sources */,
+				A959008D2F322D14003D1348 /* MotionCurves.swift in Sources */,
 				A100000053 /* LiquidOnboardingView.swift in Sources */,
 				A100000054 /* MovableElementView.swift in Sources */,
 				A100000055 /* LayerSheet.swift in Sources */,
