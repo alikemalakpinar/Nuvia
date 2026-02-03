@@ -15,7 +15,7 @@ public final class CanvasRenderer {
         case jpeg(quality: CGFloat)
     }
 
-    public enum ExportResolution {
+    public enum ExportResolution: Equatable {
         case standard    // 1x
         case high        // 2x
         case print       // 3x (300 DPI equivalent)

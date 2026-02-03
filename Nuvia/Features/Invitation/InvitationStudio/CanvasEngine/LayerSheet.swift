@@ -455,7 +455,7 @@ struct SmallActionButton: View {
 
 extension CanvasViewModel {
     func moveLayer(_ id: UUID, direction: MoveDirection) {
-        guard let index = elements.firstIndex(where: { $0.id == id }) else { return }
+        guard elements.contains(where: { $0.id == id }) else { return }
 
         switch direction {
         case .up:
