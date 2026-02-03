@@ -1,9 +1,6 @@
 import SwiftUI
 import SwiftData
 
-// MARK: - Haptic Helper (avoids ambiguity)
-private let haptics = haptics
-
 /// Oturma planı ana ekranı
 struct SeatingPlanView: View {
     @Environment(\.dismiss) private var dismiss
@@ -519,7 +516,7 @@ struct GuestToTablePickerView: View {
         table.seatAssignments.append(assignment)
         do {
             try modelContext.save()
-            haptics.seatingDrop()
+            HapticManager.shared.seatingDrop()
         } catch {
             print("Failed to assign guest: \(error)")
         }

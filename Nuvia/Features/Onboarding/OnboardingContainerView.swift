@@ -1,8 +1,5 @@
 import SwiftUI
 
-// MARK: - Haptic Helper (avoids ambiguity)
-private let haptics = haptics
-
 /// Premium Onboarding Container
 /// 5-screen flow with parallax, spring animations, and haptic feedback
 struct OnboardingContainerView: View {
@@ -97,7 +94,7 @@ struct OnboardingContainerView: View {
                     HStack(spacing: 16) {
                         if currentPage > 0 {
                             NuviaSecondaryButton("Geri") {
-                                haptics.selection()
+                                HapticManager.shared.selection()
                                 withAnimation {
                                     currentPage -= 1
                                 }
@@ -106,7 +103,7 @@ struct OnboardingContainerView: View {
 
                         if currentPage < totalPages - 1 {
                             NuviaPrimaryButton("Devam") {
-                                haptics.selection()
+                                HapticManager.shared.selection()
                                 withAnimation {
                                     currentPage += 1
                                 }
@@ -124,7 +121,7 @@ struct OnboardingContainerView: View {
                     Spacer()
                     if currentPage < totalPages - 1 {
                         Button("Atla") {
-                            haptics.selection()
+                            HapticManager.shared.selection()
                             withAnimation(.spring(response: 0.4)) {
                                 currentPage = totalPages - 1
                             }
@@ -140,7 +137,7 @@ struct OnboardingContainerView: View {
     }
 
     private func completeOnboarding() {
-        haptics.taskCompleted()
+        HapticManager.shared.taskCompleted()
         withAnimation(.easeInOut(duration: 0.5)) {
             appState.isOnboardingComplete = true
         }
@@ -395,7 +392,7 @@ struct ModeCard: View {
 
     var body: some View {
         Button {
-            haptics.selection()
+            HapticManager.shared.selection()
             action()
         } label: {
             HStack(spacing: 16) {
