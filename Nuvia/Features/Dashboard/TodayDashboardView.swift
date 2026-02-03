@@ -76,8 +76,8 @@ struct TodayDashboardView: View {
                     } else {
                         NuviaEmptyState(
                             icon: "heart.slash",
-                            title: "No Project Found",
-                            message: "Create a wedding project to get started"
+                            title: L10n.Dashboard.noProject,
+                            message: L10n.Dashboard.noProjectMessage
                         )
                         .padding(.horizontal, DesignTokens.Spacing.nuviaMargin)
                     }
@@ -225,7 +225,7 @@ struct TodayDashboardView: View {
                             HStack(spacing: 8) {
                                 Image(systemName: "checkmark")
                                     .font(.system(size: 14, weight: .semibold))
-                                Text("Complete")
+                                Text(L10n.Dashboard.complete)
                                     .font(NuviaTypography.smallButton())
                             }
                             .foregroundColor(.white)
@@ -249,11 +249,11 @@ struct TodayDashboardView: View {
                         .font(.system(size: 40))
                         .foregroundStyle(Color.etherealGradient)
 
-                    Text("All Caught Up")
+                    Text(L10n.Dashboard.allCaughtUp)
                         .font(NuviaTypography.title3())
                         .foregroundColor(.nuviaPrimaryText)
 
-                    Text("No urgent tasks for today")
+                    Text(L10n.Dashboard.noUrgentTasks)
                         .font(NuviaTypography.body())
                         .foregroundColor(.nuviaSecondaryText)
                 }
@@ -276,7 +276,7 @@ struct TodayDashboardView: View {
                     .font(NuviaTypography.countdown())
                     .foregroundStyle(Color.etherealGradient)
 
-                Text("days to go")
+                Text(L10n.Dashboard.daysToGo)
                     .font(NuviaTypography.caption())
                     .foregroundColor(.nuviaSecondaryText)
             }
@@ -336,7 +336,7 @@ struct TodayDashboardView: View {
         let budgetProgress = totalBudget > 0 ? min(1.0, spentBudget / totalBudget) : 0
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text("PROGRESS")
+            Text(L10n.Dashboard.progress.uppercased())
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -344,7 +344,7 @@ struct TodayDashboardView: View {
             HStack(spacing: 16) {
                 // Tasks Progress
                 ProgressCard(
-                    title: "Tasks",
+                    title: L10n.Dashboard.tasks,
                     value: "\(completedTasks)/\(totalTasks)",
                     progress: progress,
                     color: .nuviaSage
@@ -352,7 +352,7 @@ struct TodayDashboardView: View {
 
                 // Budget Progress
                 ProgressCard(
-                    title: "Budget",
+                    title: L10n.Dashboard.budget,
                     value: "\(Int(budgetProgress * 100))%",
                     progress: budgetProgress,
                     color: .nuviaChampagne
@@ -370,7 +370,7 @@ struct TodayDashboardView: View {
         @State var showZenMode = false
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text("QUICK ACCESS")
+            Text(L10n.Dashboard.quickAccess.uppercased())
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -387,7 +387,7 @@ struct TodayDashboardView: View {
         let totalGuests = project.guests.count
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text("AT A GLANCE")
+            Text(L10n.Dashboard.atAGlance.uppercased())
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -396,16 +396,16 @@ struct TodayDashboardView: View {
                 // RSVP Card
                 MetricCard(
                     icon: "person.2.fill",
-                    title: "Attending",
+                    title: L10n.Dashboard.attending,
                     value: "\(attending)",
-                    subtitle: "\(pending) pending",
+                    subtitle: "\(pending) \(L10n.Guests.pending.lowercased())",
                     color: .nuviaSage
                 )
 
                 // Budget Card
                 MetricCard(
                     icon: "creditcard.fill",
-                    title: "Spent",
+                    title: L10n.Dashboard.spent,
                     value: formatCurrency(project.expenses.reduce(0) { $0 + $1.amount }, currency: project.currency),
                     subtitle: "of \(formatCurrency(project.totalBudget, currency: project.currency))",
                     color: .nuviaChampagne
@@ -430,7 +430,7 @@ struct TodayDashboardView: View {
             .map { $0 }
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text("COMING UP")
+            Text(L10n.Dashboard.comingUp.uppercased())
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -462,7 +462,7 @@ struct TodayDashboardView: View {
                             .font(.system(size: 20))
                             .foregroundColor(.nuviaSuccess)
 
-                        Text("No upcoming deadlines")
+                        Text(L10n.Dashboard.noDeadlines)
                             .font(NuviaTypography.body())
                             .foregroundColor(.nuviaSecondaryText)
                     }
@@ -851,11 +851,11 @@ struct NotificationsInboxView: View {
                         .font(.system(size: 48))
                         .foregroundColor(.nuviaTertiaryText)
 
-                    Text("All Caught Up")
+                    Text(L10n.Dashboard.allCaughtUp)
                         .font(NuviaTypography.title2())
                         .foregroundColor(.nuviaPrimaryText)
 
-                    Text("You have no new notifications")
+                    Text(L10n.Notifications.empty)
                         .font(NuviaTypography.body())
                         .foregroundColor(.nuviaSecondaryText)
                 }
