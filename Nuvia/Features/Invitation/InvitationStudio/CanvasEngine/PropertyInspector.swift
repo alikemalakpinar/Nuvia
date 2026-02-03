@@ -1119,7 +1119,7 @@ extension CanvasViewModel {
         viewModel.selectElement(element.id)
     }()
 
-    return ZStack {
+    ZStack {
         Color.nuviaBackground.ignoresSafeArea()
 
         VStack {
