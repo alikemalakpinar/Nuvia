@@ -178,18 +178,20 @@ struct SettingsRow: View {
     let color: Color
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: DesignTokens.Spacing.sm) {
             Image(systemName: icon)
                 .font(.system(size: 16))
                 .foregroundColor(color)
                 .frame(width: 28, height: 28)
                 .background(color.opacity(0.15))
-                .cornerRadius(6)
+                .cornerRadius(DesignTokens.Radius.sm - 2)
 
             Text(title)
                 .font(NuviaTypography.body())
                 .foregroundColor(.nuviaPrimaryText)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(title)
     }
 }
 
@@ -257,14 +259,14 @@ struct UsersSettingsView: View {
                         ZStack {
                             Circle()
                                 .fill(Color.nuviaGoldFallback.opacity(0.2))
-                                .frame(width: 40, height: 40)
+                                .frame(width: DesignTokens.Touch.minimum - 4, height: DesignTokens.Touch.minimum - 4)
 
                             Text(user.initials)
                                 .font(NuviaTypography.bodyBold())
                                 .foregroundColor(.nuviaGoldFallback)
                         }
 
-                        VStack(alignment: .leading, spacing: 2) {
+                        VStack(alignment: .leading, spacing: DesignTokens.Spacing.xxxs) {
                             Text(user.name)
                                 .font(NuviaTypography.body())
                                 .foregroundColor(.nuviaPrimaryText)
@@ -280,6 +282,8 @@ struct UsersSettingsView: View {
                             NuviaTag("Yönetici", color: .nuviaGoldFallback, size: .small)
                         }
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("\(user.name), \(user.userRole.displayName)")
                 }
             }
 

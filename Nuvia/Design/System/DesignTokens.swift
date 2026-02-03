@@ -17,6 +17,32 @@ public enum DesignTokens {
         public static let xxl: CGFloat = 48
         public static let xxxl: CGFloat = 64
         public static let huge: CGFloat = 96
+
+        // MARK: - Semantic Spacing (Editorial Elegance)
+
+        /// Standard horizontal padding for screens (24pt) - "Nuvia Margin"
+        public static let nuviaMargin: CGFloat = 24
+
+        /// Card internal padding (20pt)
+        public static let cardPadding: CGFloat = 20
+
+        /// Hero card padding (28pt)
+        public static let heroCardPadding: CGFloat = 28
+
+        /// Section spacing vertical (28pt)
+        public static let sectionSpacing: CGFloat = 28
+
+        /// List item spacing (12pt)
+        public static let itemSpacing: CGFloat = 12
+
+        /// Compact item spacing (8pt)
+        public static let itemSpacingCompact: CGFloat = 8
+
+        /// Icon-to-text spacing (10pt)
+        public static let iconTextSpacing: CGFloat = 10
+
+        /// Bottom safe area for scrollable content (120pt)
+        public static let scrollBottomInset: CGFloat = 120
     }
 
     // MARK: - Corner Radius Scale
@@ -26,9 +52,33 @@ public enum DesignTokens {
         public static let sm: CGFloat = 8
         public static let md: CGFloat = 12
         public static let lg: CGFloat = 16
-        public static let xl: CGFloat = 24
-        public static let xxl: CGFloat = 32
-        public static let full: CGFloat = 9999
+        public static let xl: CGFloat = 20
+        public static let xxl: CGFloat = 24
+        public static let xxxl: CGFloat = 28
+        public static let full: CGFloat = 999
+
+        // MARK: - Semantic Radius (Editorial Elegance)
+
+        /// Input fields (8pt)
+        public static let input: CGFloat = 8
+
+        /// Standard cards (16pt)
+        public static let card: CGFloat = 16
+
+        /// Featured/Hero cards (24pt)
+        public static let cardHero: CGFloat = 24
+
+        /// Modals and sheets (24pt)
+        public static let modal: CGFloat = 24
+
+        /// Primary buttons (16pt)
+        public static let button: CGFloat = 16
+
+        /// Pill/capsule buttons (999pt)
+        public static let pill: CGFloat = 999
+
+        /// Progress bars (4pt)
+        public static let progressBar: CGFloat = 4
     }
 
     // MARK: - Animation Timing
