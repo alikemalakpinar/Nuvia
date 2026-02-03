@@ -155,7 +155,7 @@ struct CountdownArcView: View {
 
             // Label
             Text(daysRemaining == 1 ? "day" : "days")
-                .font(DSTypography.heading(.h3))
+                .font(DSTypography.heading3)
                 .foregroundColor(.nuviaSecondaryText)
 
             // Wedding date
@@ -289,7 +289,7 @@ struct CountdownCard: View {
                     .foregroundColor(.nuviaTertiaryText)
 
                 Text("\(partnerNames.0) & \(partnerNames.1)")
-                    .font(DSTypography.heading(.h2))
+                    .font(DSTypography.heading2)
                     .foregroundColor(.nuviaPrimaryText)
             }
 
@@ -315,7 +315,7 @@ struct CountdownCard: View {
         .padding(DesignTokens.Spacing.xl)
         .background(Color.nuviaSurface)
         .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.xl, style: .continuous))
-        .elevation(.floating)
+        .elevation(DesignTokens.Elevation.floating)
     }
 
     private var weeks: Int {
@@ -335,7 +335,7 @@ struct CountdownCard: View {
 
         VStack(spacing: DesignTokens.Spacing.xs) {
             Text("\(percentage)% of your planning journey complete")
-                .font(DSTypography.body(.small))
+                .font(DSTypography.bodySmall)
                 .foregroundColor(.nuviaSecondaryText)
                 .multilineTextAlignment(.center)
 
@@ -369,7 +369,7 @@ struct CountdownStat: View {
     var body: some View {
         VStack(spacing: DesignTokens.Spacing.xxs) {
             Text("\(value)")
-                .font(DSTypography.heading(.h2))
+                .font(DSTypography.heading2)
                 .foregroundColor(.nuviaPrimaryText)
                 .contentTransition(.numericText())
 
@@ -404,7 +404,7 @@ struct MiniCountdownBadge: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 Text("\(daysRemaining)")
-                    .font(DSTypography.body(.bold))
+                    .font(DSTypography.bodyBold)
                     .foregroundColor(.nuviaPrimaryText)
 
                 Text("days")
@@ -418,7 +418,7 @@ struct MiniCountdownBadge: View {
             Capsule()
                 .fill(Color.nuviaSurface)
         )
-        .elevation(.raised)
+        .elevation(DesignTokens.Elevation.raised)
     }
 }
 
@@ -488,7 +488,7 @@ struct TimeUnit: View {
                 .contentTransition(.numericText())
 
             Text(label)
-                .font(DSTypography.label(.small))
+                .font(DSTypography.captionSmall)
                 .foregroundColor(.nuviaTertiaryText)
         }
     }
@@ -534,7 +534,7 @@ struct TimeSeparator: View {
                 .padding()
                 .background(Color.nuviaSurface)
                 .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg))
-                .elevation(.raised)
+                .elevation(DesignTokens.Elevation.raised)
         }
         .padding()
     }

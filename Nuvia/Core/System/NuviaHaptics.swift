@@ -303,3 +303,6 @@ public typealias HapticManager = NuviaHaptics
 
 /// Alias for HapticEngine compatibility
 public typealias HapticEngine = NuviaHaptics
+
+/// Alias for DSHaptics compatibility (Design System)
+public typealias DSHaptics = NuviaHaptics
