@@ -254,6 +254,13 @@ extension Color {
     // Gradient
     @MainActor public static var etherealGradient: LinearGradient { themed.heroGradient }
 
+    // Static gradient (non-MainActor)
+    public static let nuviaGradient = LinearGradient(
+        colors: [Color(hex: "D4AF37").opacity(0.9), Color(hex: "C9A9A6")],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+
     // Static fallbacks (non-MainActor) - Use these in SwiftData models
     public static let nuviaBlush = Color(hex: "E8D5D5")
     public static let nuviaWisteria = Color(hex: "B5A3C4")
@@ -270,6 +277,7 @@ extension Color {
     public static let nuviaPrimaryTextStatic = Color(hex: "2C2C2C")
     public static let nuviaSecondaryTextStatic = Color(hex: "6B6B6B")
     public static let nuviaTertiaryTextStatic = Color(hex: "9A9A9A")
+    public static let nuviaChampagneStatic = Color(hex: "D4AF37")
 
     // Legacy aliases
     public static let nuviaGoldFallback = Color(hex: "D4AF37")

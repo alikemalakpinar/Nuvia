@@ -174,10 +174,10 @@ struct QuickAddSheet: View {
 
         var color: Color {
             switch self {
-            case .task: return .nuviaInfo
-            case .expense: return .nuviaSuccess
+            case .task: return .nuviaInfoStatic
+            case .expense: return .nuviaSuccessStatic
             case .guest: return .categoryDress
-            case .shopping: return .nuviaWarning
+            case .shopping: return .nuviaWarningStatic
             case .note: return .categoryVenue
             }
         }
