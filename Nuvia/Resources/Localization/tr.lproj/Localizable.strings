@@ -102,9 +102,12 @@
 // MARK: - Quick Add
 
 "quickAdd.title" = "Hızlı Ekle";
+"quickAdd.prompt" = "Ne eklemek istersiniz?";
+"quickAdd.continue" = "Devam";
 "quickAdd.item.task" = "Görev";
 "quickAdd.item.expense" = "Harcama";
 "quickAdd.item.guest" = "Misafir";
+"quickAdd.item.shopping" = "Alışveriş";
 "quickAdd.item.note" = "Not";
 
 // MARK: - Weekly Brief

@@ -123,9 +123,12 @@ public enum L10n {
 
     public enum QuickAdd {
         public static let title = "quickAdd.title".localized
+        public static let prompt = "quickAdd.prompt".localized
+        public static let continueAction = "quickAdd.continue".localized
         public static let task = "quickAdd.item.task".localized
         public static let expense = "quickAdd.item.expense".localized
         public static let guest = "quickAdd.item.guest".localized
+        public static let shopping = "quickAdd.item.shopping".localized
         public static let note = "quickAdd.item.note".localized
     }
 

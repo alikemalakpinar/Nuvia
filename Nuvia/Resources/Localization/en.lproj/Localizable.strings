@@ -102,9 +102,12 @@
 // MARK: - Quick Add
 
 "quickAdd.title" = "Quick Add";
+"quickAdd.prompt" = "What would you like to add?";
+"quickAdd.continue" = "Continue";
 "quickAdd.item.task" = "Task";
 "quickAdd.item.expense" = "Expense";
 "quickAdd.item.guest" = "Guest";
+"quickAdd.item.shopping" = "Shopping";
 "quickAdd.item.note" = "Note";
 
 // MARK: - Weekly Brief
