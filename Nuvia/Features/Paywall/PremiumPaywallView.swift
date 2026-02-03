@@ -160,7 +160,7 @@ struct PremiumPaywallView: View {
     private var featuresSection: some View {
         VStack(spacing: DesignTokens.Spacing.md) {
             ForEach(PremiumFeature.allFeatures, id: \.title) { feature in
-                PremiumFeatureRow(feature: feature)
+                PaywallPremiumFeatureRow(feature: feature)
             }
         }
     }
@@ -537,9 +537,9 @@ struct PlanButton: View {
     }
 }
 
-// MARK: - Premium Feature Row
+// MARK: - Paywall Premium Feature Row
 
-struct PremiumFeatureRow: View {
+struct PaywallPremiumFeatureRow: View {
     let feature: PremiumFeature
 
     var body: some View {
