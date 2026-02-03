@@ -21,10 +21,10 @@ struct TodayDashboardView: View {
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 5..<12: return "Good Morning"
-        case 12..<17: return "Good Afternoon"
-        case 17..<21: return "Good Evening"
-        default: return "Good Night"
+        case 5..<12: return L10n.Dashboard.goodMorning
+        case 12..<17: return L10n.Dashboard.goodAfternoon
+        case 17..<21: return L10n.Dashboard.goodEvening
+        default: return L10n.Dashboard.goodNight
         }
     }
 
@@ -44,10 +44,10 @@ struct TodayDashboardView: View {
                 VStack(spacing: 0) {
                     // Magazine-style Hero Header
                     heroHeader
-                        .padding(.bottom, 32)
+                        .padding(.bottom, DesignTokens.Spacing.xl)
 
                     if let project = currentProject {
-                        VStack(spacing: 28) {
+                        VStack(spacing: DesignTokens.Spacing.sectionSpacing) {
                             // Today's Focus - Featured Card
                             todaysFocusSection(project: project)
                                 .cardEntrance(delay: 0.05)
@@ -72,28 +72,20 @@ struct TodayDashboardView: View {
                             upcomingSection(project: project)
                                 .cardEntrance(delay: 0.3)
                         }
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, DesignTokens.Spacing.nuviaMargin)
                     } else {
                         NuviaEmptyState(
                             icon: "heart.slash",
                             title: "No Project Found",
                             message: "Create a wedding project to get started"
                         )
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, DesignTokens.Spacing.nuviaMargin)
                     }
                 }
-                .padding(.bottom, 120)
+                .padding(.bottom, DesignTokens.Spacing.scrollBottomInset)
             }
             .background(
-                LinearGradient(
-                    colors: [
-                        Color(hex: "FDFCFB"),
-                        Color(hex: "FAF9F7"),
-                        Color.nuviaBackground
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+                Color.themed.backgroundGradient
                 .ignoresSafeArea()
             )
             .navigationBarTitleDisplayMode(.inline)
@@ -143,16 +135,16 @@ struct TodayDashboardView: View {
     // MARK: - Hero Header (Magazine Cover Style)
 
     private var heroHeader: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DesignTokens.Spacing.md) {
             // Date & Greeting
-            VStack(spacing: 8) {
+            VStack(spacing: DesignTokens.Spacing.xs) {
                 Text(Date().formatted(.dateTime.weekday(.wide).month(.wide).day()))
                     .font(NuviaTypography.overline())
                     .tracking(2)
                     .foregroundColor(.nuviaSecondaryText)
                     .textCase(.uppercase)
 
-                HStack(spacing: 12) {
+                HStack(spacing: DesignTokens.Spacing.sm) {
                     Image(systemName: greetingEmoji)
                         .font(.system(size: 24))
                         .foregroundStyle(Color.etherealGradient)
@@ -162,17 +154,19 @@ struct TodayDashboardView: View {
                         .foregroundColor(.nuviaPrimaryText)
                 }
             }
-            .padding(.top, 20)
+            .padding(.top, DesignTokens.Spacing.xl)
 
             // Couple Names (if available)
             if let project = currentProject {
                 Text("\(project.partnerName1) & \(project.partnerName2)")
                     .font(NuviaTypography.title3())
                     .foregroundColor(.nuviaSecondaryText)
-                    .padding(.top, 4)
+                    .padding(.top, DesignTokens.Spacing.xxs)
             }
         }
         .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(greeting). \(currentProject?.partnerName1 ?? "") and \(currentProject?.partnerName2 ?? "")")
     }
 
     // MARK: - Today's Focus Section
@@ -184,7 +178,7 @@ struct TodayDashboardView: View {
             .first
 
         return VStack(alignment: .leading, spacing: 16) {
-            Text("TODAY'S FOCUS")
+            Text(L10n.Dashboard.todaysFocus)
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -715,14 +709,14 @@ struct WeeklyBriefView: View {
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 32) {
+                VStack(spacing: DesignTokens.Spacing.xl) {
                     // Hero Header
-                    VStack(spacing: 16) {
+                    VStack(spacing: DesignTokens.Spacing.md) {
                         Image(systemName: "newspaper.fill")
                             .font(.system(size: 48))
                             .foregroundStyle(Color.etherealGradient)
 
-                        Text("Weekly Brief")
+                        Text(L10n.WeeklyBrief.title)
                             .font(NuviaTypography.displaySmall())
                             .foregroundColor(.nuviaPrimaryText)
 
@@ -730,14 +724,14 @@ struct WeeklyBriefView: View {
                             .font(NuviaTypography.body())
                             .foregroundColor(.nuviaSecondaryText)
                     }
-                    .padding(.top, 32)
+                    .padding(.top, DesignTokens.Spacing.xl)
 
-                    VStack(spacing: 20) {
+                    VStack(spacing: DesignTokens.Spacing.cardPadding) {
                         // This week's summary
                         BriefSection(
                             icon: "checklist",
                             iconColor: .nuviaSage,
-                            title: "This Week's Tasks",
+                            title: L10n.WeeklyBrief.thisWeeksTasks,
                             value: "5 tasks",
                             description: "Focus on venue confirmation and catering menu selection"
                         )
@@ -745,7 +739,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "creditcard.fill",
                             iconColor: .nuviaChampagne,
-                            title: "Upcoming Payments",
+                            title: L10n.WeeklyBrief.upcomingPayments,
                             value: "₺25,000",
                             description: "Venue deposit due in 3 days"
                         )
@@ -753,7 +747,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "person.2.fill",
                             iconColor: .nuviaRoseDust,
-                            title: "RSVP Update",
+                            title: L10n.WeeklyBrief.rsvpUpdate,
                             value: "15 pending",
                             description: "Send reminders to guests who haven't responded"
                         )
@@ -761,22 +755,18 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "lightbulb.fill",
                             iconColor: .nuviaWisteria,
-                            title: "Pro Tip",
+                            title: L10n.WeeklyBrief.proTip,
                             value: nil,
                             description: "Schedule vendor meetings at least 2 weeks before your decision deadline"
                         )
                     }
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, DesignTokens.Spacing.nuviaMargin)
 
-                    Spacer(minLength: 40)
+                    Spacer(minLength: DesignTokens.Spacing.xxl)
                 }
             }
             .background(
-                LinearGradient(
-                    colors: [Color(hex: "FDFCFB"), Color.nuviaBackground],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+                Color.themed.backgroundGradient
                 .ignoresSafeArea()
             )
             .navigationBarTitleDisplayMode(.inline)
@@ -808,15 +798,15 @@ struct BriefSection: View {
     let description: String
 
     var body: some View {
-        HStack(alignment: .top, spacing: 16) {
+        HStack(alignment: .top, spacing: DesignTokens.Spacing.md) {
             Image(systemName: icon)
                 .font(.system(size: 20))
                 .foregroundColor(iconColor)
-                .frame(width: 48, height: 48)
+                .frame(width: DesignTokens.Touch.comfortable, height: DesignTokens.Touch.comfortable)
                 .background(iconColor.opacity(0.1))
-                .cornerRadius(14)
+                .cornerRadius(DesignTokens.Radius.md)
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: DesignTokens.Spacing.xxs + 2) {
                 HStack {
                     Text(title)
                         .font(NuviaTypography.bodyBold())
@@ -837,10 +827,12 @@ struct BriefSection: View {
                     .lineLimit(2)
             }
         }
-        .padding(20)
+        .padding(DesignTokens.Spacing.cardPadding)
         .background(Color.nuviaSurface)
-        .cornerRadius(20)
+        .cornerRadius(DesignTokens.Radius.xl)
         .etherealShadow(.whisper)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(title). \(value ?? ""). \(description)")
     }
 }
 

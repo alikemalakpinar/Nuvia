@@ -101,40 +101,41 @@ public protocol ThemeColors {
 }
 
 // MARK: - Light Luxury Theme (Default)
+// Updated to "Editorial Elegance" specification
 
 public struct LightLuxuryColors: ThemeColors {
-    // Foundation - Warm Alabaster
-    public var background: Color { Color(hex: "FAFAF9") }
-    public var surface: Color { Color.white }
-    public var surfaceElevated: Color { Color(hex: "FCFCFB") }
-    public var surfaceTertiary: Color { Color(hex: "F5F4F2") }
+    // Foundation - Editorial Elegance Spec
+    public var background: Color { Color(hex: "FAFAF9") }      // Warm Alabaster
+    public var surface: Color { Color(hex: "FFFFFF") }          // Pure White
+    public var surfaceElevated: Color { Color(hex: "FCFCFB") }  // Slightly warm white
+    public var surfaceTertiary: Color { Color(hex: "F5F4F2") }  // Subtle warmth
 
-    // Text - Rich Charcoal
-    public var textPrimary: Color { Color(hex: "2C2C2C") }
-    public var textSecondary: Color { Color(hex: "6B6B6B") }
-    public var textTertiary: Color { Color(hex: "9A9A9A") }
+    // Text - Editorial Elegance Spec
+    public var textPrimary: Color { Color(hex: "2A2A2A") }      // Rich charcoal
+    public var textSecondary: Color { Color(hex: "6D6D6D") }    // Muted charcoal
+    public var textTertiary: Color { Color(hex: "9A9A9A") }     // Light gray
     public var textInverse: Color { Color.white }
 
-    // Brand - Champagne & Rose
-    public var accent: Color { Color(hex: "D4AF37") }
-    public var accentSecondary: Color { Color(hex: "C9A9A6") }
-    public var accentTertiary: Color { Color(hex: "9CAF88") }
+    // Brand - Editorial Elegance Spec
+    public var accent: Color { Color(hex: "D4AF37") }           // Champagne Gold
+    public var accentSecondary: Color { Color(hex: "E8D7D5") }  // Accent Rose
+    public var accentTertiary: Color { Color(hex: "D5E8D7") }   // Accent Sage
 
     // Actions
-    public var buttonPrimary: Color { Color(hex: "2C2C2C") }
-    public var buttonSecondary: Color { Color(hex: "D4AF37") }
-    public var buttonDestructive: Color { Color(hex: "C97A7A") }
+    public var buttonPrimary: Color { Color(hex: "2A2A2A") }    // Dark for contrast
+    public var buttonSecondary: Color { Color(hex: "D4AF37") }  // Gold
+    public var buttonDestructive: Color { Color(hex: "C48B8B") }
 
-    // Semantic
-    public var success: Color { Color(hex: "8BAA7C") }
-    public var warning: Color { Color(hex: "D4A574") }
-    public var error: Color { Color(hex: "C48B8B") }
-    public var info: Color { Color(hex: "8BA7C4") }
+    // Semantic - Muted, sophisticated
+    public var success: Color { Color(hex: "8BAA7C") }          // Sage success
+    public var warning: Color { Color(hex: "D4A574") }          // Warm amber
+    public var error: Color { Color(hex: "C48B8B") }            // Dusty rose error
+    public var info: Color { Color(hex: "8BA7C4") }             // Dusty blue
 
     // Gradients
     public var heroGradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: "D4AF37").opacity(0.9), Color(hex: "C9A9A6")],
+            colors: [Color(hex: "D4AF37").opacity(0.9), Color(hex: "E8D7D5")],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -142,7 +143,7 @@ public struct LightLuxuryColors: ThemeColors {
 
     public var backgroundGradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: "FAFAF9"), Color(hex: "F5F4F2")],
+            colors: [Color(hex: "FDFCFB"), Color(hex: "FAF9F7"), Color(hex: "FAFAF9")],
             startPoint: .top,
             endPoint: .bottom
         )
@@ -150,31 +151,32 @@ public struct LightLuxuryColors: ThemeColors {
 }
 
 // MARK: - Dark Romance Theme (Premium)
+// Updated to "Editorial Elegance" dark mode specification
 
 public struct DarkRomanceColors: ThemeColors {
-    // Foundation - Deep Midnight
-    public var background: Color { Color(hex: "0D0D0F") }
-    public var surface: Color { Color(hex: "1A1A1E") }
-    public var surfaceElevated: Color { Color(hex: "242428") }
-    public var surfaceTertiary: Color { Color(hex: "2E2E34") }
+    // Foundation - Editorial Elegance Dark Spec
+    public var background: Color { Color(hex: "1C1C1E") }       // iOS dark background
+    public var surface: Color { Color(hex: "2C2C2E") }          // Elevated surface
+    public var surfaceElevated: Color { Color(hex: "3A3A3C") }  // Modal/sheet
+    public var surfaceTertiary: Color { Color(hex: "48484A") }  // Input backgrounds
 
-    // Text - Ivory & Silver
-    public var textPrimary: Color { Color(hex: "F5F5F3") }
-    public var textSecondary: Color { Color(hex: "A8A8A8") }
-    public var textTertiary: Color { Color(hex: "6B6B6B") }
-    public var textInverse: Color { Color(hex: "0D0D0F") }
+    // Text - Editorial Elegance Dark Spec
+    public var textPrimary: Color { Color(hex: "E5E5EA") }      // Primary text
+    public var textSecondary: Color { Color(hex: "8E8E93") }    // Secondary text
+    public var textTertiary: Color { Color(hex: "636366") }     // Tertiary text
+    public var textInverse: Color { Color(hex: "1C1C1E") }
 
-    // Brand - Rose Gold & Burgundy
-    public var accent: Color { Color(hex: "B8860B") } // Deep Gold
-    public var accentSecondary: Color { Color(hex: "8B4557") } // Burgundy
-    public var accentTertiary: Color { Color(hex: "4A5D4A") } // Dark Sage
+    // Brand - Rose Gold & Burgundy (darker tones)
+    public var accent: Color { Color(hex: "D4AF37") }           // Gold (same)
+    public var accentSecondary: Color { Color(hex: "8B4557") }  // Dark rose
+    public var accentTertiary: Color { Color(hex: "4A5D4A") }   // Dark sage
 
     // Actions
-    public var buttonPrimary: Color { Color(hex: "F5F5F3") }
-    public var buttonSecondary: Color { Color(hex: "B8860B") }
+    public var buttonPrimary: Color { Color(hex: "E5E5EA") }    // Light for contrast
+    public var buttonSecondary: Color { Color(hex: "D4AF37") }  // Gold
     public var buttonDestructive: Color { Color(hex: "8B4557") }
 
-    // Semantic
+    // Semantic - Darker tones
     public var success: Color { Color(hex: "5A7D5A") }
     public var warning: Color { Color(hex: "B8860B") }
     public var error: Color { Color(hex: "8B4557") }
@@ -183,7 +185,7 @@ public struct DarkRomanceColors: ThemeColors {
     // Gradients
     public var heroGradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: "B8860B").opacity(0.9), Color(hex: "8B4557")],
+            colors: [Color(hex: "D4AF37").opacity(0.85), Color(hex: "8B4557")],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -191,7 +193,7 @@ public struct DarkRomanceColors: ThemeColors {
 
     public var backgroundGradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: "0D0D0F"), Color(hex: "1A1A1E")],
+            colors: [Color(hex: "1C1C1E"), Color(hex: "2C2C2E")],
             startPoint: .top,
             endPoint: .bottom
         )
@@ -421,19 +423,25 @@ extension Animation {
 }
 
 // MARK: - Card Entrance Animation
+// Respects Reduce Motion accessibility setting
 
 struct CardEntranceModifier: ViewModifier {
     let delay: Double
     @State private var appeared = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func body(content: Content) -> some View {
         content
-            .offset(y: appeared ? 0 : 40)
+            .offset(y: appeared ? 0 : (reduceMotion ? 0 : 40))
             .opacity(appeared ? 1 : 0)
-            .scaleEffect(appeared ? 1 : 0.95)
+            .scaleEffect(appeared ? 1 : (reduceMotion ? 1 : 0.95))
             .onAppear {
-                withAnimation(.etherealEntrance.delay(delay)) {
+                if reduceMotion {
                     appeared = true
+                } else {
+                    withAnimation(.etherealEntrance.delay(delay)) {
+                        appeared = true
+                    }
                 }
             }
     }

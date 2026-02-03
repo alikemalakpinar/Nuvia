@@ -42,15 +42,21 @@ struct MainTabView: View {
     }
 }
 
-// MARK: - Custom Tab Bar (Clean & Light)
+// MARK: - Floating Glass Tab Bar
 
 struct CustomTabBar: View {
     @Binding var selectedTab: MainTab
     let showHomeTab: Bool
     let onQuickAdd: () -> Void
 
-    private var visibleTabs: [MainTab] {
-        var tabs: [MainTab] = [.today, .plan, .budget, .guests]
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var leftTabs: [MainTab] {
+        [.today, .plan]
+    }
+
+    private var rightTabs: [MainTab] {
+        var tabs: [MainTab] = [.budget, .guests]
         if showHomeTab {
             tabs.append(.home)
         }
@@ -59,63 +65,102 @@ struct CustomTabBar: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(visibleTabs, id: \.self) { tab in
-                if tab == .budget {
-                    Spacer()
-                    QuickAddButton(action: onQuickAdd)
-                    Spacer()
+            // Left side tabs
+            HStack(spacing: DesignTokens.Spacing.xxs) {
+                ForEach(leftTabs, id: \.self) { tab in
+                    FloatingTabButton(
+                        tab: tab,
+                        isSelected: selectedTab == tab
+                    ) {
+                        HapticManager.shared.selection()
+                        withAnimation(MotionCurves.quick) {
+                            selectedTab = tab
+                        }
+                    }
                 }
+            }
 
-                TabBarButton(
-                    tab: tab,
-                    isSelected: selectedTab == tab
-                ) {
-                    HapticManager.shared.selection()
-                    withAnimation(.spring(response: 0.3)) {
-                        selectedTab = tab
+            Spacer()
+
+            // Center Quick Add Button
+            QuickAddButton(action: onQuickAdd)
+
+            Spacer()
+
+            // Right side tabs
+            HStack(spacing: DesignTokens.Spacing.xxs) {
+                ForEach(rightTabs, id: \.self) { tab in
+                    FloatingTabButton(
+                        tab: tab,
+                        isSelected: selectedTab == tab
+                    ) {
+                        HapticManager.shared.selection()
+                        withAnimation(MotionCurves.quick) {
+                            selectedTab = tab
+                        }
                     }
                 }
             }
         }
-        .padding(.horizontal, 8)
-        .padding(.top, 12)
-        .padding(.bottom, 24)
+        .padding(.horizontal, DesignTokens.Spacing.sm)
+        .padding(.vertical, DesignTokens.Spacing.xs)
         .background(
-            // Clean, light background
-            Color.nuviaCardBackground
-                .ignoresSafeArea()
-                .shadow(color: Color.black.opacity(0.06), radius: 12, y: -4)
+            // Floating glass capsule
+            Capsule()
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    Capsule()
+                        .strokeBorder(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(colorScheme == .dark ? 0.15 : 0.6),
+                                    Color.white.opacity(colorScheme == .dark ? 0.05 : 0.2)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 0.5
+                        )
+                )
+                .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: 8)
+                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
         )
+        .padding(.horizontal, DesignTokens.Spacing.md)
+        .padding(.bottom, DesignTokens.Spacing.sm)
     }
 }
 
-struct TabBarButton: View {
+// MARK: - Floating Tab Button
+
+struct FloatingTabButton: View {
     let tab: MainTab
     let isSelected: Bool
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 4) {
+            VStack(spacing: 2) {
                 Image(systemName: isSelected ? tab.selectedIcon : tab.icon)
-                    .font(.system(size: 22, weight: isSelected ? .semibold : .regular))
-                    .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaTertiaryText)
-                    .scaleEffect(isSelected ? 1.05 : 1.0)
-                    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
+                    .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
+                    .foregroundStyle(isSelected ? AnyShapeStyle(Color.nuviaGradient) : AnyShapeStyle(Color.nuviaTertiaryText))
+                    .scaleEffect(isSelected ? 1.1 : 1.0)
+                    .animation(MotionCurves.bouncy, value: isSelected)
 
-                Text(tab.rawValue)
+                Text(tab.displayName)
                     .font(NuviaTypography.caption2())
                     .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaTertiaryText)
-
-                // Active indicator - ince ve zarif
-                Capsule()
-                    .fill(Color.nuviaGoldFallback)
-                    .frame(width: isSelected ? 20 : 0, height: 3)
-                    .animation(.spring(response: 0.3), value: isSelected)
+                    .lineLimit(1)
             }
-            .frame(maxWidth: .infinity)
+            .frame(width: 52, height: 44)
+            .background(
+                // Subtle highlight for selected tab
+                Capsule()
+                    .fill(isSelected ? Color.nuviaGoldFallback.opacity(0.12) : Color.clear)
+                    .animation(MotionCurves.quick, value: isSelected)
+            )
         }
-        .accessibilityLabel(tab.rawValue)
+        .accessibilityLabel(tab.displayName)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 
@@ -128,20 +173,26 @@ struct QuickAddButton: View {
             action()
         } label: {
             ZStack {
+                // Outer glow ring
+                Circle()
+                    .fill(Color.nuviaGoldFallback.opacity(0.15))
+                    .frame(width: 64, height: 64)
+
+                // Main button
                 Circle()
                     .fill(Color.nuviaGradient)
-                    .frame(width: 56, height: 56)
-                    .shadow(color: Color.nuviaGoldFallback.opacity(0.3), radius: 12, x: 0, y: 4)
-                    .shadow(color: Color.black.opacity(0.08), radius: 8, x: 0, y: 2)
+                    .frame(width: 52, height: 52)
+                    .shadow(color: Color.nuviaGoldFallback.opacity(0.4), radius: 12, x: 0, y: 4)
+                    .shadow(color: Color.black.opacity(0.12), radius: 6, x: 0, y: 2)
 
                 Image(systemName: "plus")
-                    .font(.system(size: 24, weight: .semibold))
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
             }
         }
         .pressEffect()
-        .offset(y: -20)
-        .accessibilityLabel("Hızlı ekle")
+        .offset(y: -16)
+        .accessibilityLabel(L10n.Tab.quickAdd)
     }
 }
 
@@ -151,16 +202,23 @@ struct QuickAddSheet: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var appState: AppState
     @State private var selectedType: QuickAddType?
-    @State private var showAddTask = false
-    @State private var showAddExpense = false
-    @State private var showAddGuest = false
 
-    enum QuickAddType: String, CaseIterable {
-        case task = "Görev"
-        case expense = "Harcama"
-        case guest = "Misafir"
-        case shopping = "Alışveriş"
-        case note = "Not"
+    enum QuickAddType: CaseIterable {
+        case task
+        case expense
+        case guest
+        case shopping
+        case note
+
+        var displayName: String {
+            switch self {
+            case .task: return L10n.QuickAdd.task
+            case .expense: return L10n.QuickAdd.expense
+            case .guest: return L10n.QuickAdd.guest
+            case .shopping: return L10n.QuickAdd.shopping
+            case .note: return L10n.QuickAdd.note
+            }
+        }
 
         var icon: String {
             switch self {
@@ -185,13 +243,13 @@ struct QuickAddSheet: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Text("Ne eklemek istersiniz?")
+            VStack(spacing: DesignTokens.Spacing.lg) {
+                Text(L10n.QuickAdd.prompt)
                     .font(NuviaTypography.title2())
                     .foregroundColor(.nuviaPrimaryText)
-                    .padding(.top, 8)
+                    .padding(.top, DesignTokens.Spacing.xs)
 
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: DesignTokens.Spacing.md) {
                     ForEach(QuickAddType.allCases, id: \.self) { type in
                         QuickAddTypeCard(type: type, isSelected: selectedType == type) {
                             selectedType = type
@@ -203,7 +261,7 @@ struct QuickAddSheet: View {
                 Spacer()
 
                 if selectedType != nil {
-                    NuviaPrimaryButton("Devam", icon: "arrow.right") {
+                    NuviaPrimaryButton(L10n.QuickAdd.continueAction, icon: "arrow.right") {
                         switch selectedType {
                         case .task:
                             dismiss()
@@ -257,21 +315,21 @@ struct QuickAddTypeCard: View {
             HapticManager.shared.selection()
             action()
         } label: {
-            VStack(spacing: 12) {
+            VStack(spacing: DesignTokens.Spacing.sm) {
                 Image(systemName: type.icon)
                     .font(.system(size: 32))
                     .foregroundColor(isSelected ? type.color : .nuviaSecondaryText)
 
-                Text(type.rawValue)
+                Text(type.displayName)
                     .font(NuviaTypography.bodyBold())
                     .foregroundColor(.nuviaPrimaryText)
             }
             .frame(maxWidth: .infinity)
             .frame(height: 100)
             .background(Color.nuviaCardBackground)
-            .cornerRadius(16)
+            .cornerRadius(DesignTokens.Radius.card)
             .overlay(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
                     .stroke(
                         isSelected ? type.color : Color.clear,
                         lineWidth: 2

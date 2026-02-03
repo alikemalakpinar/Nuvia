@@ -92,11 +92,22 @@ class AppState: ObservableObject {
 
 /// Ana sekme türleri
 enum MainTab: String, CaseIterable {
-    case today = "Bugün"
-    case plan = "Plan"
-    case budget = "Bütçe"
-    case guests = "Davetli"
-    case home = "Ev"
+    case today
+    case plan
+    case budget
+    case guests
+    case home
+
+    /// Localized display name
+    var displayName: String {
+        switch self {
+        case .today: return L10n.Tab.today
+        case .plan: return L10n.Tab.plan
+        case .budget: return L10n.Tab.budget
+        case .guests: return L10n.Tab.guests
+        case .home: return L10n.Tab.home
+        }
+    }
 
     var icon: String {
         switch self {

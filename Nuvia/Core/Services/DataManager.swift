@@ -2,15 +2,38 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-/// Merkezi veri yönetim servisi
-/// Tüm CRUD operasyonları, iş mantığı ve veri bütünlüğü kontrollerini yönetir
+/// Merkezi veri yönetim servisi - Facade pattern
+/// Delegates to domain-specific services while maintaining backward compatibility
 @MainActor
-class DataManager: ObservableObject {
+class DataManager: ObservableObject, ProjectProvider {
     private let modelContext: ModelContext
 
     @Published var currentProject: WeddingProject?
     @Published var isLoading = false
     @Published var errorMessage: String?
+
+    // MARK: - Domain Services
+
+    private(set) lazy var budgetService: BudgetService = {
+        BudgetService(modelContext: modelContext, projectProvider: self)
+    }()
+
+    private(set) lazy var guestService: GuestService = {
+        GuestService(modelContext: modelContext, projectProvider: self)
+    }()
+
+    private(set) lazy var projectService: ProjectService = {
+        ProjectService(modelContext: modelContext, projectProvider: self)
+    }()
+
+    private(set) lazy var riskService: RiskService = {
+        RiskService(
+            projectProvider: self,
+            guestService: guestService,
+            budgetService: budgetService,
+            projectService: projectService
+        )
+    }()
 
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
