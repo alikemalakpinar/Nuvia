@@ -194,7 +194,7 @@ struct ScrollRevealCard<Content: View>: View {
 
     var body: some View {
         content()
-            .cardStyle(elevation: .raised)
+            .cardStyle(elevation: DesignTokens.Elevation.raised)
             .trackVisibility(id: id, in: "scroll")
             .opacity(appeared ? 1 : 0)
             .offset(y: appeared ? 0 : 30)
@@ -247,7 +247,7 @@ struct FeaturedCard: View {
             .padding(DesignTokens.Spacing.md)
             .background(DSColors.fallbackSurface)
             .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg, style: .continuous))
-            .elevation(.raised)
+            .elevation(DesignTokens.Elevation.raised)
         }
         .pressable()
     }
