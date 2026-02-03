@@ -260,6 +260,7 @@ extension Color {
     public static let nuviaDustyBlue = Color(hex: "A3B5C4")
     public static let nuviaTerracotta = Color(hex: "C4A389")
     public static let nuviaMutedSurface = Color(hex: "EDECE9")
+    public static let nuviaCardBackground = Color(hex: "FFFFFF")
 
     // Legacy aliases
     public static let nuviaGoldFallback = Color(hex: "D4AF37")
