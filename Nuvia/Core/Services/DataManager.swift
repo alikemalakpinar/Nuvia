@@ -747,6 +747,7 @@ struct RiskAlert: Identifiable {
     enum RiskSeverity {
         case low, medium, high
 
+        @MainActor
         var color: Color {
             switch self {
             case .low: return .nuviaInfo
