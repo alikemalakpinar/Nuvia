@@ -1,7 +1,7 @@
 import Foundation
 
 /// Localization helper for Nuvia app
-enum L10n {
+extension L10n {
     enum Tab {
         static let today = String(localized: "Today", comment: "Tab title for today view")
         static let plan = String(localized: "Plan", comment: "Tab title for planning view")

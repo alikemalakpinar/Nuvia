@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - L10n Extension for Studio
+// Note: The base L10n enum is defined in Core/Utils/L10n.swift
 
 extension L10n {
     enum Studio {
@@ -17,12 +18,4 @@ extension L10n {
         static let templates = "Templates"
         static let export = "Export"
     }
-}
-
-// MARK: - L10n Base (if not exists)
-
-/// Localization namespace
-/// This provides a type-safe way to access localized strings
-enum L10n {
-    // Add other localization categories as needed
 }
