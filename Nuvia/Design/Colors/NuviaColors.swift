@@ -1,170 +1,295 @@
 import SwiftUI
 
-// MARK: - Nuvia Ethereal Color System
-// "Ethereal Luxury" - High-Fashion, Editorial, Awwwards-Worthy
+// MARK: - Theme Manager
+// Dual theme system: "Light Luxury" (Default) and "Dark Romance" (Premium)
 
-/// The Nuvia Ethereal Color Palette
-/// Inspired by: Vogue Weddings, Apple Design Awards, Luxury Fashion Brands
-extension Color {
+/// Global theme manager singleton
+@MainActor
+@Observable
+public final class ThemeManager {
+    public static let shared = ThemeManager()
 
-    // MARK: - Foundation (Ethereal Whites)
+    /// Current active theme
+    public var currentTheme: NuviaTheme = .lightLuxury
 
-    /// Primary background - Off-White / Warm Alabaster
-    /// The canvas of elegance
-    static let nuviaBackground = Color(hex: "FAFAF9")
+    /// Premium theme requires subscription
+    public var isPremiumThemeUnlocked: Bool = false
 
-    /// Pure surface - Absolute white for cards
-    static let nuviaSurface = Color.white
+    private init() {}
 
-    /// Elevated surface - Subtle warmth
-    static let nuviaElevatedSurface = Color(hex: "FCFCFB")
+    /// Switch to a theme (checks premium status for Dark Romance)
+    /// - Parameter theme: The theme to switch to
+    /// - Returns: True if switch was successful, false if premium required
+    @discardableResult
+    public func setTheme(_ theme: NuviaTheme) -> Bool {
+        if theme == .darkRomance && !isPremiumThemeUnlocked {
+            return false
+        }
+        withAnimation(DesignTokens.Animation.smooth) {
+            currentTheme = theme
+        }
+        HapticEngine.shared.selection()
+        return true
+    }
 
-    /// Tertiary surface - Soft cream for inputs
-    static let nuviaTertiaryBackground = Color(hex: "F5F4F2")
+    /// Toggle between themes
+    public func toggleTheme() {
+        if currentTheme == .lightLuxury {
+            _ = setTheme(.darkRomance)
+        } else {
+            _ = setTheme(.lightLuxury)
+        }
+    }
+}
 
-    /// Muted surface - For disabled/secondary areas
-    static let nuviaMutedSurface = Color(hex: "EDECE9")
+// MARK: - Nuvia Theme
 
-    // MARK: - Brand Accents (The Signature)
+public enum NuviaTheme: String, CaseIterable, Identifiable {
+    case lightLuxury = "Light Luxury"
+    case darkRomance = "Dark Romance"
 
-    /// Champagne - Primary brand accent (replaces yellow gold)
-    static let nuviaChampagne = Color(hex: "D4AF37").opacity(0.85)
+    public var id: String { rawValue }
 
-    /// Rose Dust - Romantic accent
-    static let nuviaRoseDust = Color(hex: "C9A9A6")
+    public var isPremium: Bool {
+        self == .darkRomance
+    }
 
-    /// Sage Green - Nature-inspired calm
-    static let nuviaSage = Color(hex: "9CAF88")
+    // MARK: - Color Palette
 
-    /// Blush - Soft feminine touch
-    static let nuviaBlush = Color(hex: "E8D5D5")
+    public var colors: ThemeColors {
+        switch self {
+        case .lightLuxury: return LightLuxuryColors()
+        case .darkRomance: return DarkRomanceColors()
+        }
+    }
+}
 
-    /// Wisteria - Dreamy purple
-    static let nuviaWisteria = Color(hex: "B5A3C4")
+// MARK: - Theme Colors Protocol
 
-    /// Dusty Blue - Something borrowed
-    static let nuviaDustyBlue = Color(hex: "A3B5C4")
+public protocol ThemeColors {
+    // Foundation
+    var background: Color { get }
+    var surface: Color { get }
+    var surfaceElevated: Color { get }
+    var surfaceTertiary: Color { get }
 
-    /// Terracotta - Warm earth
-    static let nuviaTerracotta = Color(hex: "C4A389")
+    // Text
+    var textPrimary: Color { get }
+    var textSecondary: Color { get }
+    var textTertiary: Color { get }
+    var textInverse: Color { get }
 
-    // MARK: - Text Colors (The Voice)
+    // Brand
+    var accent: Color { get }
+    var accentSecondary: Color { get }
+    var accentTertiary: Color { get }
 
-    /// Primary text - Rich Charcoal (not pure black)
-    static let nuviaPrimaryText = Color(hex: "2C2C2C")
+    // Actions
+    var buttonPrimary: Color { get }
+    var buttonSecondary: Color { get }
+    var buttonDestructive: Color { get }
 
-    /// Secondary text - Warm Gray
-    static let nuviaSecondaryText = Color(hex: "6B6B6B")
+    // Semantic
+    var success: Color { get }
+    var warning: Color { get }
+    var error: Color { get }
+    var info: Color { get }
 
-    /// Tertiary text - Muted
-    static let nuviaTertiaryText = Color(hex: "9A9A9A")
+    // Gradients
+    var heroGradient: LinearGradient { get }
+    var backgroundGradient: LinearGradient { get }
+}
 
-    /// Inverse text - For dark backgrounds
-    static let nuviaInverseText = Color.white
+// MARK: - Light Luxury Theme (Default)
 
-    // MARK: - Action Colors (Fashion-Forward)
+public struct LightLuxuryColors: ThemeColors {
+    // Foundation - Warm Alabaster
+    public var background: Color { Color(hex: "FAFAF9") }
+    public var surface: Color { Color.white }
+    public var surfaceElevated: Color { Color(hex: "FCFCFB") }
+    public var surfaceTertiary: Color { Color(hex: "F5F4F2") }
 
-    /// Primary action - Charcoal (luxury fashion button style)
-    static let nuviaPrimaryAction = Color(hex: "2C2C2C")
+    // Text - Rich Charcoal
+    public var textPrimary: Color { Color(hex: "2C2C2C") }
+    public var textSecondary: Color { Color(hex: "6B6B6B") }
+    public var textTertiary: Color { Color(hex: "9A9A9A") }
+    public var textInverse: Color { Color.white }
 
-    /// Secondary action - Champagne stroke/fill
-    static let nuviaSecondaryAction = Color(hex: "D4AF37")
+    // Brand - Champagne & Rose
+    public var accent: Color { Color(hex: "D4AF37") }
+    public var accentSecondary: Color { Color(hex: "C9A9A6") }
+    public var accentTertiary: Color { Color(hex: "9CAF88") }
 
-    /// Destructive action - Soft Rose
-    static let nuviaDestructiveAction = Color(hex: "C97A7A")
+    // Actions
+    public var buttonPrimary: Color { Color(hex: "2C2C2C") }
+    public var buttonSecondary: Color { Color(hex: "D4AF37") }
+    public var buttonDestructive: Color { Color(hex: "C97A7A") }
 
-    // MARK: - Semantic Colors (Soft & Sophisticated)
+    // Semantic
+    public var success: Color { Color(hex: "8BAA7C") }
+    public var warning: Color { Color(hex: "D4A574") }
+    public var error: Color { Color(hex: "C48B8B") }
+    public var info: Color { Color(hex: "8BA7C4") }
 
-    /// Success - Muted Sage
-    static let nuviaSuccess = Color(hex: "8BAA7C")
-
-    /// Warning - Warm Honey
-    static let nuviaWarning = Color(hex: "D4A574")
-
-    /// Error - Dusty Rose
-    static let nuviaError = Color(hex: "C48B8B")
-
-    /// Info - Soft Blue
-    static let nuviaInfo = Color(hex: "8BA7C4")
-
-    // MARK: - Category Colors (Wedding Palette)
-
-    static let categoryVenue = Color(hex: "B5A3C4")      // Wisteria
-    static let categoryPhoto = Color(hex: "A3B5C4")      // Dusty Blue
-    static let categoryMusic = Color(hex: "C9A9A6")      // Rose Dust
-    static let categoryFlowers = Color(hex: "9CAF88")    // Sage
-    static let categoryDress = Color(hex: "E8D5D5")      // Blush
-    static let categoryFood = Color(hex: "C4A389")       // Terracotta
-    static let categoryInvitation = Color(hex: "D4AF37") // Champagne
-    static let categoryDecor = Color(hex: "CFC5B8")      // Taupe
-
-    // MARK: - Priority Colors
-
-    static let priorityLow = Color(hex: "9CAF88")
-    static let priorityMedium = Color(hex: "D4A574")
-    static let priorityHigh = Color(hex: "C48B8B")
-    static let priorityUrgent = Color(hex: "A86B6B")
-
-    // MARK: - Status Colors
-
-    static let statusPending = Color(hex: "9A9A9A")
-    static let statusInProgress = Color(hex: "A3B5C4")
-    static let statusCompleted = Color(hex: "8BAA7C")
-    static let statusCancelled = Color(hex: "B5B5B5")
-
-    // MARK: - Legacy Compatibility
-
-    static var nuviaCardBackground: Color { nuviaSurface }
-    static var nuviaGoldFallback: Color { nuviaChampagne }
-    static var nuviaMidnight: Color { nuviaPrimaryText }
-    static var nuviaCharcoal: Color { nuviaSecondaryText }
-    static var nuviaCopper: Color { nuviaTerracotta }
-    static var nuviaRoseGold: Color { nuviaRoseDust }
-    static var nuviaGold: Color { nuviaChampagne }
-    static var nuviaGlassOverlay: Color { Color.black.opacity(0.02) }
-    static var nuviaGlassBorder: Color { Color.black.opacity(0.04) }
-
-    // MARK: - Gradients (Ethereal)
-
-    /// Hero gradient - Champagne to Rose
-    static var etherealGradient: LinearGradient {
+    // Gradients
+    public var heroGradient: LinearGradient {
         LinearGradient(
-            colors: [
-                Color(hex: "D4AF37").opacity(0.9),
-                Color(hex: "C9A9A6")
-            ],
+            colors: [Color(hex: "D4AF37").opacity(0.9), Color(hex: "C9A9A6")],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
     }
 
-    /// Subtle background gradient
-    static var nuviaBackgroundGradient: LinearGradient {
+    public var backgroundGradient: LinearGradient {
         LinearGradient(
-            colors: [
-                Color(hex: "FAFAF9"),
-                Color(hex: "F5F4F2")
-            ],
+            colors: [Color(hex: "FAFAF9"), Color(hex: "F5F4F2")],
             startPoint: .top,
             endPoint: .bottom
         )
     }
+}
 
-    /// Premium mesh gradient for hero sections
-    static var premiumMeshGradient: some ShapeStyle {
+// MARK: - Dark Romance Theme (Premium)
+
+public struct DarkRomanceColors: ThemeColors {
+    // Foundation - Deep Midnight
+    public var background: Color { Color(hex: "0D0D0F") }
+    public var surface: Color { Color(hex: "1A1A1E") }
+    public var surfaceElevated: Color { Color(hex: "242428") }
+    public var surfaceTertiary: Color { Color(hex: "2E2E34") }
+
+    // Text - Ivory & Silver
+    public var textPrimary: Color { Color(hex: "F5F5F3") }
+    public var textSecondary: Color { Color(hex: "A8A8A8") }
+    public var textTertiary: Color { Color(hex: "6B6B6B") }
+    public var textInverse: Color { Color(hex: "0D0D0F") }
+
+    // Brand - Rose Gold & Burgundy
+    public var accent: Color { Color(hex: "B8860B") } // Deep Gold
+    public var accentSecondary: Color { Color(hex: "8B4557") } // Burgundy
+    public var accentTertiary: Color { Color(hex: "4A5D4A") } // Dark Sage
+
+    // Actions
+    public var buttonPrimary: Color { Color(hex: "F5F5F3") }
+    public var buttonSecondary: Color { Color(hex: "B8860B") }
+    public var buttonDestructive: Color { Color(hex: "8B4557") }
+
+    // Semantic
+    public var success: Color { Color(hex: "5A7D5A") }
+    public var warning: Color { Color(hex: "B8860B") }
+    public var error: Color { Color(hex: "8B4557") }
+    public var info: Color { Color(hex: "4A6B8A") }
+
+    // Gradients
+    public var heroGradient: LinearGradient {
         LinearGradient(
-            colors: [
-                Color(hex: "FDFCFB"),
-                Color(hex: "F9F7F4"),
-                Color(hex: "FBF9F7")
-            ],
+            colors: [Color(hex: "B8860B").opacity(0.9), Color(hex: "8B4557")],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
     }
 
-    /// Legacy gradient compatibility
-    static var nuviaGradient: LinearGradient { etherealGradient }
+    public var backgroundGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "0D0D0F"), Color(hex: "1A1A1E")],
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    }
+}
+
+// MARK: - Theme Environment Key
+
+private struct ThemeKey: EnvironmentKey {
+    static let defaultValue: NuviaTheme = .lightLuxury
+}
+
+extension EnvironmentValues {
+    public var theme: NuviaTheme {
+        get { self[ThemeKey.self] }
+        set { self[ThemeKey.self] = newValue }
+    }
+}
+
+// MARK: - Themed Color Extension
+
+extension Color {
+    /// Get current theme's color dynamically
+    @MainActor
+    public static var themed: ThemeColors {
+        ThemeManager.shared.currentTheme.colors
+    }
+}
+
+// MARK: - Legacy Compatibility (Mapped to Theme)
+
+extension Color {
+    // Foundation
+    @MainActor public static var nuviaBackground: Color { themed.background }
+    @MainActor public static var nuviaSurface: Color { themed.surface }
+    @MainActor public static var nuviaElevatedSurface: Color { themed.surfaceElevated }
+    @MainActor public static var nuviaTertiaryBackground: Color { themed.surfaceTertiary }
+
+    // Text
+    @MainActor public static var nuviaPrimaryText: Color { themed.textPrimary }
+    @MainActor public static var nuviaSecondaryText: Color { themed.textSecondary }
+    @MainActor public static var nuviaTertiaryText: Color { themed.textTertiary }
+    @MainActor public static var nuviaInverseText: Color { themed.textInverse }
+
+    // Brand
+    @MainActor public static var nuviaChampagne: Color { themed.accent }
+    @MainActor public static var nuviaRoseDust: Color { themed.accentSecondary }
+    @MainActor public static var nuviaSage: Color { themed.accentTertiary }
+
+    // Actions
+    @MainActor public static var nuviaPrimaryAction: Color { themed.buttonPrimary }
+    @MainActor public static var nuviaSecondaryAction: Color { themed.buttonSecondary }
+
+    // Semantic
+    @MainActor public static var nuviaSuccess: Color { themed.success }
+    @MainActor public static var nuviaWarning: Color { themed.warning }
+    @MainActor public static var nuviaError: Color { themed.error }
+    @MainActor public static var nuviaInfo: Color { themed.info }
+
+    // Gradient
+    @MainActor public static var etherealGradient: LinearGradient { themed.heroGradient }
+
+    // Static fallbacks (non-MainActor)
+    public static let nuviaBlush = Color(hex: "E8D5D5")
+    public static let nuviaWisteria = Color(hex: "B5A3C4")
+    public static let nuviaDustyBlue = Color(hex: "A3B5C4")
+    public static let nuviaTerracotta = Color(hex: "C4A389")
+    public static let nuviaMutedSurface = Color(hex: "EDECE9")
+
+    // Legacy aliases
+    public static let nuviaGoldFallback = Color(hex: "D4AF37")
+    public static let nuviaMidnight = Color(hex: "2C2C2C")
+    public static let nuviaCharcoal = Color(hex: "6B6B6B")
+    public static let nuviaCopper = Color(hex: "C4A389")
+    public static let nuviaRoseGold = Color(hex: "C9A9A6")
+    public static let nuviaGold = Color(hex: "D4AF37")
+
+    // Category Colors (static)
+    public static let categoryVenue = Color(hex: "B5A3C4")
+    public static let categoryPhoto = Color(hex: "A3B5C4")
+    public static let categoryMusic = Color(hex: "C9A9A6")
+    public static let categoryFlowers = Color(hex: "9CAF88")
+    public static let categoryDress = Color(hex: "E8D5D5")
+    public static let categoryFood = Color(hex: "C4A389")
+    public static let categoryInvitation = Color(hex: "D4AF37")
+    public static let categoryDecor = Color(hex: "CFC5B8")
+
+    // Priority Colors
+    public static let priorityLow = Color(hex: "9CAF88")
+    public static let priorityMedium = Color(hex: "D4A574")
+    public static let priorityHigh = Color(hex: "C48B8B")
+    public static let priorityUrgent = Color(hex: "A86B6B")
+
+    // Status Colors
+    public static let statusPending = Color(hex: "9A9A9A")
+    public static let statusInProgress = Color(hex: "A3B5C4")
+    public static let statusCompleted = Color(hex: "8BAA7C")
+    public static let statusCancelled = Color(hex: "B5B5B5")
 }
 
 // MARK: - Hex Color Initializer
@@ -195,22 +320,14 @@ extension Color {
     }
 }
 
-// MARK: - Ethereal Shadow System
+// MARK: - Shadow System
 
-/// Shadow tokens for depth and elevation
-enum EtherealShadow {
-    case none
-    case whisper    // Barely visible, subtle lift
-    case soft       // Default card shadow
-    case medium     // Elevated cards
-    case pronounced // Hero sections, floating elements
-    case dramatic   // Modals, sheets
+public enum EtherealShadow {
+    case none, whisper, soft, medium, pronounced, dramatic
 
-    var color: Color {
-        Color.black
-    }
+    public var color: Color { .black }
 
-    var opacity: Double {
+    public var opacity: Double {
         switch self {
         case .none: return 0
         case .whisper: return 0.02
@@ -221,7 +338,7 @@ enum EtherealShadow {
         }
     }
 
-    var radius: CGFloat {
+    public var radius: CGFloat {
         switch self {
         case .none: return 0
         case .whisper: return 8
@@ -232,7 +349,7 @@ enum EtherealShadow {
         }
     }
 
-    var y: CGFloat {
+    public var y: CGFloat {
         switch self {
         case .none: return 0
         case .whisper: return 2
@@ -245,8 +362,7 @@ enum EtherealShadow {
 }
 
 extension View {
-    /// Apply ethereal shadow with optional secondary shadow for depth
-    func etherealShadow(_ level: EtherealShadow, colored: Color? = nil) -> some View {
+    public func etherealShadow(_ level: EtherealShadow, colored: Color? = nil) -> some View {
         self
             .shadow(
                 color: (colored ?? level.color).opacity(level.opacity),
@@ -261,62 +377,20 @@ extension View {
                 y: level.y * 2
             )
     }
-
-    /// Legacy shadow support
-    func nuviaShadow(_ level: NuviaShadowLevel) -> some View {
-        self.shadow(color: .black.opacity(level.opacity), radius: level.radius, y: level.y)
-    }
 }
 
-// MARK: - Legacy Shadow Compatibility
+// MARK: - Animation Presets
 
-enum NuviaShadowLevel {
-    case subtle, medium, elevated, floating
-
-    var radius: CGFloat {
-        switch self {
-        case .subtle: return 8
-        case .medium: return 16
-        case .elevated: return 24
-        case .floating: return 32
-        }
-    }
-
-    var opacity: Double {
-        switch self {
-        case .subtle: return 0.04
-        case .medium: return 0.06
-        case .elevated: return 0.08
-        case .floating: return 0.10
-        }
-    }
-
-    var y: CGFloat {
-        switch self {
-        case .subtle: return 2
-        case .medium: return 4
-        case .elevated: return 8
-        case .floating: return 12
-        }
-    }
-}
-
-// MARK: - Animation & Motion
-
-/// Ethereal spring animation presets
 extension Animation {
-    /// Gentle, luxurious spring
-    static var etherealSpring: Animation {
+    public static var etherealSpring: Animation {
         .spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.1)
     }
 
-    /// Quick, responsive spring
-    static var etherealSnap: Animation {
+    public static var etherealSnap: Animation {
         .spring(response: 0.3, dampingFraction: 0.7, blendDuration: 0)
     }
 
-    /// Slow, dramatic entrance
-    static var etherealEntrance: Animation {
+    public static var etherealEntrance: Animation {
         .spring(response: 0.7, dampingFraction: 0.85, blendDuration: 0.2)
     }
 }
@@ -341,12 +415,14 @@ struct CardEntranceModifier: ViewModifier {
 }
 
 extension View {
-    func cardEntrance(delay: Double = 0) -> some View {
+    public func cardEntrance(delay: Double = 0) -> some View {
         modifier(CardEntranceModifier(delay: delay))
     }
-}
 
-// MARK: - Press Effect
+    public func pressEffect() -> some View {
+        modifier(PressEffectModifier())
+    }
+}
 
 struct PressEffectModifier: ViewModifier {
     @State private var isPressed = false
@@ -361,100 +437,5 @@ struct PressEffectModifier: ViewModifier {
                     .onChanged { _ in isPressed = true }
                     .onEnded { _ in isPressed = false }
             )
-    }
-}
-
-extension View {
-    func pressEffect() -> some View {
-        modifier(PressEffectModifier())
-    }
-}
-
-// MARK: - Shimmer Effect
-
-struct ShimmerModifier: ViewModifier {
-    @State private var phase: CGFloat = -1
-
-    func body(content: Content) -> some View {
-        content
-            .overlay(
-                GeometryReader { geo in
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            .clear,
-                            Color.white.opacity(0.2),
-                            .clear
-                        ]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                    .frame(width: geo.size.width * 0.6)
-                    .offset(x: geo.size.width * phase)
-                    .onAppear {
-                        withAnimation(.linear(duration: 1.8).repeatForever(autoreverses: false)) {
-                            phase = 1.6
-                        }
-                    }
-                }
-            )
-            .clipped()
-    }
-}
-
-extension View {
-    func shimmer() -> some View {
-        modifier(ShimmerModifier())
-    }
-}
-
-// MARK: - Parallax Header Effect
-
-struct ParallaxHeaderModifier: ViewModifier {
-    let minHeight: CGFloat
-    let maxHeight: CGFloat
-
-    func body(content: Content) -> some View {
-        GeometryReader { geometry in
-            let offset = geometry.frame(in: .global).minY
-            let height = max(minHeight, maxHeight + offset)
-
-            content
-                .frame(width: geometry.size.width, height: height)
-                .offset(y: offset > 0 ? -offset : 0)
-        }
-        .frame(height: maxHeight)
-    }
-}
-
-extension View {
-    func parallaxHeader(minHeight: CGFloat = 200, maxHeight: CGFloat = 350) -> some View {
-        modifier(ParallaxHeaderModifier(minHeight: minHeight, maxHeight: maxHeight))
-    }
-}
-
-// MARK: - Matched Geometry Namespace
-
-/// Global namespace for matched geometry effects
-enum NuviaNamespace {
-    static let hero = "heroTransition"
-    static let card = "cardTransition"
-    static let detail = "detailTransition"
-}
-
-// MARK: - Seeded RNG
-
-struct SeedableRNG: RandomNumberGenerator {
-    private var state: UInt64
-
-    init(seed: UInt64) {
-        self.state = seed
-    }
-
-    mutating func next() -> UInt64 {
-        state &+= 0x9e3779b97f4a7c15
-        var z = state
-        z = (z ^ (z >> 30)) &* 0xbf58476d1ce4e5b9
-        z = (z ^ (z >> 27)) &* 0x94d049bb133111eb
-        return z ^ (z >> 31)
     }
 }
