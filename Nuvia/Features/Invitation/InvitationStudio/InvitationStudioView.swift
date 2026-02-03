@@ -1119,11 +1119,6 @@ extension CanvasViewModel {
         renderer.scale = 1.0
         return renderer.uiImage
     }
-
-    func setBackgroundColor(_ color: HexColor) {
-        saveToHistory()
-        state.backgroundColor = color
-    }
 }
 
 // MARK: - Preview
