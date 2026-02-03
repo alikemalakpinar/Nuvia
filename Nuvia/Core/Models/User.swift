@@ -39,7 +39,7 @@ final class User {
     }
 
     var pendingTasksCount: Int {
-        assignedTasks.filter { $0.taskStatus != .completed }.count
+        assignedTasks.filter { $0.status != TaskStatus.completed.rawValue }.count
     }
 
     // MARK: - Init

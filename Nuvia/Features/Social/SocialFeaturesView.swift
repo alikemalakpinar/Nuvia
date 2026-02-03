@@ -846,7 +846,7 @@ struct MemoriesView: View {
                     .padding(.top, 60)
                 } else {
                     LazyVStack(spacing: 16) {
-                        ForEach(entries) { entry in
+                        ForEach(entries, id: \.id) { entry in
                             NuviaCard {
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
@@ -857,7 +857,7 @@ struct MemoriesView: View {
                                         VStack(alignment: .leading, spacing: 2) {
                                             if let title = entry.title {
                                                 Text(title)
-                                                    .font(NuviaTypography.headline())
+                                                    .font(NuviaTypography.bodyBold())
                                                     .foregroundColor(.nuviaPrimaryText)
                                             }
                                             Text(entry.formattedDate)
@@ -968,7 +968,7 @@ struct MemoriesView: View {
                     NuviaCard {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Kitap İçeriği")
-                                .font(NuviaTypography.headline())
+                                .font(NuviaTypography.bodyBold())
                                 .foregroundColor(.nuviaPrimaryText)
 
                             HStack(spacing: 16) {
@@ -1015,7 +1015,7 @@ struct BookStatItem: View {
                 .font(.system(size: 18))
                 .foregroundColor(.nuviaGoldFallback)
             Text("\(count)")
-                .font(NuviaTypography.headline())
+                .font(NuviaTypography.bodyBold())
                 .foregroundColor(.nuviaPrimaryText)
             Text(label)
                 .font(NuviaTypography.caption2())
