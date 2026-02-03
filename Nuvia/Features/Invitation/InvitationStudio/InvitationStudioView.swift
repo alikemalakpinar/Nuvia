@@ -227,14 +227,25 @@ struct InvitationStudioView: View {
     // MARK: - Bottom Toolbar (Floating Glass Design)
 
     private var bottomToolbar: some View {
-        VStack(spacing: DesignTokens.Spacing.xs) {
+        let spacingXs: CGFloat = DesignTokens.Spacing.xs
+        let spacingSm: CGFloat = DesignTokens.Spacing.sm
+        let spacingMd: CGFloat = DesignTokens.Spacing.md
+
+        // Get localized strings
+        let addLabel: String = L10n.Studio.add
+        let layersLabel: String = L10n.Studio.layers
+        let editLabel: String = L10n.Studio.edit
+        let templatesLabel: String = L10n.Studio.templates
+        let exportLabel: String = L10n.Studio.export
+
+        return VStack(spacing: spacingXs) {
             // Quick action bar (floating glass)
             quickActionBar
 
             // Main toolbar (floating glass capsule)
             HStack(spacing: 0) {
                 // Add elements
-                GlassToolbarTab(icon: "plus.circle.fill", label: L10n.Studio.add, isActive: showElementPicker) {
+                GlassToolbarTab(icon: "plus.circle.fill", label: addLabel, isActive: showElementPicker) {
                     withAnimation(MotionCurves.quick) {
                         showElementPicker.toggle()
                         showLayerSheet = false
@@ -244,7 +255,7 @@ struct InvitationStudioView: View {
                 }
 
                 // Layers
-                GlassToolbarTab(icon: "square.3.layers.3d", label: L10n.Studio.layers, isActive: showLayerSheet) {
+                GlassToolbarTab(icon: "square.3.layers.3d", label: layersLabel, isActive: showLayerSheet) {
                     withAnimation(MotionCurves.quick) {
                         showLayerSheet.toggle()
                         showElementPicker = false
@@ -256,7 +267,7 @@ struct InvitationStudioView: View {
                 // Properties
                 GlassToolbarTab(
                     icon: "slider.horizontal.3",
-                    label: L10n.Studio.edit,
+                    label: editLabel,
                     isActive: showPropertyInspector,
                     badge: viewModel.selectedElementId != nil ? "1" : nil
                 ) {
@@ -269,19 +280,19 @@ struct InvitationStudioView: View {
                 }
 
                 // Templates
-                GlassToolbarTab(icon: "square.grid.2x2", label: L10n.Studio.templates, isActive: false) {
+                GlassToolbarTab(icon: "square.grid.2x2", label: templatesLabel, isActive: false) {
                     showTemplatePicker = true
                     HapticManager.shared.selection()
                 }
 
                 // Export
-                GlassToolbarTab(icon: "square.and.arrow.up", label: L10n.Studio.export, isActive: false, isPrimary: true) {
+                GlassToolbarTab(icon: "square.and.arrow.up", label: exportLabel, isActive: false, isPrimary: true) {
                     checkPremiumAndExport()
                     HapticManager.shared.buttonTap()
                 }
             }
-            .padding(.horizontal, DesignTokens.Spacing.sm)
-            .padding(.vertical, DesignTokens.Spacing.sm)
+            .padding(.horizontal, spacingSm)
+            .padding(.vertical, spacingSm)
             .background(
                 // Floating glass capsule
                 Capsule()
@@ -302,14 +313,18 @@ struct InvitationStudioView: View {
                     )
                     .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: -4)
             )
-            .padding(.horizontal, DesignTokens.Spacing.md)
-            .padding(.bottom, DesignTokens.Spacing.sm)
+            .padding(.horizontal, spacingMd)
+            .padding(.bottom, spacingSm)
         }
     }
 
     private var quickActionBar: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: DesignTokens.Spacing.sm) {
+        let spacingSm: CGFloat = DesignTokens.Spacing.sm
+        let spacingMd: CGFloat = DesignTokens.Spacing.md
+        let radiusLg: CGFloat = DesignTokens.Radius.lg
+
+        return ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: spacingSm) {
                 // Zoom controls (clamped 50%-200%)
                 GlassQuickActionChip(icon: "minus.magnifyingglass") {
                     withAnimation(MotionCurves.quick) {
@@ -354,15 +369,15 @@ struct InvitationStudioView: View {
                     }
                 }
             }
-            .padding(.horizontal, DesignTokens.Spacing.md)
-            .padding(.vertical, DesignTokens.Spacing.sm)
+            .padding(.horizontal, spacingMd)
+            .padding(.vertical, spacingSm)
         }
         .background(
             // Glass background
-            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
-                .fill(.ultraThinMaterial.opacity(0.8))
+            RoundedRectangle(cornerRadius: radiusLg)
+                .fill(.ultraThinMaterial)
         )
-        .padding(.horizontal, DesignTokens.Spacing.md)
+        .padding(.horizontal, spacingMd)
     }
 
     // MARK: - Floating Panels
