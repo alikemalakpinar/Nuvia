@@ -1,7 +1,9 @@
 import SwiftUI
 import SwiftData
 
-/// Bugün (Dashboard) ekranı
+// MARK: - Morning Briefing Dashboard
+// Magazine cover style dashboard - "Awwwards Mobile Excellence"
+
 struct TodayDashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var projects: [WeddingProject]
@@ -10,75 +12,117 @@ struct TodayDashboardView: View {
     @State private var showNotifications = false
     @State private var showWeeklyBrief = false
     @State private var showSettings = false
+    @State private var scrollOffset: CGFloat = 0
 
     private var currentProject: WeddingProject? {
         projects.first { $0.id.uuidString == appState.currentProjectId }
     }
 
+    private var greeting: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 5..<12: return "Good Morning"
+        case 12..<17: return "Good Afternoon"
+        case 17..<21: return "Good Evening"
+        default: return "Good Night"
+        }
+    }
+
+    private var greetingEmoji: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 5..<12: return "sunrise.fill"
+        case 12..<17: return "sun.max.fill"
+        case 17..<21: return "sunset.fill"
+        default: return "moon.stars.fill"
+        }
+    }
+
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) { // Daha fazla whitespace - ferahlık
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    // Magazine-style Hero Header
+                    heroHeader
+                        .padding(.bottom, 32)
+
                     if let project = currentProject {
-                        // Önce görevler - "Sırada ne var?" sorusunun cevabı
-                        TodayTasksCard(project: project)
-                            .cardEntrance(delay: 0)
+                        VStack(spacing: 28) {
+                            // Today's Focus - Featured Card
+                            todaysFocusSection(project: project)
+                                .cardEntrance(delay: 0.05)
 
-                        // Countdown ikinci sırada, daha az dominant
-                        CountdownCard(project: project)
-                            .cardEntrance(delay: 0.05)
+                            // Countdown - Elegant Timeline
+                            countdownSection(project: project)
+                                .cardEntrance(delay: 0.1)
 
-                        QuickActionsGrid()
-                            .cardEntrance(delay: 0.10)
+                            // Progress Overview
+                            progressOverview(project: project)
+                                .cardEntrance(delay: 0.15)
 
-                        UpcomingPaymentsCard(project: project)
-                            .cardEntrance(delay: 0.15)
+                            // Quick Actions - Minimal Grid
+                            quickActionsSection
+                                .cardEntrance(delay: 0.2)
 
-                        RSVPSummaryCard(project: project)
-                            .cardEntrance(delay: 0.20)
-
-                        if appState.appMode == .weddingAndHome {
-                            UpcomingDeliveriesCard(project: project)
+                            // RSVP & Budget Summary
+                            metricsSection(project: project)
                                 .cardEntrance(delay: 0.25)
+
+                            // Upcoming - Timeline Style
+                            upcomingSection(project: project)
+                                .cardEntrance(delay: 0.3)
                         }
+                        .padding(.horizontal, 24)
                     } else {
                         NuviaEmptyState(
                             icon: "heart.slash",
-                            title: "Proje bulunamadı",
-                            message: "Lütfen bir düğün projesi oluşturun"
+                            title: "No Project Found",
+                            message: "Create a wedding project to get started"
                         )
+                        .padding(.horizontal, 24)
                     }
                 }
-                .padding(.horizontal, 20) // Biraz daha geniş margin
-                .padding(.top, 8)
-                .padding(.bottom, 100)
+                .padding(.bottom, 120)
             }
-            .background(Color.nuviaBackground)
-            .navigationTitle("Bugün")
-            .navigationBarTitleDisplayMode(.large)
+            .background(
+                LinearGradient(
+                    colors: [
+                        Color(hex: "FDFCFB"),
+                        Color(hex: "FAF9F7"),
+                        Color.nuviaBackground
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+            )
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
                         showWeeklyBrief = true
                     } label: {
-                        Image(systemName: "sparkles.rectangle.stack")
-                            .foregroundColor(.nuviaGoldFallback)
+                        Image(systemName: "newspaper")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.nuviaChampagne)
                     }
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
-                    HStack(spacing: 16) {
+                    HStack(spacing: 20) {
                         Button {
                             showNotifications = true
                         } label: {
-                            Image(systemName: "bell.fill")
+                            Image(systemName: "bell")
+                                .font(.system(size: 18, weight: .medium))
                                 .foregroundColor(.nuviaSecondaryText)
                         }
 
                         Button {
                             showSettings = true
                         } label: {
-                            Image(systemName: "gearshape.fill")
+                            Image(systemName: "gearshape")
+                                .font(.system(size: 18, weight: .medium))
                                 .foregroundColor(.nuviaSecondaryText)
                         }
                     }
@@ -95,169 +139,481 @@ struct TodayDashboardView: View {
             }
         }
     }
-}
 
-// MARK: - Countdown Card
+    // MARK: - Hero Header (Magazine Cover Style)
 
-struct CountdownCard: View {
-    let project: WeddingProject
+    private var heroHeader: some View {
+        VStack(spacing: 16) {
+            // Date & Greeting
+            VStack(spacing: 8) {
+                Text(Date().formatted(.dateTime.weekday(.wide).month(.wide).day()))
+                    .font(NuviaTypography.overline())
+                    .tracking(2)
+                    .foregroundColor(.nuviaSecondaryText)
+                    .textCase(.uppercase)
 
-    var body: some View {
-        NuviaHeroCard(accent: .nuviaGoldFallback) {
-            VStack(spacing: 16) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("\(project.partnerName1) & \(project.partnerName2)")
-                            .font(NuviaTypography.title3())
-                            .foregroundColor(.nuviaPrimaryText)
+                HStack(spacing: 12) {
+                    Image(systemName: greetingEmoji)
+                        .font(.system(size: 24))
+                        .foregroundStyle(Color.etherealGradient)
 
-                        if let venue = project.venueName {
-                            HStack(spacing: 4) {
-                                Image(systemName: "mappin.circle.fill")
-                                    .font(.system(size: 12))
-                                Text(venue)
-                                    .font(NuviaTypography.caption())
-                            }
+                    Text(greeting)
+                        .font(NuviaTypography.displaySmall())
+                        .foregroundColor(.nuviaPrimaryText)
+                }
+            }
+            .padding(.top, 20)
+
+            // Couple Names (if available)
+            if let project = currentProject {
+                Text("\(project.partnerName1) & \(project.partnerName2)")
+                    .font(NuviaTypography.title3())
+                    .foregroundColor(.nuviaSecondaryText)
+                    .padding(.top, 4)
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    // MARK: - Today's Focus Section
+
+    private func todaysFocusSection(project: WeddingProject) -> some View {
+        let priorityTask = project.tasks
+            .filter { $0.status != TaskStatus.completed.rawValue }
+            .sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
+            .first
+
+        return VStack(alignment: .leading, spacing: 16) {
+            Text("TODAY'S FOCUS")
+                .font(NuviaTypography.overline())
+                .tracking(2)
+                .foregroundColor(.nuviaChampagne)
+
+            if let task = priorityTask {
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        Circle()
+                            .fill(task.taskCategory.color)
+                            .frame(width: 8, height: 8)
+
+                        Text(task.taskCategory.displayName)
+                            .font(NuviaTypography.caption())
                             .foregroundColor(.nuviaSecondaryText)
+
+                        Spacer()
+
+                        if let dueDate = task.dueDate {
+                            Text(dueDate.formatted(.dateTime.month(.abbreviated).day()))
+                                .font(NuviaTypography.caption())
+                                .foregroundColor(.nuviaTertiaryText)
                         }
                     }
 
-                    Spacer()
+                    Text(task.title)
+                        .font(NuviaTypography.title2())
+                        .foregroundColor(.nuviaPrimaryText)
+                        .lineLimit(2)
 
-                    // Progress ring
-                    NuviaProgressRing(
-                        progress: min(1.0, Double(max(0, 365 - project.daysUntilWedding)) / 365),
-                        size: 60,
-                        lineWidth: 6,
-                        showPercentage: false
+                    if !task.notes.isEmpty {
+                        Text(task.notes)
+                            .font(NuviaTypography.body())
+                            .foregroundColor(.nuviaSecondaryText)
+                            .lineLimit(2)
+                    }
+
+                    // Action Button
+                    HStack {
+                        Spacer()
+
+                        Button {
+                            // Mark as complete
+                        } label: {
+                            HStack(spacing: 8) {
+                                Image(systemName: "checkmark")
+                                    .font(.system(size: 14, weight: .semibold))
+                                Text("Complete")
+                                    .font(NuviaTypography.smallButton())
+                            }
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 12)
+                            .background(Color.nuviaPrimaryAction)
+                            .cornerRadius(24)
+                        }
+                        .pressEffect()
+                    }
+                    .padding(.top, 8)
+                }
+                .padding(24)
+                .background(Color.nuviaSurface)
+                .cornerRadius(24)
+                .etherealShadow(.soft)
+            } else {
+                // All caught up state
+                VStack(spacing: 16) {
+                    Image(systemName: "checkmark.seal.fill")
+                        .font(.system(size: 40))
+                        .foregroundStyle(Color.etherealGradient)
+
+                    Text("All Caught Up")
+                        .font(NuviaTypography.title3())
+                        .foregroundColor(.nuviaPrimaryText)
+
+                    Text("No urgent tasks for today")
+                        .font(NuviaTypography.body())
+                        .foregroundColor(.nuviaSecondaryText)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(32)
+                .background(Color.nuviaSurface)
+                .cornerRadius(24)
+                .etherealShadow(.soft)
+            }
+        }
+    }
+
+    // MARK: - Countdown Section (Elegant Timeline)
+
+    private func countdownSection(project: WeddingProject) -> some View {
+        HStack(spacing: 0) {
+            // Days countdown
+            VStack(spacing: 4) {
+                Text("\(project.daysUntilWedding)")
+                    .font(NuviaTypography.countdown())
+                    .foregroundStyle(Color.etherealGradient)
+
+                Text("days to go")
+                    .font(NuviaTypography.caption())
+                    .foregroundColor(.nuviaSecondaryText)
+            }
+            .frame(maxWidth: .infinity)
+
+            // Divider
+            Rectangle()
+                .fill(Color.nuviaTertiaryBackground)
+                .frame(width: 1, height: 60)
+
+            // Date
+            VStack(spacing: 4) {
+                Text(project.weddingDate.formatted(.dateTime.month(.abbreviated).day()))
+                    .font(NuviaTypography.title1())
+                    .foregroundColor(.nuviaPrimaryText)
+
+                Text(project.weddingDate.formatted(.dateTime.year()))
+                    .font(NuviaTypography.caption())
+                    .foregroundColor(.nuviaSecondaryText)
+            }
+            .frame(maxWidth: .infinity)
+
+            // Divider
+            Rectangle()
+                .fill(Color.nuviaTertiaryBackground)
+                .frame(width: 1, height: 60)
+
+            // Venue
+            VStack(spacing: 4) {
+                Image(systemName: "mappin.circle.fill")
+                    .font(.system(size: 24))
+                    .foregroundColor(.nuviaChampagne)
+
+                Text(project.venueName ?? "Venue")
+                    .font(NuviaTypography.caption())
+                    .foregroundColor(.nuviaSecondaryText)
+                    .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .padding(.vertical, 24)
+        .padding(.horizontal, 16)
+        .background(Color.nuviaSurface)
+        .cornerRadius(24)
+        .etherealShadow(.whisper)
+    }
+
+    // MARK: - Progress Overview
+
+    private func progressOverview(project: WeddingProject) -> some View {
+        let completedTasks = project.tasks.filter { $0.status == TaskStatus.completed.rawValue }.count
+        let totalTasks = max(project.tasks.count, 1)
+        let progress = Double(completedTasks) / Double(totalTasks)
+
+        let totalBudget = project.totalBudget
+        let spentBudget = project.expenses.reduce(0) { $0 + $1.amount }
+        let budgetProgress = totalBudget > 0 ? min(1.0, spentBudget / totalBudget) : 0
+
+        return VStack(alignment: .leading, spacing: 20) {
+            Text("PROGRESS")
+                .font(NuviaTypography.overline())
+                .tracking(2)
+                .foregroundColor(.nuviaChampagne)
+
+            HStack(spacing: 16) {
+                // Tasks Progress
+                ProgressCard(
+                    title: "Tasks",
+                    value: "\(completedTasks)/\(totalTasks)",
+                    progress: progress,
+                    color: .nuviaSage
+                )
+
+                // Budget Progress
+                ProgressCard(
+                    title: "Budget",
+                    value: "\(Int(budgetProgress * 100))%",
+                    progress: budgetProgress,
+                    color: .nuviaChampagne
+                )
+            }
+        }
+    }
+
+    // MARK: - Quick Actions Section
+
+    private var quickActionsSection: some View {
+        @State var showRunOfShow = false
+        @State var showVendors = false
+        @State var showFileVault = false
+        @State var showZenMode = false
+
+        return VStack(alignment: .leading, spacing: 20) {
+            Text("QUICK ACCESS")
+                .font(NuviaTypography.overline())
+                .tracking(2)
+                .foregroundColor(.nuviaChampagne)
+
+            QuickActionsGrid()
+        }
+    }
+
+    // MARK: - Metrics Section
+
+    private func metricsSection(project: WeddingProject) -> some View {
+        let attending = project.guests.filter { $0.rsvp == .attending }.reduce(0) { $0 + 1 + $1.plusOneCount }
+        let pending = project.guests.filter { $0.rsvp == .pending }.count
+        let totalGuests = project.guests.count
+
+        return VStack(alignment: .leading, spacing: 20) {
+            Text("AT A GLANCE")
+                .font(NuviaTypography.overline())
+                .tracking(2)
+                .foregroundColor(.nuviaChampagne)
+
+            HStack(spacing: 12) {
+                // RSVP Card
+                MetricCard(
+                    icon: "person.2.fill",
+                    title: "Attending",
+                    value: "\(attending)",
+                    subtitle: "\(pending) pending",
+                    color: .nuviaSage
+                )
+
+                // Budget Card
+                MetricCard(
+                    icon: "creditcard.fill",
+                    title: "Spent",
+                    value: formatCurrency(project.expenses.reduce(0) { $0 + $1.amount }, currency: project.currency),
+                    subtitle: "of \(formatCurrency(project.totalBudget, currency: project.currency))",
+                    color: .nuviaChampagne
+                )
+            }
+        }
+    }
+
+    // MARK: - Upcoming Section
+
+    private func upcomingSection(project: WeddingProject) -> some View {
+        let upcomingTasks = project.tasks
+            .filter { $0.status != TaskStatus.completed.rawValue && $0.dueDate != nil }
+            .sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
+            .prefix(3)
+            .map { $0 }
+
+        let upcomingPayments = project.expenses
+            .filter { !$0.isPaid && $0.daysUntilDue >= 0 }
+            .sorted { $0.date < $1.date }
+            .prefix(2)
+            .map { $0 }
+
+        return VStack(alignment: .leading, spacing: 20) {
+            Text("COMING UP")
+                .font(NuviaTypography.overline())
+                .tracking(2)
+                .foregroundColor(.nuviaChampagne)
+
+            VStack(spacing: 12) {
+                ForEach(upcomingTasks, id: \.id) { task in
+                    UpcomingItem(
+                        icon: task.taskCategory.icon,
+                        title: task.title,
+                        subtitle: task.dueDate?.formatted(.dateTime.month(.abbreviated).day()) ?? "",
+                        color: task.taskCategory.color,
+                        type: .task
                     )
                 }
 
-                Divider()
-                    .background(Color.nuviaTertiaryText)
-
-                HStack {
-                    VStack {
-                        Text("\(project.daysUntilWedding)")
-                            .font(NuviaTypography.largeNumber())
-                            .foregroundColor(.nuviaGoldFallback)
-                        Text("gün kaldı")
-                            .font(NuviaTypography.caption())
-                            .foregroundColor(.nuviaSecondaryText)
-                    }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel("Düğüne \(project.daysUntilWedding) gün kaldı")
-
-                    Spacer()
-
-                    VStack(alignment: .trailing) {
-                        Text(project.weddingDate.formatted(date: .abbreviated, time: .omitted))
-                            .font(NuviaTypography.bodyBold())
-                            .foregroundColor(.nuviaPrimaryText)
-                        if let time = project.weddingTime {
-                            Text(time.formatted(date: .omitted, time: .shortened))
-                                .font(NuviaTypography.caption())
-                                .foregroundColor(.nuviaSecondaryText)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-// MARK: - Today's Tasks Card
-
-struct TodayTasksCard: View {
-    let project: WeddingProject
-
-    private var todaysTasks: [Task] {
-        let calendar = Calendar.current
-        return project.tasks.filter { task in
-            guard let dueDate = task.dueDate else { return false }
-            return calendar.isDateInToday(dueDate) && task.status != TaskStatus.completed.rawValue
-        }.prefix(5).map { $0 }
-    }
-
-    private var overdueTasks: [Task] {
-        project.tasks.filter { $0.isOverdue }.prefix(3).map { $0 }
-    }
-
-    var body: some View {
-        NuviaCard {
-            VStack(spacing: 20) { // Daha fazla iç boşluk
-                NuviaSectionHeader("Sırada Ne Var?", actionTitle: "Tümü") {
-                    // Navigate to tasks
+                ForEach(upcomingPayments, id: \.id) { expense in
+                    UpcomingItem(
+                        icon: "creditcard.fill",
+                        title: expense.title,
+                        subtitle: formatCurrency(expense.amount, currency: project.currency),
+                        color: .nuviaWarning,
+                        type: .payment
+                    )
                 }
 
-                if todaysTasks.isEmpty && overdueTasks.isEmpty {
+                if upcomingTasks.isEmpty && upcomingPayments.isEmpty {
                     HStack(spacing: 12) {
-                        Image(systemName: "checkmark.circle.fill")
+                        Image(systemName: "calendar.badge.checkmark")
+                            .font(.system(size: 20))
                             .foregroundColor(.nuviaSuccess)
-                            .font(.system(size: 24))
-                        Text("Harika! Bugün için görev yok.")
+
+                        Text("No upcoming deadlines")
                             .font(NuviaTypography.body())
                             .foregroundColor(.nuviaSecondaryText)
                     }
-                    .padding(.vertical, 12)
-                } else {
-                    VStack(spacing: 10) { // Görevler arası boşluk artırıldı
-                        // Overdue tasks first
-                        ForEach(overdueTasks, id: \.id) { task in
-                            TaskRowCompact(task: task, isOverdue: true)
-                        }
-
-                        // Today's tasks
-                        ForEach(todaysTasks, id: \.id) { task in
-                            TaskRowCompact(task: task, isOverdue: false)
-                        }
-                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(20)
+                    .background(Color.nuviaSurface)
+                    .cornerRadius(16)
+                    .etherealShadow(.whisper)
                 }
             }
         }
     }
+
+    // MARK: - Helpers
+
+    private func formatCurrency(_ amount: Double, currency: String) -> String {
+        let symbol = Currency(rawValue: currency)?.symbol ?? "₺"
+        return "\(symbol)\(Int(amount).formatted())"
+    }
 }
 
-struct TaskRowCompact: View {
-    let task: Task
-    let isOverdue: Bool
+// MARK: - Progress Card
+
+struct ProgressCard: View {
+    let title: String
+    let value: String
+    let progress: Double
+    let color: Color
 
     var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: task.taskStatus.icon)
-                .foregroundColor(isOverdue ? .nuviaError : task.taskStatus.color)
-                .font(.system(size: 20))
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(NuviaTypography.caption())
+                .foregroundColor(.nuviaSecondaryText)
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(task.title)
+            Text(value)
+                .font(NuviaTypography.title3())
+                .foregroundColor(.nuviaPrimaryText)
+
+            // Progress bar
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.nuviaTertiaryBackground)
+                        .frame(height: 6)
+
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(color)
+                        .frame(width: geo.size.width * progress, height: 6)
+                }
+            }
+            .frame(height: 6)
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.nuviaSurface)
+        .cornerRadius(20)
+        .etherealShadow(.whisper)
+    }
+}
+
+// MARK: - Metric Card
+
+struct MetricCard: View {
+    let icon: String
+    let title: String
+    let value: String
+    let subtitle: String
+    let color: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: icon)
+                    .font(.system(size: 16))
+                    .foregroundColor(color)
+
+                Text(title)
+                    .font(NuviaTypography.caption())
+                    .foregroundColor(.nuviaSecondaryText)
+            }
+
+            Text(value)
+                .font(NuviaTypography.title2())
+                .foregroundColor(.nuviaPrimaryText)
+
+            Text(subtitle)
+                .font(NuviaTypography.caption())
+                .foregroundColor(.nuviaTertiaryText)
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.nuviaSurface)
+        .cornerRadius(20)
+        .etherealShadow(.whisper)
+    }
+}
+
+// MARK: - Upcoming Item
+
+struct UpcomingItem: View {
+    let icon: String
+    let title: String
+    let subtitle: String
+    let color: Color
+    let type: ItemType
+
+    enum ItemType {
+        case task, payment
+    }
+
+    var body: some View {
+        HStack(spacing: 16) {
+            Image(systemName: icon)
+                .font(.system(size: 18))
+                .foregroundColor(color)
+                .frame(width: 44, height: 44)
+                .background(color.opacity(0.1))
+                .cornerRadius(12)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
                     .font(NuviaTypography.body())
                     .foregroundColor(.nuviaPrimaryText)
                     .lineLimit(1)
 
-                HStack(spacing: 8) {
-                    NuviaTag(task.taskCategory.displayName, color: task.taskCategory.color, size: .small)
-
-                    if isOverdue {
-                        Text("Gecikmiş")
-                            .font(NuviaTypography.caption2())
-                            .foregroundColor(.nuviaError)
-                    }
-                }
+                Text(subtitle)
+                    .font(NuviaTypography.caption())
+                    .foregroundColor(.nuviaSecondaryText)
             }
 
             Spacer()
 
             Image(systemName: "chevron.right")
+                .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.nuviaTertiaryText)
-                .font(.system(size: 14))
         }
-        .padding(12)
-        .background(Color.nuviaTertiaryBackground)
-        .cornerRadius(12)
+        .padding(16)
+        .background(Color.nuviaSurface)
+        .cornerRadius(16)
+        .etherealShadow(.whisper)
     }
 }
 
-// MARK: - Quick Actions Grid
+// MARK: - Quick Actions Grid (Redesigned)
 
 struct QuickActionsGrid: View {
     @State private var showRunOfShow = false
@@ -269,48 +625,47 @@ struct QuickActionsGrid: View {
     @State private var showPostWedding = false
     @State private var showVendors = false
 
+    private let actions: [(icon: String, title: String, color: Color)] = [
+        ("clock.badge.checkmark", "Timeline", .nuviaWisteria),
+        ("person.2.badge.gearshape", "Vendors", .nuviaDustyBlue),
+        ("lock.doc", "Files", .nuviaTerracotta),
+        ("leaf.fill", "Zen Mode", .nuviaSage),
+        ("music.note.list", "Music", .nuviaRoseDust),
+        ("photo.on.rectangle", "Photos", .nuviaChampagne),
+        ("person.badge.shield.checkmark", "Check-in", .nuviaInfo),
+        ("heart.text.square", "Post-Wedding", .nuviaBlush)
+    ]
+
     var body: some View {
-        VStack(spacing: 16) { // Daha fazla boşluk
-            NuviaSectionHeader("Hızlı Erişim", actionTitle: nil) {}
-
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: 20) { // Grid spacing artırıldı
-                NuviaQuickAction(icon: "clock.badge.checkmark", title: "Run of Show", color: .nuviaGoldFallback) {
-                    showRunOfShow = true
-                }
-                NuviaQuickAction(icon: "person.2.badge.gearshape", title: "Tedarikçi", color: .nuviaGoldFallback) {
-                    showVendors = true
-                }
-                NuviaQuickAction(icon: "lock.doc", title: "Dosya Kasası", color: .nuviaGoldFallback) {
-                    showFileVault = true
-                }
-                NuviaQuickAction(icon: "leaf.fill", title: "Zen Modu", color: .nuviaGoldFallback) {
-                    showZenMode = true
-                }
+        LazyVGrid(columns: [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ], spacing: 16) {
+            QuickActionItem(icon: "clock.badge.checkmark", title: "Timeline", color: .nuviaWisteria) {
+                showRunOfShow = true
             }
-
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: 20) {
-                NuviaQuickAction(icon: "music.note.list", title: "Müzik", color: .nuviaGoldFallback) {
-                    showMusicVoting = true
-                }
-                NuviaQuickAction(icon: "photo.on.rectangle", title: "Fotoğraf", color: .nuviaGoldFallback) {
-                    showPhotoStream = true
-                }
-                NuviaQuickAction(icon: "person.badge.shield.checkmark", title: "Check-in", color: .nuviaGoldFallback) {
-                    showCheckIn = true
-                }
-                NuviaQuickAction(icon: "heart.text.square", title: "Sonrası", color: .nuviaGoldFallback) {
-                    showPostWedding = true
-                }
+            QuickActionItem(icon: "person.2.badge.gearshape", title: "Vendors", color: .nuviaDustyBlue) {
+                showVendors = true
+            }
+            QuickActionItem(icon: "lock.doc", title: "Files", color: .nuviaTerracotta) {
+                showFileVault = true
+            }
+            QuickActionItem(icon: "leaf.fill", title: "Zen", color: .nuviaSage) {
+                showZenMode = true
+            }
+            QuickActionItem(icon: "music.note.list", title: "Music", color: .nuviaRoseDust) {
+                showMusicVoting = true
+            }
+            QuickActionItem(icon: "photo.on.rectangle", title: "Photos", color: .nuviaChampagne) {
+                showPhotoStream = true
+            }
+            QuickActionItem(icon: "person.badge.shield.checkmark", title: "Check-in", color: .nuviaInfo) {
+                showCheckIn = true
+            }
+            QuickActionItem(icon: "heart.text.square", title: "After", color: .nuviaBlush) {
+                showPostWedding = true
             }
         }
         .sheet(isPresented: $showRunOfShow) { WeddingDayRunOfShowView() }
@@ -324,274 +679,172 @@ struct QuickActionsGrid: View {
     }
 }
 
-// MARK: - Upcoming Payments Card
+// MARK: - Quick Action Item (Minimal Style)
 
-struct UpcomingPaymentsCard: View {
-    let project: WeddingProject
-
-    private var upcomingPayments: [Expense] {
-        project.expenses
-            .filter { !$0.isPaid && $0.daysUntilDue <= 30 && $0.daysUntilDue >= 0 }
-            .sorted { $0.date < $1.date }
-            .prefix(3)
-            .map { $0 }
-    }
-
-    var body: some View {
-        NuviaCard {
-            VStack(spacing: 20) { // Daha fazla iç boşluk
-                NuviaSectionHeader("Yaklaşan Ödemeler", actionTitle: "Tümü") {}
-
-                if upcomingPayments.isEmpty {
-                    HStack(spacing: 12) {
-                        Image(systemName: "checkmark.seal.fill")
-                            .foregroundColor(.nuviaSuccess)
-                            .font(.system(size: 24))
-                        Text("Yaklaşan ödeme yok")
-                            .font(NuviaTypography.body())
-                            .foregroundColor(.nuviaSecondaryText)
-                    }
-                    .padding(.vertical, 12)
-                } else {
-                    VStack(spacing: 10) {
-                        ForEach(upcomingPayments, id: \.id) { expense in
-                            PaymentRowCompact(expense: expense, currency: project.currency)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-struct PaymentRowCompact: View {
-    let expense: Expense
-    let currency: String
-
-    private var currencySymbol: String {
-        Currency(rawValue: currency)?.symbol ?? "₺"
-    }
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: expense.expenseCategory.icon)
-                .foregroundColor(expense.expenseCategory.color)
-                .font(.system(size: 20))
-                .frame(width: 40, height: 40)
-                .background(expense.expenseCategory.color.opacity(0.15))
-                .cornerRadius(10)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(expense.title)
-                    .font(NuviaTypography.body())
-                    .foregroundColor(.nuviaPrimaryText)
-                    .lineLimit(1)
-
-                Text("\(expense.daysUntilDue) gün sonra")
-                    .font(NuviaTypography.caption())
-                    .foregroundColor(expense.daysUntilDue <= 3 ? .nuviaWarning : .nuviaSecondaryText)
-            }
-
-            Spacer()
-
-            Text("\(currencySymbol)\(Int(expense.amount).formatted())")
-                .font(NuviaTypography.bodyBold())
-                .foregroundColor(.nuviaPrimaryText)
-        }
-        .padding(12)
-        .background(Color.nuviaTertiaryBackground)
-        .cornerRadius(12)
-    }
-}
-
-// MARK: - RSVP Summary Card
-
-struct RSVPSummaryCard: View {
-    let project: WeddingProject
-
-    private var attending: Int {
-        project.guests.filter { $0.rsvp == .attending }.reduce(0) { $0 + 1 + $1.plusOneCount }
-    }
-
-    private var pending: Int {
-        project.guests.filter { $0.rsvp == .pending }.count
-    }
-
-    private var notAttending: Int {
-        project.guests.filter { $0.rsvp == .notAttending }.count
-    }
-
-    var body: some View {
-        NuviaCard {
-            VStack(spacing: 20) { // Daha fazla iç boşluk
-                NuviaSectionHeader("RSVP Özeti", actionTitle: "Detay") {}
-
-                HStack(spacing: 32) { // Daha geniş aralık
-                    RSVPStatItem(
-                        count: attending,
-                        label: "Geliyor",
-                        color: .nuviaSuccess,
-                        icon: "checkmark.circle.fill"
-                    )
-
-                    RSVPStatItem(
-                        count: pending,
-                        label: "Bekliyor",
-                        color: .nuviaWarning,
-                        icon: "questionmark.circle.fill"
-                    )
-
-                    RSVPStatItem(
-                        count: notAttending,
-                        label: "Gelmiyor",
-                        color: .nuviaError,
-                        icon: "xmark.circle.fill"
-                    )
-                }
-            }
-        }
-    }
-}
-
-struct RSVPStatItem: View {
-    let count: Int
-    let label: String
-    let color: Color
+struct QuickActionItem: View {
     let icon: String
+    let title: String
+    let color: Color
+    let action: () -> Void
 
     var body: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 4) {
+        Button(action: action) {
+            VStack(spacing: 10) {
                 Image(systemName: icon)
+                    .font(.system(size: 22, weight: .medium))
                     .foregroundColor(color)
-                Text("\(count)")
-                    .font(NuviaTypography.mediumNumber())
-                    .foregroundColor(.nuviaPrimaryText)
+                    .frame(width: 52, height: 52)
+                    .background(color.opacity(0.1))
+                    .cornerRadius(16)
+
+                Text(title)
+                    .font(NuviaTypography.caption())
+                    .foregroundColor(.nuviaSecondaryText)
+                    .lineLimit(1)
             }
-            Text(label)
-                .font(NuviaTypography.caption())
-                .foregroundColor(.nuviaSecondaryText)
         }
-        .frame(maxWidth: .infinity)
+        .pressEffect()
     }
 }
 
-// MARK: - Upcoming Deliveries Card
-
-struct UpcomingDeliveriesCard: View {
-    let project: WeddingProject
-
-    var body: some View {
-        NuviaCard {
-            VStack(spacing: 20) { // Daha fazla iç boşluk
-                NuviaSectionHeader("Yaklaşan Teslimatlar", actionTitle: "Tümü") {}
-
-                HStack(spacing: 12) {
-                    Image(systemName: "shippingbox.fill")
-                        .foregroundColor(.nuviaInfo)
-                        .font(.system(size: 24))
-                    Text("Henüz teslimat yok")
-                        .font(NuviaTypography.body())
-                        .foregroundColor(.nuviaSecondaryText)
-                }
-                .padding(.vertical, 12)
-            }
-        }
-    }
-}
-
-// MARK: - Weekly Brief View
+// MARK: - Weekly Brief View (Redesigned)
 
 struct WeeklyBriefView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) {
-                    // Header
-                    VStack(spacing: 8) {
-                        Image(systemName: "sparkles.rectangle.stack.fill")
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 32) {
+                    // Hero Header
+                    VStack(spacing: 16) {
+                        Image(systemName: "newspaper.fill")
                             .font(.system(size: 48))
-                            .foregroundColor(.nuviaGoldFallback)
+                            .foregroundStyle(Color.etherealGradient)
 
-                        Text("Bu Haftanın Özeti")
-                            .font(NuviaTypography.title1())
+                        Text("Weekly Brief")
+                            .font(NuviaTypography.displaySmall())
                             .foregroundColor(.nuviaPrimaryText)
 
-                        Text("1 dakikalık planlama")
+                        Text(Date().formatted(.dateTime.month(.wide).day().year()))
                             .font(NuviaTypography.body())
                             .foregroundColor(.nuviaSecondaryText)
                     }
-                    .padding(.top, 24)
+                    .padding(.top, 32)
 
-                    // This week's tasks
-                    NuviaCard {
-                        VStack(alignment: .leading, spacing: 12) {
-                            HStack {
-                                Image(systemName: "checklist")
-                                    .foregroundColor(.nuviaInfo)
-                                Text("Bu Haftanın Görevleri")
-                                    .font(NuviaTypography.bodyBold())
-                            }
+                    VStack(spacing: 20) {
+                        // This week's summary
+                        BriefSection(
+                            icon: "checklist",
+                            iconColor: .nuviaSage,
+                            title: "This Week's Tasks",
+                            value: "5 tasks",
+                            description: "Focus on venue confirmation and catering menu selection"
+                        )
 
-                            Text("5 görev tamamlanmayı bekliyor")
-                                .font(NuviaTypography.body())
-                                .foregroundColor(.nuviaSecondaryText)
-                        }
+                        BriefSection(
+                            icon: "creditcard.fill",
+                            iconColor: .nuviaChampagne,
+                            title: "Upcoming Payments",
+                            value: "₺25,000",
+                            description: "Venue deposit due in 3 days"
+                        )
+
+                        BriefSection(
+                            icon: "person.2.fill",
+                            iconColor: .nuviaRoseDust,
+                            title: "RSVP Update",
+                            value: "15 pending",
+                            description: "Send reminders to guests who haven't responded"
+                        )
+
+                        BriefSection(
+                            icon: "lightbulb.fill",
+                            iconColor: .nuviaWisteria,
+                            title: "Pro Tip",
+                            value: nil,
+                            description: "Schedule vendor meetings at least 2 weeks before your decision deadline"
+                        )
                     }
+                    .padding(.horizontal, 24)
 
-                    // This week's payments
-                    NuviaCard {
-                        VStack(alignment: .leading, spacing: 12) {
-                            HStack {
-                                Image(systemName: "creditcard.fill")
-                                    .foregroundColor(.nuviaSuccess)
-                                Text("Bu Haftanın Ödemeleri")
-                                    .font(NuviaTypography.bodyBold())
-                            }
-
-                            Text("₺25,000 ödeme yapılacak")
-                                .font(NuviaTypography.body())
-                                .foregroundColor(.nuviaSecondaryText)
-                        }
-                    }
-
-                    // Pending RSVPs
-                    NuviaCard {
-                        VStack(alignment: .leading, spacing: 12) {
-                            HStack {
-                                Image(systemName: "person.2.fill")
-                                    .foregroundColor(.categoryDress)
-                                Text("Bekleyen RSVP'ler")
-                                    .font(NuviaTypography.bodyBold())
-                            }
-
-                            Text("15 kişi henüz yanıt vermedi")
-                                .font(NuviaTypography.body())
-                                .foregroundColor(.nuviaSecondaryText)
-                        }
-                    }
-
-                    Spacer()
+                    Spacer(minLength: 40)
                 }
-                .padding(.horizontal, 16)
             }
-            .background(Color.nuviaBackground)
+            .background(
+                LinearGradient(
+                    colors: [Color(hex: "FDFCFB"), Color.nuviaBackground],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+            )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Kapat") {
+                    Button {
                         dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(.nuviaSecondaryText)
+                            .frame(width: 32, height: 32)
+                            .background(Color.nuviaSurface)
+                            .clipShape(Circle())
                     }
-                    .foregroundColor(.nuviaGoldFallback)
                 }
             }
         }
     }
 }
 
-// MARK: - Notifications Inbox
+// MARK: - Brief Section
+
+struct BriefSection: View {
+    let icon: String
+    let iconColor: Color
+    let title: String
+    let value: String?
+    let description: String
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 16) {
+            Image(systemName: icon)
+                .font(.system(size: 20))
+                .foregroundColor(iconColor)
+                .frame(width: 48, height: 48)
+                .background(iconColor.opacity(0.1))
+                .cornerRadius(14)
+
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    Text(title)
+                        .font(NuviaTypography.bodyBold())
+                        .foregroundColor(.nuviaPrimaryText)
+
+                    Spacer()
+
+                    if let value = value {
+                        Text(value)
+                            .font(NuviaTypography.bodyBold())
+                            .foregroundColor(iconColor)
+                    }
+                }
+
+                Text(description)
+                    .font(NuviaTypography.body())
+                    .foregroundColor(.nuviaSecondaryText)
+                    .lineLimit(2)
+            }
+        }
+        .padding(20)
+        .background(Color.nuviaSurface)
+        .cornerRadius(20)
+        .etherealShadow(.whisper)
+    }
+}
+
+// MARK: - Notifications Inbox (Redesigned)
 
 struct NotificationsInboxView: View {
     @Environment(\.dismiss) private var dismiss
@@ -599,22 +852,40 @@ struct NotificationsInboxView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                NuviaEmptyState(
-                    icon: "bell.slash",
-                    title: "Bildirim yok",
-                    message: "Yeni bildirimleriniz burada görünecek"
-                )
+                Spacer()
+
+                VStack(spacing: 20) {
+                    Image(systemName: "bell.slash")
+                        .font(.system(size: 48))
+                        .foregroundColor(.nuviaTertiaryText)
+
+                    Text("All Caught Up")
+                        .font(NuviaTypography.title2())
+                        .foregroundColor(.nuviaPrimaryText)
+
+                    Text("You have no new notifications")
+                        .font(NuviaTypography.body())
+                        .foregroundColor(.nuviaSecondaryText)
+                }
+
+                Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.nuviaBackground)
-            .navigationTitle("Bildirimler")
+            .background(Color.nuviaBackground.ignoresSafeArea())
+            .navigationTitle("Notifications")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Kapat") {
+                    Button {
                         dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(.nuviaSecondaryText)
+                            .frame(width: 32, height: 32)
+                            .background(Color.nuviaSurface)
+                            .clipShape(Circle())
                     }
-                    .foregroundColor(.nuviaGoldFallback)
                 }
             }
         }

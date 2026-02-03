@@ -1,75 +1,98 @@
 import SwiftUI
 
-// MARK: - Primary Button (Premium)
+// MARK: - Nuvia Ethereal Component Library
+// "Editorial Excellence" - Awwwards-worthy UI components
 
+// MARK: - Luxury Button (Fashion Brand Style)
+
+/// Primary action button with charcoal background
+/// Inspired by luxury fashion brand CTAs
 struct NuviaPrimaryButton: View {
     let title: String
     let icon: String?
     let action: () -> Void
     let isLoading: Bool
     let isDisabled: Bool
+    let style: ButtonStyle
+
+    enum ButtonStyle {
+        case filled      // Charcoal background
+        case outlined    // Champagne border
+        case ghost       // Text only
+    }
 
     init(
         _ title: String,
         icon: String? = nil,
+        style: ButtonStyle = .filled,
         isLoading: Bool = false,
         isDisabled: Bool = false,
         action: @escaping () -> Void
     ) {
         self.title = title
         self.icon = icon
+        self.style = style
         self.isLoading = isLoading
         self.isDisabled = isDisabled
         self.action = action
     }
-
-    @State private var isPressed = false
 
     var body: some View {
         Button {
             HapticManager.shared.buttonTap()
             action()
         } label: {
-            HStack(spacing: 8) {
+            HStack(spacing: 10) {
                 if isLoading {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .nuviaMidnight))
+                        .progressViewStyle(CircularProgressViewStyle(tint: foregroundColor))
                         .scaleEffect(0.8)
                 } else {
                     if let icon = icon {
                         Image(systemName: icon)
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.system(size: 16, weight: .medium))
                     }
                     Text(title)
                         .font(NuviaTypography.button())
                 }
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 54)
-            .background(
-                isDisabled
-                    ? AnyShapeStyle(Color.nuviaTertiaryText)
-                    : AnyShapeStyle(Color.nuviaGradient)
-            )
-            .foregroundColor(.nuviaMidnight)
+            .frame(height: 56)
+            .background(backgroundColor)
+            .foregroundColor(foregroundColor)
             .cornerRadius(16)
-            .nuviaShadow(.medium)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(borderColor, lineWidth: style == .outlined ? 1.5 : 0)
+            )
         }
-        .scaleEffect(isPressed ? 0.96 : 1.0)
-        .animation(.spring(response: 0.2, dampingFraction: 0.7), value: isPressed)
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in isPressed = true }
-                .onEnded { _ in isPressed = false }
-        )
+        .pressEffect()
         .disabled(isDisabled || isLoading)
-        .animation(.easeInOut(duration: 0.2), value: isLoading)
+        .opacity(isDisabled ? 0.5 : 1)
         .accessibilityLabel(title)
-        .accessibilityHint(isLoading ? "Yükleniyor" : "")
+    }
+
+    private var backgroundColor: Color {
+        switch style {
+        case .filled: return isDisabled ? .nuviaMutedSurface : .nuviaPrimaryAction
+        case .outlined, .ghost: return .clear
+        }
+    }
+
+    private var foregroundColor: Color {
+        switch style {
+        case .filled: return .nuviaInverseText
+        case .outlined: return .nuviaPrimaryAction
+        case .ghost: return .nuviaChampagne
+        }
+    }
+
+    private var borderColor: Color {
+        style == .outlined ? .nuviaPrimaryAction : .clear
     }
 }
 
-// MARK: - Secondary Button (Premium)
+// MARK: - Secondary Button
 
 struct NuviaSecondaryButton: View {
     let title: String
@@ -96,13 +119,12 @@ struct NuviaSecondaryButton: View {
                     .font(NuviaTypography.button())
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 54)
-            .background(Color.nuviaGlassOverlay)
-            .foregroundColor(.nuviaGoldFallback)
+            .frame(height: 56)
+            .foregroundColor(.nuviaPrimaryText)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.nuviaGoldFallback.opacity(0.4), lineWidth: 1)
+                    .stroke(Color.nuviaPrimaryText.opacity(0.2), lineWidth: 1)
             )
         }
         .pressEffect()
@@ -123,13 +145,34 @@ struct NuviaTextButton: View {
         } label: {
             Text(title)
                 .font(NuviaTypography.smallButton())
-                .foregroundColor(.nuviaGoldFallback)
+                .foregroundColor(.nuviaChampagne)
         }
         .accessibilityLabel(title)
     }
 }
 
-// MARK: - Card (Clean Surface - Modern & Minimal)
+// MARK: - Editorial Card (Zero Stroke, Soft Shadow)
+
+/// The signature card style - pure white, no borders, diffused shadow
+struct EditorialCard<Content: View>: View {
+    let content: Content
+    let padding: CGFloat
+
+    init(padding: CGFloat = 24, @ViewBuilder content: () -> Content) {
+        self.padding = padding
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+            .padding(padding)
+            .background(Color.nuviaSurface)
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .etherealShadow(.soft)
+    }
+}
+
+// MARK: - Legacy Card Compatibility
 
 struct NuviaCard<Content: View>: View {
     let content: Content
@@ -139,17 +182,11 @@ struct NuviaCard<Content: View>: View {
     }
 
     var body: some View {
-        content
-            .padding(16)
-            .background(Color.nuviaCardBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            // Apple-style yumuşak gölge
-            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
-            .shadow(color: Color.black.opacity(0.02), radius: 16, x: 0, y: 8)
+        EditorialCard(padding: 20) {
+            content
+        }
     }
 }
-
-// MARK: - Glass Card (Sadece Hero alanlarında kullanılacak - hafifletildi)
 
 struct NuviaGlassCard<Content: View>: View {
     let content: Content
@@ -159,55 +196,62 @@ struct NuviaGlassCard<Content: View>: View {
     }
 
     var body: some View {
-        content
-            .padding(20)
-            .background(
-                Color.nuviaCardBackground
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 24))
-            // Daha belirgin ama zarif gölge
-            .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 4)
-            .shadow(color: Color.black.opacity(0.03), radius: 24, x: 0, y: 12)
+        EditorialCard(padding: 24) {
+            content
+        }
     }
 }
 
-// MARK: - Hero Card (Featured/Elevated - Accent ile)
+// MARK: - Hero Card (Featured Content)
 
-struct NuviaHeroCard<Content: View>: View {
+struct HeroCard<Content: View>: View {
     let accentColor: Color
     let content: Content
 
-    init(accent: Color = .nuviaGoldFallback, @ViewBuilder content: () -> Content) {
+    init(accent: Color = .nuviaChampagne, @ViewBuilder content: () -> Content) {
         self.accentColor = accent
         self.content = content()
     }
 
     var body: some View {
         content
-            .padding(20)
+            .padding(28)
             .background(
                 ZStack {
-                    Color.nuviaCardBackground
-                    // Üstte çok hafif accent glow
+                    Color.nuviaSurface
+                    // Subtle accent gradient at top
                     VStack {
                         LinearGradient(
                             colors: [accentColor.opacity(0.06), .clear],
                             startPoint: .top,
                             endPoint: .bottom
                         )
-                        .frame(height: 80)
+                        .frame(height: 100)
                         Spacer()
                     }
                 }
             )
-            .clipShape(RoundedRectangle(cornerRadius: 24))
-            // Premium gölge
-            .shadow(color: accentColor.opacity(0.08), radius: 16, x: 0, y: 4)
-            .shadow(color: Color.black.opacity(0.05), radius: 20, x: 0, y: 10)
+            .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+            .etherealShadow(.medium, colored: accentColor)
     }
 }
 
-// MARK: - Compact Card (Inline/Minimal)
+// Legacy support
+struct NuviaHeroCard<Content: View>: View {
+    let accentColor: Color
+    let content: Content
+
+    init(accent: Color = .nuviaChampagne, @ViewBuilder content: () -> Content) {
+        self.accentColor = accent
+        self.content = content()
+    }
+
+    var body: some View {
+        HeroCard(accent: accentColor) { content }
+    }
+}
+
+// MARK: - Compact Card
 
 struct NuviaCompactCard<Content: View>: View {
     let content: Content
@@ -218,13 +262,13 @@ struct NuviaCompactCard<Content: View>: View {
 
     var body: some View {
         content
-            .padding(12)
+            .padding(16)
             .background(Color.nuviaTertiaryBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 }
 
-// MARK: - Input Field (Clean & Modern)
+// MARK: - Input Field (Minimal)
 
 struct NuviaTextField: View {
     let title: String
@@ -253,17 +297,18 @@ struct NuviaTextField: View {
     @FocusState private var isFocused: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .font(NuviaTypography.caption())
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title.uppercased())
+                .font(NuviaTypography.overline())
                 .foregroundColor(.nuviaSecondaryText)
+                .tracking(1)
 
-            HStack(spacing: 12) {
+            HStack(spacing: 14) {
                 if let icon = icon {
                     Image(systemName: icon)
-                        .foregroundColor(isFocused ? .nuviaGoldFallback : .nuviaTertiaryText)
+                        .foregroundColor(isFocused ? .nuviaChampagne : .nuviaTertiaryText)
                         .frame(width: 20)
-                        .animation(.easeInOut(duration: 0.2), value: isFocused)
+                        .animation(.etherealSnap, value: isFocused)
                 }
 
                 if isSecure {
@@ -277,21 +322,23 @@ struct NuviaTextField: View {
                         .focused($isFocused)
                 }
             }
-            .padding(16)
+            .padding(18)
             .background(Color.nuviaTertiaryBackground)
-            .cornerRadius(12)
-            // Sadece focus durumunda hafif border
+            .cornerRadius(14)
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(isFocused ? Color.nuviaGoldFallback.opacity(0.5) : Color.clear, lineWidth: 1.5)
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(
+                        isFocused ? Color.nuviaChampagne : Color.clear,
+                        lineWidth: 1.5
+                    )
             )
-            .animation(.easeInOut(duration: 0.2), value: isFocused)
+            .animation(.etherealSnap, value: isFocused)
         }
         .accessibilityLabel(title)
     }
 }
 
-// MARK: - Date Picker Field
+// MARK: - Date Picker
 
 struct NuviaDatePicker: View {
     let title: String
@@ -299,17 +346,18 @@ struct NuviaDatePicker: View {
     let displayedComponents: DatePicker.Components
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .font(NuviaTypography.caption())
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title.uppercased())
+                .font(NuviaTypography.overline())
                 .foregroundColor(.nuviaSecondaryText)
+                .tracking(1)
 
             DatePicker("", selection: $date, displayedComponents: displayedComponents)
                 .datePickerStyle(.compact)
                 .labelsHidden()
-                .padding(12)
+                .padding(14)
                 .background(Color.nuviaTertiaryBackground)
-                .cornerRadius(12)
+                .cornerRadius(14)
         }
         .accessibilityLabel(title)
     }
@@ -342,38 +390,48 @@ struct NuviaToggle: View {
                 }
             }
         }
-        .tint(.nuviaGoldFallback)
+        .tint(.nuviaChampagne)
         .onChange(of: isOn) { _, _ in
             HapticManager.shared.selection()
         }
     }
 }
 
-// MARK: - Progress Ring (Animated)
+// MARK: - Progress Ring
 
 struct NuviaProgressRing: View {
     let progress: Double
     let size: CGFloat
     let lineWidth: CGFloat
     let showPercentage: Bool
+    let accentColor: Color
     @State private var animatedProgress: Double = 0
 
-    init(progress: Double, size: CGFloat = 80, lineWidth: CGFloat = 8, showPercentage: Bool = true) {
+    init(
+        progress: Double,
+        size: CGFloat = 80,
+        lineWidth: CGFloat = 6,
+        showPercentage: Bool = true,
+        accentColor: Color = .nuviaChampagne
+    ) {
         self.progress = progress
         self.size = size
         self.lineWidth = lineWidth
         self.showPercentage = showPercentage
+        self.accentColor = accentColor
     }
 
     var body: some View {
         ZStack {
+            // Background track
             Circle()
                 .stroke(Color.nuviaTertiaryBackground, lineWidth: lineWidth)
 
+            // Progress arc
             Circle()
                 .trim(from: 0, to: CGFloat(min(animatedProgress, 1.0)))
                 .stroke(
-                    Color.nuviaGradient,
+                    accentColor,
                     style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
                 )
                 .rotationEffect(.degrees(-90))
@@ -386,43 +444,44 @@ struct NuviaProgressRing: View {
         }
         .frame(width: size, height: size)
         .onAppear {
-            withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(0.2)) {
+            withAnimation(.etherealEntrance.delay(0.2)) {
                 animatedProgress = progress
             }
         }
         .onChange(of: progress) { _, newValue in
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+            withAnimation(.etherealSpring) {
                 animatedProgress = newValue
             }
         }
     }
 }
 
-// MARK: - Countdown Display (Clean & Elegant)
+// MARK: - Countdown
 
 struct NuviaCountdown: View {
     let daysRemaining: Int
     let weddingDate: Date
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
             Text("\(daysRemaining)")
                 .font(NuviaTypography.countdown())
-                .foregroundColor(.nuviaGoldFallback)
+                .foregroundColor(.nuviaChampagne)
+                .contentTransition(.numericText())
 
-            Text("gün kaldı")
+            Text("days until forever")
                 .font(NuviaTypography.callout())
                 .foregroundColor(.nuviaSecondaryText)
+                .tracking(0.5)
 
             Text(weddingDate.formatted(date: .abbreviated, time: .omitted))
                 .font(NuviaTypography.caption())
                 .foregroundColor(.nuviaTertiaryText)
         }
-        .padding(24)
-        .background(Color.nuviaCardBackground)
-        .cornerRadius(24)
-        .shadow(color: Color.nuviaGoldFallback.opacity(0.08), radius: 16, x: 0, y: 4)
-        .shadow(color: Color.black.opacity(0.04), radius: 20, x: 0, y: 8)
+        .padding(32)
+        .background(Color.nuviaSurface)
+        .cornerRadius(28)
+        .etherealShadow(.medium, colored: .nuviaChampagne)
     }
 }
 
@@ -434,12 +493,13 @@ struct NuviaTag: View {
     let size: TagSize
 
     enum TagSize {
-        case small, medium
+        case small, medium, large
 
         var font: Font {
             switch self {
             case .small: return NuviaTypography.caption2()
             case .medium: return NuviaTypography.tag()
+            case .large: return NuviaTypography.caption()
             }
         }
 
@@ -447,11 +507,12 @@ struct NuviaTag: View {
             switch self {
             case .small: return EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
             case .medium: return EdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12)
+            case .large: return EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
             }
         }
     }
 
-    init(_ text: String, color: Color = .nuviaGoldFallback, size: TagSize = .medium) {
+    init(_ text: String, color: Color = .nuviaChampagne, size: TagSize = .medium) {
         self.text = text
         self.color = color
         self.size = size
@@ -462,13 +523,13 @@ struct NuviaTag: View {
             .font(size.font)
             .foregroundColor(color)
             .padding(size.padding)
-            .background(color.opacity(0.15))
-            .cornerRadius(8)
+            .background(color.opacity(0.12))
+            .cornerRadius(size == .large ? 12 : 8)
             .accessibilityLabel(text)
     }
 }
 
-// MARK: - Empty State (Enhanced with pulse animation)
+// MARK: - Empty State
 
 struct NuviaEmptyState: View {
     let icon: String
@@ -477,7 +538,6 @@ struct NuviaEmptyState: View {
     let actionTitle: String?
     let action: (() -> Void)?
     @State private var floatOffset: CGFloat = 0
-    @State private var glowPulse = false
 
     init(
         icon: String,
@@ -494,66 +554,42 @@ struct NuviaEmptyState: View {
     }
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 24) {
+            // Floating icon with subtle glow
             ZStack {
-                // Breathing glow
                 Circle()
-                    .fill(
-                        RadialGradient(
-                            gradient: Gradient(colors: [
-                                Color.nuviaGoldFallback.opacity(0.1),
-                                Color.nuviaGoldFallback.opacity(0.02),
-                                Color.nuviaGoldFallback.opacity(0)
-                            ]),
-                            center: .center,
-                            startRadius: 0,
-                            endRadius: 80
-                        )
-                    )
-                    .frame(width: 160, height: 160)
-                    .scaleEffect(glowPulse ? 1.1 : 0.9)
-
-                // Subtle ring
-                Circle()
-                    .stroke(Color.nuviaGoldFallback.opacity(0.08), lineWidth: 1)
+                    .fill(Color.nuviaChampagne.opacity(0.08))
                     .frame(width: 120, height: 120)
 
                 Image(systemName: icon)
-                    .font(.system(size: 48))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [Color.nuviaSecondaryText.opacity(0.6), Color.nuviaSecondaryText.opacity(0.3)],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
+                    .font(.system(size: 44, weight: .light))
+                    .foregroundColor(.nuviaSecondaryText)
             }
             .offset(y: floatOffset)
             .onAppear {
                 withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
-                    floatOffset = -8
-                    glowPulse = true
+                    floatOffset = -10
                 }
             }
 
-            VStack(spacing: 8) {
+            VStack(spacing: 10) {
                 Text(title)
-                    .font(NuviaTypography.title3())
+                    .font(NuviaTypography.title2())
                     .foregroundColor(.nuviaPrimaryText)
-                    .accessibilityAddTraits(.isHeader)
 
                 Text(message)
                     .font(NuviaTypography.body())
                     .foregroundColor(.nuviaSecondaryText)
                     .multilineTextAlignment(.center)
+                    .lineSpacing(4)
             }
 
             if let actionTitle = actionTitle, let action = action {
                 NuviaPrimaryButton(actionTitle, action: action)
-                    .frame(width: 200)
+                    .frame(width: 220)
             }
         }
-        .padding(32)
+        .padding(40)
     }
 }
 
@@ -571,11 +607,10 @@ struct NuviaSectionHeader: View {
     }
 
     var body: some View {
-        HStack {
+        HStack(alignment: .lastTextBaseline) {
             Text(title)
-                .font(NuviaTypography.title3())
+                .font(NuviaTypography.title2())
                 .foregroundColor(.nuviaPrimaryText)
-                .accessibilityAddTraits(.isHeader)
 
             Spacer()
 
@@ -583,14 +618,14 @@ struct NuviaSectionHeader: View {
                 Button(action: action) {
                     Text(actionTitle)
                         .font(NuviaTypography.smallButton())
-                        .foregroundColor(.nuviaGoldFallback)
+                        .foregroundColor(.nuviaChampagne)
                 }
             }
         }
     }
 }
 
-// MARK: - List Row (Clean Surface)
+// MARK: - List Row
 
 struct NuviaListRow<Leading: View, Trailing: View>: View {
     let leading: Leading
@@ -630,14 +665,14 @@ struct NuviaListRow<Leading: View, Trailing: View>: View {
 
             trailing
         }
-        .padding(16)
-        .background(Color.nuviaCardBackground)
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.03), radius: 6, x: 0, y: 2)
+        .padding(18)
+        .background(Color.nuviaSurface)
+        .cornerRadius(16)
+        .etherealShadow(.whisper)
     }
 }
 
-// MARK: - Quick Action Button (Minimal & Elegant)
+// MARK: - Quick Action
 
 struct NuviaQuickAction: View {
     let icon: String
@@ -650,17 +685,16 @@ struct NuviaQuickAction: View {
             HapticManager.shared.selection()
             action()
         } label: {
-            VStack(spacing: 8) {
+            VStack(spacing: 10) {
                 Image(systemName: icon)
-                    .font(.system(size: 22, weight: .medium))
-                    .foregroundColor(.nuviaGoldFallback) // Tüm ikonlar tek renk (Gold)
-                    .frame(width: 52, height: 52)
+                    .font(.system(size: 24, weight: .medium))
+                    .foregroundColor(.nuviaChampagne)
+                    .frame(width: 56, height: 56)
                     .background(Color.nuviaTertiaryBackground)
                     .cornerRadius(16)
-                    .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 2)
 
                 Text(title)
-                    .font(NuviaTypography.caption2())
+                    .font(NuviaTypography.caption())
                     .foregroundColor(.nuviaSecondaryText)
                     .lineLimit(1)
             }
@@ -681,8 +715,8 @@ struct NuviaStatusIndicator: View {
             if status == .inProgress {
                 Circle()
                     .fill(status.color.opacity(0.3))
-                    .frame(width: 16, height: 16)
-                    .scaleEffect(isGlowing ? 1.3 : 1.0)
+                    .frame(width: 14, height: 14)
+                    .scaleEffect(isGlowing ? 1.4 : 1.0)
                     .onAppear {
                         withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
                             isGlowing = true
@@ -691,18 +725,18 @@ struct NuviaStatusIndicator: View {
             }
             Circle()
                 .fill(status.color)
-                .frame(width: 10, height: 10)
+                .frame(width: 8, height: 8)
         }
         .accessibilityLabel(status.displayName)
     }
 }
 
-// MARK: - Filter Chip (Clean & Modern)
+// MARK: - Filter Chip
 
 struct NuviaFilterChip: View {
     let title: String
     let isSelected: Bool
-    var color: Color = .nuviaGoldFallback
+    var color: Color = .nuviaChampagne
     let action: () -> Void
 
     var body: some View {
@@ -712,10 +746,10 @@ struct NuviaFilterChip: View {
         } label: {
             Text(title)
                 .font(NuviaTypography.caption())
-                .foregroundColor(isSelected ? .white : .nuviaSecondaryText)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(isSelected ? color : Color.nuviaTertiaryBackground)
+                .foregroundColor(isSelected ? .nuviaInverseText : .nuviaSecondaryText)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                .background(isSelected ? Color.nuviaPrimaryAction : Color.nuviaTertiaryBackground)
                 .cornerRadius(20)
         }
         .accessibilityLabel(title)
@@ -733,7 +767,7 @@ struct NuviaSkeletonCard: View {
     }
 
     var body: some View {
-        RoundedRectangle(cornerRadius: 20)
+        RoundedRectangle(cornerRadius: 24, style: .continuous)
             .fill(Color.nuviaTertiaryBackground)
             .frame(height: height)
             .shimmer()
@@ -742,12 +776,12 @@ struct NuviaSkeletonCard: View {
 
 struct NuviaSkeletonRow: View {
     var body: some View {
-        HStack(spacing: 12) {
-            RoundedRectangle(cornerRadius: 12)
+        HStack(spacing: 14) {
+            RoundedRectangle(cornerRadius: 14)
                 .fill(Color.nuviaTertiaryBackground)
-                .frame(width: 44, height: 44)
+                .frame(width: 48, height: 48)
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
                 RoundedRectangle(cornerRadius: 4)
                     .fill(Color.nuviaTertiaryBackground)
                     .frame(width: 140, height: 14)
@@ -759,57 +793,70 @@ struct NuviaSkeletonRow: View {
 
             Spacer()
         }
-        .padding(16)
+        .padding(18)
         .shimmer()
+    }
+}
+
+// MARK: - Divider
+
+struct EtherealDivider: View {
+    var body: some View {
+        Rectangle()
+            .fill(Color.nuviaTertiaryBackground)
+            .frame(height: 1)
     }
 }
 
 // MARK: - Preview
 
-#Preview("Components") {
+#Preview("Ethereal Components") {
     ScrollView {
-        VStack(spacing: 24) {
-            NuviaPrimaryButton("Devam Et", icon: "arrow.right") {}
+        VStack(spacing: 32) {
+            NuviaPrimaryButton("Continue", icon: "arrow.right") {}
 
-            NuviaSecondaryButton("İptal", icon: "xmark") {}
+            NuviaPrimaryButton("Get Started", style: .outlined) {}
 
-            NuviaGlassCard {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Glass Kart")
+            NuviaSecondaryButton("Cancel", icon: "xmark") {}
+
+            EditorialCard {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Editorial Card")
                         .font(NuviaTypography.title3())
-                    Text("Premium glassmorphism efektiyle.")
+                    Text("Pure white. Zero stroke. Diffused shadow. The signature of luxury.")
                         .font(NuviaTypography.body())
+                        .foregroundColor(.nuviaSecondaryText)
                 }
             }
 
-            NuviaCard {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Kart Başlığı")
-                        .font(NuviaTypography.title3())
-                    Text("Kart içeriği burada yer alır.")
+            HeroCard(accent: .nuviaRoseDust) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Hero Card")
+                        .font(NuviaTypography.title2())
+                    Text("For featured content with subtle accent glow.")
                         .font(NuviaTypography.body())
+                        .foregroundColor(.nuviaSecondaryText)
                 }
             }
 
-            NuviaProgressRing(progress: 0.65)
+            NuviaCountdown(daysRemaining: 127, weddingDate: Date().addingTimeInterval(86400 * 127))
 
-            HStack {
-                NuviaTag("Nikah", color: .categoryVenue)
-                NuviaTag("Yüksek", color: .priorityHigh)
-                NuviaTag("Tamamlandı", color: .statusCompleted)
+            HStack(spacing: 12) {
+                NuviaTag("Wedding", color: .nuviaChampagne)
+                NuviaTag("Pending", color: .nuviaWarning)
+                NuviaTag("Complete", color: .nuviaSuccess)
             }
 
-            NuviaSkeletonCard()
-            NuviaSkeletonRow()
+            NuviaProgressRing(progress: 0.72, accentColor: .nuviaSage)
 
             NuviaEmptyState(
-                icon: "tray",
-                title: "Henüz görev yok",
-                message: "İlk görevinizi ekleyerek başlayın",
-                actionTitle: "Görev Ekle"
+                icon: "heart",
+                title: "Start Your Journey",
+                message: "Add your first wedding task to begin planning the perfect day.",
+                actionTitle: "Add Task"
             ) {}
         }
-        .padding()
+        .padding(24)
     }
     .background(Color.nuviaBackground)
 }
