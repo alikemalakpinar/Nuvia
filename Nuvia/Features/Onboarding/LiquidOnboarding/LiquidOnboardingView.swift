@@ -64,7 +64,7 @@ struct LiquidOnboardingView: View {
                     if currentPage == viewModel.pages.count - 1 {
                         // Get Started Button
                         Button {
-                            HapticEngine.shared.impact(.medium)
+                            NuviaHaptics.shared.impact(.medium)
                             withAnimation(DesignTokens.Animation.smooth) {
                                 appState.isOnboardingComplete = true
                             }
@@ -82,7 +82,7 @@ struct LiquidOnboardingView: View {
                     } else {
                         // Continue Button
                         Button {
-                            HapticEngine.shared.impact(.light)
+                            NuviaHaptics.shared.impact(.light)
                             withAnimation(DesignTokens.Animation.smooth) {
                                 currentPage += 1
                             }
@@ -101,13 +101,13 @@ struct LiquidOnboardingView: View {
                     // Skip Button
                     if currentPage < viewModel.pages.count - 1 {
                         Button {
-                            HapticEngine.shared.selection()
+                            NuviaHaptics.shared.selection()
                             withAnimation(DesignTokens.Animation.smooth) {
                                 currentPage = viewModel.pages.count - 1
                             }
                         } label: {
                             Text("Skip")
-                                .font(DSTypography.body(.regular))
+                                .font(DSTypography.body)
                                 .foregroundColor(.white.opacity(0.8))
                         }
                     }
@@ -117,7 +117,7 @@ struct LiquidOnboardingView: View {
             }
         }
         .onChange(of: currentPage) { _, _ in
-            HapticEngine.shared.selection()
+            NuviaHaptics.shared.selection()
         }
     }
 }
@@ -146,13 +146,13 @@ struct OnboardingPageContent: View {
                 isActive: isActive && showTitle,
                 speed: 0.05
             )
-            .font(DSTypography.display(.small))
+            .font(DSTypography.displaySmall)
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
 
             // Subtitle
             Text(page.subtitle)
-                .font(DSTypography.body(.large))
+                .font(DSTypography.bodyLarge)
                 .foregroundColor(.white.opacity(0.9))
                 .multilineTextAlignment(.center)
                 .opacity(showSubtitle ? 1 : 0)
@@ -161,7 +161,7 @@ struct OnboardingPageContent: View {
             // Description
             if let description = page.description {
                 Text(description)
-                    .font(DSTypography.body(.small))
+                    .font(DSTypography.bodySmall)
                     .foregroundColor(.white.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .opacity(showDescription ? 1 : 0)
@@ -243,7 +243,7 @@ struct TypewriterText: View {
 
                 // Haptic on each character (subtle)
                 if currentIndex % 3 == 0 {
-                    HapticEngine.shared.impact(.soft)
+                    NuviaHaptics.shared.impact(.soft)
                 }
             } else {
                 timer.invalidate()

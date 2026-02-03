@@ -127,11 +127,11 @@ struct PremiumPaywallView: View {
             }
 
             Text("Unlock Premium")
-                .font(DSTypography.display(.medium))
+                .font(DSTypography.display)
                 .foregroundColor(.white)
 
             Text("Elevate your wedding planning experience")
-                .font(DSTypography.body(.regular))
+                .font(DSTypography.body)
                 .foregroundColor(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
@@ -149,7 +149,7 @@ struct PremiumPaywallView: View {
                     withAnimation(DesignTokens.Animation.snappy) {
                         selectedPlan = plan
                     }
-                    HapticEngine.shared.selection()
+                    NuviaHaptics.shared.selection()
                 }
             }
         }
@@ -204,7 +204,7 @@ struct PremiumPaywallView: View {
     private var legalText: some View {
         VStack(spacing: DesignTokens.Spacing.xs) {
             Text("7-day free trial, then \(selectedPlan.priceString)")
-                .font(DSTypography.body(.small))
+                .font(DSTypography.bodySmall)
                 .foregroundColor(.white.opacity(0.5))
 
             HStack(spacing: DesignTokens.Spacing.md) {
@@ -272,11 +272,11 @@ struct PremiumPaywallView: View {
                 }
 
                 Text("Welcome to Premium!")
-                    .font(DSTypography.display(.small))
+                    .font(DSTypography.displaySmall)
                     .foregroundColor(.white)
 
                 Text("Your wedding planning just got magical")
-                    .font(DSTypography.body(.regular))
+                    .font(DSTypography.body)
                     .foregroundColor(.white.opacity(0.7))
             }
         }
@@ -287,7 +287,7 @@ struct PremiumPaywallView: View {
 
     private func startPurchase() {
         isProcessing = true
-        HapticEngine.shared.impact(.medium)
+        NuviaHaptics.shared.impact(.medium)
 
         // Simulate purchase
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -295,7 +295,7 @@ struct PremiumPaywallView: View {
             withAnimation {
                 showSuccessAnimation = true
             }
-            HapticEngine.shared.notify(.success)
+            NuviaHaptics.shared.notification(.success)
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 dismiss()
@@ -406,7 +406,7 @@ struct MembershipCard3D: View {
                             .foregroundColor(.white.opacity(0.5))
 
                         Text("Premium Member")
-                            .font(DSTypography.heading(.h3))
+                            .font(DSTypography.heading3)
                             .foregroundColor(.white)
                     }
 
@@ -434,7 +434,7 @@ struct MembershipCard3D: View {
                         .foregroundColor(.nuviaChampagne)
 
                     Text(plan.priceString)
-                        .font(DSTypography.heading(.h2))
+                        .font(DSTypography.heading2)
                         .foregroundColor(.white)
                 }
 
@@ -500,13 +500,13 @@ struct PlanButton: View {
 
                 // Plan name
                 Text(plan.name)
-                    .font(DSTypography.body(.bold))
+                    .font(DSTypography.bodyBold)
                     .foregroundColor(isSelected ? .white : .white.opacity(0.6))
 
                 // Price
                 VStack(spacing: 2) {
                     Text(plan.priceString)
-                        .font(DSTypography.heading(.h4))
+                        .font(DSTypography.heading4)
                         .foregroundColor(isSelected ? .white : .white.opacity(0.6))
 
                     Text(plan.billingCycle)
@@ -558,7 +558,7 @@ struct PaywallPremiumFeatureRow: View {
             // Content
             VStack(alignment: .leading, spacing: 2) {
                 Text(feature.title)
-                    .font(DSTypography.body(.bold))
+                    .font(DSTypography.bodyBold)
                     .foregroundColor(.white)
 
                 Text(feature.subtitle)

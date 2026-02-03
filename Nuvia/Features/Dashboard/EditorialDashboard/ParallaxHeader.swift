@@ -115,7 +115,7 @@ struct HeroHeaderContent: View {
             // Date/Overline
             if let date = date {
                 Text(date.uppercased())
-                    .font(DSTypography.label(.small))
+                    .font(DSTypography.captionSmall)
                     .tracking(2)
                     .foregroundColor(.white.opacity(0.8))
                     .opacity(titleOpacity)
@@ -123,7 +123,7 @@ struct HeroHeaderContent: View {
 
             // Main Title
             Text(title)
-                .font(DSTypography.display(.medium))
+                .font(DSTypography.display)
                 .foregroundColor(.white)
                 .opacity(titleOpacity)
                 .scaleEffect(titleScale, anchor: .bottomLeading)
@@ -132,7 +132,7 @@ struct HeroHeaderContent: View {
             // Subtitle
             if let subtitle = subtitle {
                 Text(subtitle)
-                    .font(DSTypography.body(.regular))
+                    .font(DSTypography.body)
                     .foregroundColor(.white.opacity(0.9))
                     .opacity(titleOpacity * 0.9)
             }
@@ -162,20 +162,20 @@ struct CountdownHero: View {
                     .foregroundColor(.white)
 
                 Text("days")
-                    .font(DSTypography.heading(.h3))
+                    .font(DSTypography.heading3)
                     .foregroundColor(.white.opacity(0.8))
             }
             .opacity(opacity)
 
             // Wedding date
             Text(weddingDate.formatted(date: .complete, time: .omitted))
-                .font(DSTypography.body(.regular))
+                .font(DSTypography.body)
                 .foregroundColor(.white.opacity(0.8))
                 .opacity(opacity)
 
             // Partner names
             Text("\(partnerNames.0) & \(partnerNames.1)")
-                .font(DSTypography.heading(.h2))
+                .font(DSTypography.heading2)
                 .foregroundColor(.white)
                 .opacity(opacity)
         }
@@ -229,11 +229,11 @@ struct FeaturedCard: View {
                 // Text
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.xxs) {
                     Text(title)
-                        .font(DSTypography.heading(.h4))
+                        .font(DSTypography.heading4)
                         .foregroundColor(DSColors.fallbackTextPrimary)
 
                     Text(subtitle)
-                        .font(DSTypography.body(.small))
+                        .font(DSTypography.bodySmall)
                         .foregroundColor(DSColors.fallbackTextPrimary.opacity(0.6))
                 }
 
@@ -262,7 +262,7 @@ struct EditorialSectionHeader: View {
     var body: some View {
         HStack {
             Text(title.uppercased())
-                .font(DSTypography.label(.regular))
+                .font(DSTypography.caption)
                 .tracking(1.5)
                 .foregroundColor(DSColors.fallbackTextPrimary.opacity(0.5))
 
@@ -271,7 +271,7 @@ struct EditorialSectionHeader: View {
             if let actionTitle = actionTitle, let action = action {
                 Button(action: action) {
                     Text(actionTitle)
-                        .font(DSTypography.label(.regular))
+                        .font(DSTypography.caption)
                         .foregroundColor(DSColors.fallbackAccent)
                 }
             }

@@ -76,7 +76,7 @@ public final class CanvasViewModel: ObservableObject {
         newElement.transform = transform
         state.elements.append(newElement)
         selectedElementId = newElement.id
-        HapticEngine.shared.impact(.light)
+        NuviaHaptics.shared.impact(.light)
     }
 
     public func removeElement(id: UUID) {
@@ -85,7 +85,7 @@ public final class CanvasViewModel: ObservableObject {
         if selectedElementId == id {
             selectedElementId = nil
         }
-        HapticEngine.shared.impact(.medium)
+        NuviaHaptics.shared.impact(.medium)
     }
 
     public func duplicateElement(id: UUID) {
@@ -112,7 +112,7 @@ public final class CanvasViewModel: ObservableObject {
 
         state.elements.append(newElement)
         selectedElementId = newElement.id
-        HapticEngine.shared.impact(.light)
+        NuviaHaptics.shared.impact(.light)
     }
 
     public func updateElement(id: UUID, with updatedElement: StudioElement) {
@@ -125,7 +125,7 @@ public final class CanvasViewModel: ObservableObject {
     public func selectElement(id: UUID?) {
         selectedElementId = id
         if id != nil {
-            HapticEngine.shared.selection()
+            NuviaHaptics.shared.selection()
         }
     }
 
@@ -236,7 +236,7 @@ public final class CanvasViewModel: ObservableObject {
         redoStack.append(state)
         state = previousState
         selectedElementId = previousState.selectedElementId
-        HapticEngine.shared.impact(.light)
+        NuviaHaptics.shared.impact(.light)
     }
 
     public func redo() {
@@ -244,7 +244,7 @@ public final class CanvasViewModel: ObservableObject {
         undoStack.append(state)
         state = nextState
         selectedElementId = nextState.selectedElementId
-        HapticEngine.shared.impact(.light)
+        NuviaHaptics.shared.impact(.light)
     }
 
     // MARK: - Premium Check

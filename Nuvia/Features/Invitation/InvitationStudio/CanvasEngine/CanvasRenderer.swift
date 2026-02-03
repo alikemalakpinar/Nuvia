@@ -372,10 +372,10 @@ public final class CanvasShareService {
                 vc.present(activityVC, animated: true)
             }
 
-            HapticEngine.shared.notification(.success)
+            NuviaHaptics.shared.notification(.success)
 
         } catch {
-            HapticEngine.shared.notification(.error)
+            NuviaHaptics.shared.notification(.error)
             print("Share failed: \(error)")
         }
     }
