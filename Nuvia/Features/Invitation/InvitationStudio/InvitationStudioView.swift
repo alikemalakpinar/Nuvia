@@ -1,6 +1,37 @@
 import SwiftUI
 import SwiftData
 
+// MARK: - Design Constants (Eliminates type ambiguity)
+// These private constants provide unambiguous access to design tokens
+
+private enum StudioSpacing {
+    static let xxxs: CGFloat = StudioSpacing.xxxs
+    static let xxs: CGFloat = StudioSpacing.xxs
+    static let xs: CGFloat = StudioSpacing.xs
+    static let sm: CGFloat = StudioSpacing.sm
+    static let md: CGFloat = StudioSpacing.md
+    static let lg: CGFloat = StudioSpacing.lg
+    static let xl: CGFloat = StudioSpacing.xl
+    static let xxl: CGFloat = StudioSpacing.xxl
+}
+
+private enum StudioRadius {
+    static let xs: CGFloat = StudioRadius.xs
+    static let sm: CGFloat = StudioRadius.sm
+    static let md: CGFloat = StudioRadius.md
+    static let lg: CGFloat = StudioRadius.lg
+    static let xl: CGFloat = StudioRadius.xl
+    static let xxl: CGFloat = StudioRadius.xxl
+}
+
+private enum StudioStrings {
+    static let add: String = L10n.Studio.add
+    static let layers: String = L10n.Studio.layers
+    static let edit: String = L10n.Studio.edit
+    static let templates: String = L10n.Studio.templates
+    static let export: String = L10n.Studio.export
+}
+
 // MARK: - Invitation Studio View
 // Premium Canva-style invitation editor with layer-based composition
 // Uses the new Canvas Engine for professional-grade editing
@@ -80,7 +111,7 @@ struct InvitationStudioView: View {
     // MARK: - Top Toolbar
 
     private var topToolbar: some View {
-        HStack(spacing: DesignTokens.Spacing.md) {
+        HStack(spacing: StudioSpacing.md) {
             // Close button
             Button {
                 dismiss()
@@ -114,7 +145,7 @@ struct InvitationStudioView: View {
             Spacer()
 
             // Undo/Redo
-            HStack(spacing: DesignTokens.Spacing.xs) {
+            HStack(spacing: StudioSpacing.xs) {
                 ToolbarIconButton(
                     icon: "arrow.uturn.backward",
                     isEnabled: viewModel.canUndo
@@ -132,8 +163,8 @@ struct InvitationStudioView: View {
                 }
             }
         }
-        .padding(.horizontal, DesignTokens.Spacing.md)
-        .padding(.vertical, DesignTokens.Spacing.sm)
+        .padding(.horizontal, StudioSpacing.md)
+        .padding(.vertical, StudioSpacing.sm)
         .background(
             Color.nuviaSurface
                 .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
@@ -157,7 +188,7 @@ struct InvitationStudioView: View {
                     }
                 }
                 .frame(width: viewModel.canvasSize.width, height: viewModel.canvasSize.height)
-                .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: StudioRadius.lg, style: .continuous))
                 .elevation(.floating)
                 .scaleEffect(canvasScale)
                 .offset(canvasOffset)
@@ -227,25 +258,14 @@ struct InvitationStudioView: View {
     // MARK: - Bottom Toolbar (Floating Glass Design)
 
     private var bottomToolbar: some View {
-        let spacingXs: CGFloat = DesignTokens.Spacing.xs
-        let spacingSm: CGFloat = DesignTokens.Spacing.sm
-        let spacingMd: CGFloat = DesignTokens.Spacing.md
-
-        // Get localized strings
-        let addLabel: String = L10n.Studio.add
-        let layersLabel: String = L10n.Studio.layers
-        let editLabel: String = L10n.Studio.edit
-        let templatesLabel: String = L10n.Studio.templates
-        let exportLabel: String = L10n.Studio.export
-
-        return VStack(spacing: spacingXs) {
+        VStack(spacing: StudioSpacing.xs) {
             // Quick action bar (floating glass)
             quickActionBar
 
             // Main toolbar (floating glass capsule)
             HStack(spacing: 0) {
                 // Add elements
-                GlassToolbarTab(icon: "plus.circle.fill", label: addLabel, isActive: showElementPicker) {
+                GlassToolbarTab(icon: "plus.circle.fill", label: StudioStrings.add, isActive: showElementPicker) {
                     withAnimation(MotionCurves.quick) {
                         showElementPicker.toggle()
                         showLayerSheet = false
@@ -255,7 +275,7 @@ struct InvitationStudioView: View {
                 }
 
                 // Layers
-                GlassToolbarTab(icon: "square.3.layers.3d", label: layersLabel, isActive: showLayerSheet) {
+                GlassToolbarTab(icon: "square.3.layers.3d", label: StudioStrings.layers, isActive: showLayerSheet) {
                     withAnimation(MotionCurves.quick) {
                         showLayerSheet.toggle()
                         showElementPicker = false
@@ -267,7 +287,7 @@ struct InvitationStudioView: View {
                 // Properties
                 GlassToolbarTab(
                     icon: "slider.horizontal.3",
-                    label: editLabel,
+                    label: StudioStrings.edit,
                     isActive: showPropertyInspector,
                     badge: viewModel.selectedElementId != nil ? "1" : nil
                 ) {
@@ -280,19 +300,19 @@ struct InvitationStudioView: View {
                 }
 
                 // Templates
-                GlassToolbarTab(icon: "square.grid.2x2", label: templatesLabel, isActive: false) {
+                GlassToolbarTab(icon: "square.grid.2x2", label: StudioStrings.templates, isActive: false) {
                     showTemplatePicker = true
                     HapticEngine.shared.selection()
                 }
 
                 // Export
-                GlassToolbarTab(icon: "square.and.arrow.up", label: exportLabel, isActive: false, isPrimary: true) {
+                GlassToolbarTab(icon: "square.and.arrow.up", label: StudioStrings.export, isActive: false, isPrimary: true) {
                     checkPremiumAndExport()
                     HapticEngine.shared.impact(.medium)
                 }
             }
-            .padding(.horizontal, spacingSm)
-            .padding(.vertical, spacingSm)
+            .padding(.horizontal, StudioSpacing.sm)
+            .padding(.vertical, StudioSpacing.sm)
             .background(
                 // Floating glass capsule
                 Capsule()
@@ -313,18 +333,14 @@ struct InvitationStudioView: View {
                     )
                     .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: -4)
             )
-            .padding(.horizontal, spacingMd)
-            .padding(.bottom, spacingSm)
+            .padding(.horizontal, StudioSpacing.md)
+            .padding(.bottom, StudioSpacing.sm)
         }
     }
 
     private var quickActionBar: some View {
-        let spacingSm: CGFloat = DesignTokens.Spacing.sm
-        let spacingMd: CGFloat = DesignTokens.Spacing.md
-        let radiusLg: CGFloat = DesignTokens.Radius.lg
-
-        return ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: spacingSm) {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: StudioSpacing.sm) {
                 // Zoom controls (clamped 50%-200%)
                 GlassQuickActionChip(icon: "minus.magnifyingglass") {
                     withAnimation(MotionCurves.quick) {
@@ -369,15 +385,15 @@ struct InvitationStudioView: View {
                     }
                 }
             }
-            .padding(.horizontal, spacingMd)
-            .padding(.vertical, spacingSm)
+            .padding(.horizontal, StudioSpacing.md)
+            .padding(.vertical, StudioSpacing.sm)
         }
         .background(
             // Glass background
-            RoundedRectangle(cornerRadius: radiusLg)
+            RoundedRectangle(cornerRadius: StudioRadius.lg)
                 .fill(.ultraThinMaterial)
         )
-        .padding(.horizontal, spacingMd)
+        .padding(.horizontal, StudioSpacing.md)
     }
 
     // MARK: - Floating Panels
@@ -560,7 +576,7 @@ struct ToolbarTab: View {
                     .foregroundColor(labelColor)
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, DesignTokens.Spacing.xs)
+            .padding(.vertical, StudioSpacing.xs)
         }
     }
 
@@ -702,7 +718,7 @@ struct ElementPickerPanel: View {
                         .foregroundColor(.nuviaTertiaryText)
                 }
             }
-            .padding(DesignTokens.Spacing.md)
+            .padding(StudioSpacing.md)
 
             // Tab bar
             HStack(spacing: 0) {
@@ -716,7 +732,7 @@ struct ElementPickerPanel: View {
                             .font(DSTypography.label(.regular))
                             .foregroundColor(selectedTab == tab ? .nuviaChampagne : .nuviaSecondaryText)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, DesignTokens.Spacing.sm)
+                            .padding(.vertical, StudioSpacing.sm)
                             .background(
                                 Rectangle()
                                     .fill(selectedTab == tab ? Color.nuviaChampagne.opacity(0.1) : Color.clear)
@@ -743,10 +759,10 @@ struct ElementPickerPanel: View {
             .frame(height: 250)
         }
         .background(Color.nuviaSurface)
-        .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.xl, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: StudioRadius.xl, style: .continuous))
         .elevation(.overlay)
-        .padding(.horizontal, DesignTokens.Spacing.md)
-        .padding(.bottom, DesignTokens.Spacing.lg)
+        .padding(.horizontal, StudioSpacing.md)
+        .padding(.bottom, StudioSpacing.lg)
     }
 }
 
@@ -763,7 +779,7 @@ struct TextElementPicker: View {
     ]
 
     var body: some View {
-        VStack(spacing: DesignTokens.Spacing.md) {
+        VStack(spacing: StudioSpacing.md) {
             ForEach(presets, id: \.label) { preset in
                 Button {
                     let element = StudioElement.text(
@@ -799,15 +815,15 @@ struct TextElementPicker: View {
                             .font(.system(size: preset.fontSize, weight: preset.weight.swiftUIWeight))
                             .foregroundColor(.nuviaChampagne)
                     }
-                    .padding(DesignTokens.Spacing.md)
+                    .padding(StudioSpacing.md)
                     .background(
-                        RoundedRectangle(cornerRadius: DesignTokens.Radius.md, style: .continuous)
+                        RoundedRectangle(cornerRadius: StudioRadius.md, style: .continuous)
                             .fill(Color.nuviaTertiaryBackground)
                     )
                 }
             }
         }
-        .padding(DesignTokens.Spacing.md)
+        .padding(StudioSpacing.md)
     }
 }
 
@@ -831,7 +847,7 @@ struct ShapeElementPicker: View {
             GridItem(.flexible()),
             GridItem(.flexible()),
             GridItem(.flexible())
-        ], spacing: DesignTokens.Spacing.md) {
+        ], spacing: StudioSpacing.md) {
             ForEach(shapes, id: \.label) { shape in
                 Button {
                     let element = StudioElement.shape(
@@ -844,13 +860,13 @@ struct ShapeElementPicker: View {
                     )
                     onAdd(element)
                 } label: {
-                    VStack(spacing: DesignTokens.Spacing.xs) {
+                    VStack(spacing: StudioSpacing.xs) {
                         Image(systemName: shape.icon)
                             .font(.system(size: 28))
                             .foregroundColor(.nuviaChampagne)
                             .frame(width: 60, height: 60)
                             .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.md, style: .continuous)
+                                RoundedRectangle(cornerRadius: StudioRadius.md, style: .continuous)
                                     .fill(Color.nuviaTertiaryBackground)
                             )
 
@@ -861,7 +877,7 @@ struct ShapeElementPicker: View {
                 }
             }
         }
-        .padding(DesignTokens.Spacing.md)
+        .padding(StudioSpacing.md)
     }
 }
 
@@ -890,7 +906,7 @@ struct StickerElementPicker: View {
             GridItem(.flexible()),
             GridItem(.flexible()),
             GridItem(.flexible())
-        ], spacing: DesignTokens.Spacing.md) {
+        ], spacing: StudioSpacing.md) {
             ForEach(stickers, id: \.icon) { sticker in
                 Button {
                     if sticker.isPremium {
@@ -911,7 +927,7 @@ struct StickerElementPicker: View {
                             .foregroundColor(sticker.isPremium ? .nuviaTertiaryText : .nuviaChampagne)
                             .frame(width: 60, height: 60)
                             .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.md, style: .continuous)
+                                RoundedRectangle(cornerRadius: StudioRadius.md, style: .continuous)
                                     .fill(Color.nuviaTertiaryBackground)
                             )
 
@@ -928,7 +944,7 @@ struct StickerElementPicker: View {
                 }
             }
         }
-        .padding(DesignTokens.Spacing.md)
+        .padding(StudioSpacing.md)
     }
 }
 
@@ -936,7 +952,7 @@ struct ImageElementPicker: View {
     let onAdd: (StudioElement) -> Void
 
     var body: some View {
-        VStack(spacing: DesignTokens.Spacing.md) {
+        VStack(spacing: StudioSpacing.md) {
             // Photo library button
             Button {
                 // Open photo picker
@@ -962,9 +978,9 @@ struct ImageElementPicker: View {
                     Image(systemName: "chevron.right")
                         .foregroundColor(.nuviaTertiaryText)
                 }
-                .padding(DesignTokens.Spacing.md)
+                .padding(StudioSpacing.md)
                 .background(
-                    RoundedRectangle(cornerRadius: DesignTokens.Radius.md, style: .continuous)
+                    RoundedRectangle(cornerRadius: StudioRadius.md, style: .continuous)
                         .fill(Color.nuviaTertiaryBackground)
                 )
             }
@@ -994,14 +1010,14 @@ struct ImageElementPicker: View {
                     Image(systemName: "chevron.right")
                         .foregroundColor(.nuviaTertiaryText)
                 }
-                .padding(DesignTokens.Spacing.md)
+                .padding(StudioSpacing.md)
                 .background(
-                    RoundedRectangle(cornerRadius: DesignTokens.Radius.md, style: .continuous)
+                    RoundedRectangle(cornerRadius: StudioRadius.md, style: .continuous)
                         .fill(Color.nuviaTertiaryBackground)
                 )
             }
         }
-        .padding(DesignTokens.Spacing.md)
+        .padding(StudioSpacing.md)
     }
 }
 
@@ -1062,7 +1078,7 @@ struct ExportOptionsSheet: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: DesignTokens.Spacing.lg) {
+            VStack(spacing: StudioSpacing.lg) {
                 // Preview
                 ZStack {
                     Color.nuviaTertiaryBackground
@@ -1071,21 +1087,21 @@ struct ExportOptionsSheet: View {
                         Image(uiImage: preview)
                             .resizable()
                             .scaledToFit()
-                            .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.md))
+                            .clipShape(RoundedRectangle(cornerRadius: StudioRadius.md))
                             .elevation(.raised)
                             .padding()
                     }
                 }
                 .frame(height: 200)
-                .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg))
+                .clipShape(RoundedRectangle(cornerRadius: StudioRadius.lg))
 
                 // Format options
-                VStack(alignment: .leading, spacing: DesignTokens.Spacing.sm) {
+                VStack(alignment: .leading, spacing: StudioSpacing.sm) {
                     Text("Format")
                         .font(DSTypography.label(.large))
                         .foregroundColor(.nuviaSecondaryText)
 
-                    HStack(spacing: DesignTokens.Spacing.sm) {
+                    HStack(spacing: StudioSpacing.sm) {
                         ExportFormatButton(format: .png, isSelected: isFormat(.png)) {
                             selectedFormat = .png
                         }
@@ -1099,12 +1115,12 @@ struct ExportOptionsSheet: View {
                 }
 
                 // Resolution options
-                VStack(alignment: .leading, spacing: DesignTokens.Spacing.sm) {
+                VStack(alignment: .leading, spacing: StudioSpacing.sm) {
                     Text("Resolution")
                         .font(DSTypography.label(.large))
                         .foregroundColor(.nuviaSecondaryText)
 
-                    HStack(spacing: DesignTokens.Spacing.sm) {
+                    HStack(spacing: StudioSpacing.sm) {
                         ResolutionButton(resolution: .standard, isSelected: selectedResolution == .standard) {
                             selectedResolution = .standard
                         }
@@ -1139,7 +1155,7 @@ struct ExportOptionsSheet: View {
                     .font(DSTypography.button)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, DesignTokens.Spacing.md)
+                    .padding(.vertical, StudioSpacing.md)
                     .background(
                         LinearGradient(
                             colors: [Color.nuviaChampagne, Color.nuviaRoseGold],
@@ -1147,11 +1163,11 @@ struct ExportOptionsSheet: View {
                             endPoint: .trailing
                         )
                     )
-                    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg))
+                    .clipShape(RoundedRectangle(cornerRadius: StudioRadius.lg))
                 }
                 .disabled(isExporting)
             }
-            .padding(DesignTokens.Spacing.lg)
+            .padding(StudioSpacing.lg)
             .background(Color.nuviaBackground)
             .navigationTitle("Export")
             .navigationBarTitleDisplayMode(.inline)
@@ -1196,9 +1212,9 @@ struct ExportFormatButton: View {
                 .font(DSTypography.label(.regular))
                 .foregroundColor(isSelected ? .white : .nuviaPrimaryText)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, DesignTokens.Spacing.sm)
+                .padding(.vertical, StudioSpacing.sm)
                 .background(
-                    RoundedRectangle(cornerRadius: DesignTokens.Radius.sm)
+                    RoundedRectangle(cornerRadius: StudioRadius.sm)
                         .fill(isSelected ? Color.nuviaChampagne : Color.nuviaTertiaryBackground)
                 )
         }
@@ -1238,9 +1254,9 @@ struct ResolutionButton: View {
             }
             .foregroundColor(isSelected ? .white : .nuviaPrimaryText)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, DesignTokens.Spacing.sm)
+            .padding(.vertical, StudioSpacing.sm)
             .background(
-                RoundedRectangle(cornerRadius: DesignTokens.Radius.sm)
+                RoundedRectangle(cornerRadius: StudioRadius.sm)
                     .fill(isSelected ? Color.nuviaChampagne : Color.nuviaTertiaryBackground)
             )
         }
