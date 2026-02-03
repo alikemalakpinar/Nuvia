@@ -550,7 +550,7 @@ struct StudioElementContentView: View {
             )
         ) {
             Text("Emma & James")
-                .font(DSTypography.display)
+                .font(.system(size: 44, weight: .bold, design: .serif))
                 .foregroundColor(.nuviaPrimaryText)
         }
     }
