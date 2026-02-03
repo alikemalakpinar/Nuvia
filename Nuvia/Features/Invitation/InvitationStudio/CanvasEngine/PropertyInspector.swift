@@ -41,7 +41,7 @@ struct PropertyInspector: View {
         }
         .background(Color.nuviaSurface)
         .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.xl, style: .continuous))
-        .elevation(.overlay)
+        .elevation(DesignTokens.Elevation.overlay)
         .padding(.horizontal, DesignTokens.Spacing.md)
         .padding(.bottom, DesignTokens.Spacing.lg)
     }
@@ -52,12 +52,12 @@ struct PropertyInspector: View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Properties")
-                    .font(DSTypography.heading4)
+                    .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.nuviaPrimaryText)
 
                 if let element = selectedElement {
                     Text(elementTypeName(for: element))
-                        .font(DSTypography.caption)
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.nuviaTertiaryText)
                 }
             }
@@ -93,7 +93,7 @@ struct PropertyInspector: View {
                             .font(.system(size: 16, weight: .medium))
 
                         Text(section.title)
-                            .font(DSTypography.captionSmall)
+                            .font(.system(size: 11))
                     }
                     .foregroundColor(selectedSection == section ? .nuviaChampagne : .nuviaTertiaryText)
                     .frame(maxWidth: .infinity)
@@ -192,11 +192,11 @@ struct PropertyInspector: View {
                 .foregroundColor(.nuviaTertiaryText)
 
             Text("No Selection")
-                .font(DSTypography.heading4)
+                .font(.system(size: 17, weight: .semibold))
                 .foregroundColor(.nuviaPrimaryText)
 
             Text("Tap an element on the canvas\nto edit its properties")
-                .font(DSTypography.bodySmall)
+                .font(.system(size: 13))
                 .foregroundColor(.nuviaSecondaryText)
                 .multilineTextAlignment(.center)
         }
@@ -257,7 +257,7 @@ struct TextStyleInspector: View {
             // Text content
             PropertySection(title: "Content") {
                 TextField("Enter text", text: $editedContent)
-                    .font(DSTypography.body)
+                    .font(.system(size: 15))
                     .textFieldStyle(.plain)
                     .padding(DesignTokens.Spacing.sm)
                     .background(
@@ -289,7 +289,7 @@ struct TextStyleInspector: View {
                         }
 
                     Text("\(Int(selectedFontSize))pt")
-                        .font(DSTypography.caption)
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.nuviaPrimaryText)
                         .frame(width: 50)
                 }
@@ -462,7 +462,7 @@ struct ShapeStyleInspector: View {
                         }
 
                     Text("\(String(format: "%.1f", currentStrokeWidth))pt")
-                        .font(DSTypography.caption)
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.nuviaPrimaryText)
                         .frame(width: 50)
                 }
@@ -512,7 +512,7 @@ struct StickerStyleInspector: View {
                             Image(systemName: "crown.fill")
                                 .font(.system(size: 12))
                             Text("Premium Sticker")
-                                .font(DSTypography.captionSmall)
+                                .font(.system(size: 11))
                         }
                         .foregroundColor(.nuviaChampagne)
                     }
@@ -550,7 +550,7 @@ struct TransformInspector: View {
                         }
 
                     Text("\(Int(scale * 100))%")
-                        .font(DSTypography.caption)
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.nuviaPrimaryText)
                         .frame(width: 50)
                 }
@@ -566,7 +566,7 @@ struct TransformInspector: View {
                         }
 
                     Text("\(Int(rotation))°")
-                        .font(DSTypography.caption)
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.nuviaPrimaryText)
                         .frame(width: 50)
                 }
@@ -605,7 +605,7 @@ struct TransformInspector: View {
                         Text("X: \(Int(transform.offset.width))")
                         Text("Y: \(Int(transform.offset.height))")
                     }
-                    .font(DSTypography.caption)
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundColor(.nuviaSecondaryText)
 
                     Spacer()
@@ -614,7 +614,7 @@ struct TransformInspector: View {
                         centerElement()
                     } label: {
                         Text("Center")
-                            .font(DSTypography.caption)
+                            .font(.system(size: 12, weight: .medium))
                             .foregroundColor(.nuviaChampagne)
                     }
                 }
@@ -653,7 +653,7 @@ struct EffectsInspector: View {
             PropertySection(title: "Shadow", isPremium: true) {
                 VStack(spacing: DesignTokens.Spacing.sm) {
                     Text("Unlock Premium to add shadows")
-                        .font(DSTypography.bodySmall)
+                        .font(.system(size: 13))
                         .foregroundColor(.nuviaSecondaryText)
                         .frame(maxWidth: .infinity)
 
@@ -665,7 +665,7 @@ struct EffectsInspector: View {
                             Image(systemName: "crown.fill")
                             Text("Upgrade to Premium")
                         }
-                        .font(DSTypography.caption)
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.white)
                         .padding(.horizontal, DesignTokens.Spacing.md)
                         .padding(.vertical, DesignTokens.Spacing.sm)
@@ -689,7 +689,7 @@ struct EffectsInspector: View {
             // Opacity
             PropertySection(title: "Opacity") {
                 Text("Coming Soon")
-                    .font(DSTypography.bodySmall)
+                    .font(.system(size: 13))
                     .foregroundColor(.nuviaTertiaryText)
                     .frame(maxWidth: .infinity)
                     .padding(DesignTokens.Spacing.md)
@@ -713,7 +713,7 @@ struct PropertySection<Content: View>: View {
         VStack(alignment: .leading, spacing: DesignTokens.Spacing.sm) {
             HStack {
                 Text(title)
-                    .font(DSTypography.overline)
+                    .font(.system(size: 11, weight: .semibold))
                     .foregroundColor(.nuviaSecondaryText)
 
                 if isPremium {
@@ -950,7 +950,7 @@ struct FilterButton: View {
                 }
 
                 Text(filter.rawValue)
-                    .font(DSTypography.captionSmall)
+                    .font(.system(size: 11))
                     .foregroundColor(isSelected ? .nuviaChampagne : .nuviaSecondaryText)
             }
             .padding(4)
@@ -973,7 +973,7 @@ struct QuickRotateButton: View {
     var body: some View {
         Button(action: action) {
             Text(label ?? "\(Int(degrees))°")
-                .font(DSTypography.captionSmall)
+                .font(.system(size: 11))
                 .foregroundColor(.nuviaPrimaryText)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)

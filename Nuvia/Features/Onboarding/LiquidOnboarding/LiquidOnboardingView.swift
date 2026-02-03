@@ -70,7 +70,7 @@ struct LiquidOnboardingView: View {
                             }
                         } label: {
                             Text("Get Started")
-                                .font(DSTypography.button)
+                                .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(.black)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 56)
@@ -88,7 +88,7 @@ struct LiquidOnboardingView: View {
                             }
                         } label: {
                             Text("Continue")
-                                .font(DSTypography.button)
+                                .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(.black)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 56)
@@ -107,7 +107,7 @@ struct LiquidOnboardingView: View {
                             }
                         } label: {
                             Text("Skip")
-                                .font(DSTypography.body)
+                                .font(.system(size: 15))
                                 .foregroundColor(.white.opacity(0.8))
                         }
                     }
@@ -146,13 +146,13 @@ struct OnboardingPageContent: View {
                 isActive: isActive && showTitle,
                 speed: 0.05
             )
-            .font(DSTypography.displaySmall)
+            .font(.system(size: 34, weight: .bold, design: .serif))
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
 
             // Subtitle
             Text(page.subtitle)
-                .font(DSTypography.bodyLarge)
+                .font(.system(size: 15)Large)
                 .foregroundColor(.white.opacity(0.9))
                 .multilineTextAlignment(.center)
                 .opacity(showSubtitle ? 1 : 0)
@@ -161,7 +161,7 @@ struct OnboardingPageContent: View {
             // Description
             if let description = page.description {
                 Text(description)
-                    .font(DSTypography.bodySmall)
+                    .font(.system(size: 15)Small)
                     .foregroundColor(.white.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .opacity(showDescription ? 1 : 0)
