@@ -152,7 +152,7 @@ struct OnboardingPageContent: View {
 
             // Subtitle
             Text(page.subtitle)
-                .font(.system(size: 15)Large)
+                .font(.system(size: 17))
                 .foregroundColor(.white.opacity(0.9))
                 .multilineTextAlignment(.center)
                 .opacity(showSubtitle ? 1 : 0)
@@ -161,7 +161,7 @@ struct OnboardingPageContent: View {
             // Description
             if let description = page.description {
                 Text(description)
-                    .font(.system(size: 15)Small)
+                    .font(.system(size: 13))
                     .foregroundColor(.white.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .opacity(showDescription ? 1 : 0)
