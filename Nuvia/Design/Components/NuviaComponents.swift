@@ -763,7 +763,7 @@ struct NuviaStatusIndicator: View {
 
 // MARK: - Filter Chip
 
-struct FilterChip: View {
+struct NuviaFilterChip: View {
     let title: String
     let isSelected: Bool
     var color: Color = .nuviaGoldFallback

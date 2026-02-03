@@ -97,15 +97,15 @@ final class WeddingProject {
     }
 
     var confirmedGuests: Int {
-        guests.filter { $0.rsvp == .attending }.reduce(0) { $0 + 1 + ($1.plusOneCount) }
+        guests.filter { $0.rsvpStatus == "attending" }.reduce(0) { $0 + 1 + ($1.plusOneCount) }
     }
 
     var completedTasksCount: Int {
-        tasks.filter { $0.taskStatus == .completed }.count
+        tasks.filter { $0.status == "completed" }.count
     }
 
     var pendingTasksCount: Int {
-        tasks.filter { $0.taskStatus != .completed }.count
+        tasks.filter { $0.status != "completed" }.count
     }
 
     // MARK: - Init

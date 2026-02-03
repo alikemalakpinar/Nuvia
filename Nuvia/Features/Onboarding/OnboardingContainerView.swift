@@ -392,7 +392,8 @@ struct ModeCard: View {
 
     var body: some View {
         Button {
-            HapticManager.shared.selection()
+            let hapticManager: HapticManager = HapticManager.shared
+            hapticManager.selection()
             action()
         } label: {
             HStack(spacing: 16) {

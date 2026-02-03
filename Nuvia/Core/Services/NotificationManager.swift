@@ -271,17 +271,16 @@ class NotificationManager: ObservableObject {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
     }
 
-    func cancelAllNotifications(for projectId: UUID) {
-        notificationCenter.getPendingNotificationRequests { requests in
-            let identifiers = requests
-                .filter { request in
-                    guard let info = request.content.userInfo["projectId"] as? String else { return false }
-                    return info == projectId.uuidString
-                }
-                .map { $0.identifier }
+    func cancelAllNotifications(for projectId: UUID) async {
+        let requests = await notificationCenter.pendingNotificationRequests()
+        let identifiers = requests
+            .filter { request in
+                guard let info = request.content.userInfo["projectId"] as? String else { return false }
+                return info == projectId.uuidString
+            }
+            .map { $0.identifier }
 
-            self.notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
-        }
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
     }
 
     func fetchPendingNotifications() async {
