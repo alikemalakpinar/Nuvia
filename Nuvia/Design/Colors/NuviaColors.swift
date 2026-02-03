@@ -215,44 +215,45 @@ extension EnvironmentValues {
 
 extension Color {
     /// Get current theme's color dynamically
-    @MainActor
-    public static var themed: ThemeColors {
+    /// Using nonisolated(unsafe) as this is only accessed from SwiftUI view bodies (main thread)
+    nonisolated(unsafe) public static var themed: ThemeColors {
         ThemeManager.shared.currentTheme.colors
     }
 }
 
 // MARK: - Legacy Compatibility (Mapped to Theme)
+// Using nonisolated(unsafe) since SwiftUI views always execute on main thread
 
 extension Color {
     // Foundation
-    @MainActor public static var nuviaBackground: Color { themed.background }
-    @MainActor public static var nuviaSurface: Color { themed.surface }
-    @MainActor public static var nuviaElevatedSurface: Color { themed.surfaceElevated }
-    @MainActor public static var nuviaTertiaryBackground: Color { themed.surfaceTertiary }
+    nonisolated(unsafe) public static var nuviaBackground: Color { themed.background }
+    nonisolated(unsafe) public static var nuviaSurface: Color { themed.surface }
+    nonisolated(unsafe) public static var nuviaElevatedSurface: Color { themed.surfaceElevated }
+    nonisolated(unsafe) public static var nuviaTertiaryBackground: Color { themed.surfaceTertiary }
 
     // Text
-    @MainActor public static var nuviaPrimaryText: Color { themed.textPrimary }
-    @MainActor public static var nuviaSecondaryText: Color { themed.textSecondary }
-    @MainActor public static var nuviaTertiaryText: Color { themed.textTertiary }
-    @MainActor public static var nuviaInverseText: Color { themed.textInverse }
+    nonisolated(unsafe) public static var nuviaPrimaryText: Color { themed.textPrimary }
+    nonisolated(unsafe) public static var nuviaSecondaryText: Color { themed.textSecondary }
+    nonisolated(unsafe) public static var nuviaTertiaryText: Color { themed.textTertiary }
+    nonisolated(unsafe) public static var nuviaInverseText: Color { themed.textInverse }
 
     // Brand
-    @MainActor public static var nuviaChampagne: Color { themed.accent }
-    @MainActor public static var nuviaRoseDust: Color { themed.accentSecondary }
-    @MainActor public static var nuviaSage: Color { themed.accentTertiary }
+    nonisolated(unsafe) public static var nuviaChampagne: Color { themed.accent }
+    nonisolated(unsafe) public static var nuviaRoseDust: Color { themed.accentSecondary }
+    nonisolated(unsafe) public static var nuviaSage: Color { themed.accentTertiary }
 
     // Actions
-    @MainActor public static var nuviaPrimaryAction: Color { themed.buttonPrimary }
-    @MainActor public static var nuviaSecondaryAction: Color { themed.buttonSecondary }
+    nonisolated(unsafe) public static var nuviaPrimaryAction: Color { themed.buttonPrimary }
+    nonisolated(unsafe) public static var nuviaSecondaryAction: Color { themed.buttonSecondary }
 
     // Semantic
-    @MainActor public static var nuviaSuccess: Color { themed.success }
-    @MainActor public static var nuviaWarning: Color { themed.warning }
-    @MainActor public static var nuviaError: Color { themed.error }
-    @MainActor public static var nuviaInfo: Color { themed.info }
+    nonisolated(unsafe) public static var nuviaSuccess: Color { themed.success }
+    nonisolated(unsafe) public static var nuviaWarning: Color { themed.warning }
+    nonisolated(unsafe) public static var nuviaError: Color { themed.error }
+    nonisolated(unsafe) public static var nuviaInfo: Color { themed.info }
 
     // Gradient
-    @MainActor public static var etherealGradient: LinearGradient { themed.heroGradient }
+    nonisolated(unsafe) public static var etherealGradient: LinearGradient { themed.heroGradient }
 
     // Static gradient (non-MainActor)
     public static let nuviaGradient = LinearGradient(
