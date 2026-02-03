@@ -21,10 +21,10 @@ struct TodayDashboardView: View {
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 5..<12: return "Good Morning"
-        case 12..<17: return "Good Afternoon"
-        case 17..<21: return "Good Evening"
-        default: return "Good Night"
+        case 5..<12: return L10n.Dashboard.goodMorning
+        case 12..<17: return L10n.Dashboard.goodAfternoon
+        case 17..<21: return L10n.Dashboard.goodEvening
+        default: return L10n.Dashboard.goodNight
         }
     }
 
@@ -178,7 +178,7 @@ struct TodayDashboardView: View {
             .first
 
         return VStack(alignment: .leading, spacing: 16) {
-            Text("TODAY'S FOCUS")
+            Text(L10n.Dashboard.todaysFocus)
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -716,7 +716,7 @@ struct WeeklyBriefView: View {
                             .font(.system(size: 48))
                             .foregroundStyle(Color.etherealGradient)
 
-                        Text("Weekly Brief")
+                        Text(L10n.WeeklyBrief.title)
                             .font(NuviaTypography.displaySmall())
                             .foregroundColor(.nuviaPrimaryText)
 
@@ -731,7 +731,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "checklist",
                             iconColor: .nuviaSage,
-                            title: "This Week's Tasks",
+                            title: L10n.WeeklyBrief.thisWeeksTasks,
                             value: "5 tasks",
                             description: "Focus on venue confirmation and catering menu selection"
                         )
@@ -739,7 +739,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "creditcard.fill",
                             iconColor: .nuviaChampagne,
-                            title: "Upcoming Payments",
+                            title: L10n.WeeklyBrief.upcomingPayments,
                             value: "₺25,000",
                             description: "Venue deposit due in 3 days"
                         )
@@ -747,7 +747,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "person.2.fill",
                             iconColor: .nuviaRoseDust,
-                            title: "RSVP Update",
+                            title: L10n.WeeklyBrief.rsvpUpdate,
                             value: "15 pending",
                             description: "Send reminders to guests who haven't responded"
                         )
@@ -755,7 +755,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "lightbulb.fill",
                             iconColor: .nuviaWisteria,
-                            title: "Pro Tip",
+                            title: L10n.WeeklyBrief.proTip,
                             value: nil,
                             description: "Schedule vendor meetings at least 2 weeks before your decision deadline"
                         )

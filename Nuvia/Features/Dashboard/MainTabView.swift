@@ -103,7 +103,7 @@ struct TabBarButton: View {
                     .scaleEffect(isSelected ? 1.05 : 1.0)
                     .animation(MotionCurves.bouncy, value: isSelected)
 
-                Text(tab.rawValue)
+                Text(tab.displayName)
                     .font(NuviaTypography.caption2())
                     .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaTertiaryText)
 
@@ -115,7 +115,7 @@ struct TabBarButton: View {
             }
             .frame(maxWidth: .infinity)
         }
-        .accessibilityLabel(tab.rawValue)
+        .accessibilityLabel(tab.displayName)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }

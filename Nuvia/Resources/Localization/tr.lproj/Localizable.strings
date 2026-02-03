@@ -1,0 +1,144 @@
+/*
+  Localizable.strings (Turkish)
+  Nuvia - Wedding Planning App
+
+  Convention: feature.section.element
+*/
+
+// MARK: - Tab Bar
+
+"tab.today" = "Bugün";
+"tab.plan" = "Plan";
+"tab.budget" = "Bütçe";
+"tab.guests" = "Davetli";
+"tab.home" = "Ev";
+"tab.quickAdd" = "Hızlı Ekle";
+
+// MARK: - Dashboard
+
+"dashboard.greeting.morning" = "Günaydın";
+"dashboard.greeting.afternoon" = "İyi Öğlenler";
+"dashboard.greeting.evening" = "İyi Akşamlar";
+"dashboard.greeting.night" = "İyi Geceler";
+
+"dashboard.section.todaysFocus" = "BUGÜNÜN ODAĞI";
+"dashboard.section.progress" = "İLERLEME";
+"dashboard.section.quickAccess" = "HIZLI ERİŞİM";
+"dashboard.section.upcomingTasks" = "YAKLAŞAN GÖREVLER";
+"dashboard.section.weeklyBrief" = "Haftalık Özet";
+
+"dashboard.empty.noTasks" = "Bugün için görev yok";
+"dashboard.empty.noProject" = "Proje Bulunamadı";
+"dashboard.action.createProject" = "Başlamak için bir düğün projesi oluşturun";
+
+"dashboard.countdown.daysRemaining" = "%d Gün Kaldı";
+
+// MARK: - Settings
+
+"settings.title" = "Ayarlar";
+"settings.action.close" = "Kapat";
+"settings.action.logout" = "Çıkış Yap";
+
+"settings.section.project" = "Proje Ayarları";
+"settings.section.organizer" = "Organizatör";
+"settings.section.app" = "Uygulama";
+"settings.section.subscription" = "Üyelik";
+"settings.section.dataPrivacy" = "Veri & Gizlilik";
+"settings.section.about" = "Hakkında";
+
+"settings.item.weddingInfo" = "Düğün Bilgileri";
+"settings.item.usersRoles" = "Kullanıcılar & Roller";
+"settings.item.notifications" = "Bildirimler";
+"settings.item.multiWedding" = "Çoklu Düğün Yönetimi";
+"settings.item.appearance" = "Görünüm";
+"settings.item.language" = "Dil";
+"settings.item.premium" = "Premium";
+"settings.item.backup" = "Yedekleme";
+"settings.item.privacy" = "Gizlilik";
+"settings.item.exportData" = "Veri Dışa Aktar";
+"settings.item.help" = "Yardım";
+"settings.item.privacyPolicy" = "Gizlilik Politikası";
+"settings.item.version" = "Versiyon";
+
+"settings.premium.active" = "Aktif";
+"settings.premium.upgrade" = "Yükselt";
+
+// MARK: - Budget
+
+"budget.title" = "Bütçe";
+"budget.section.summary" = "Özet";
+"budget.section.expenses" = "Harcamalar";
+"budget.section.calendar" = "Takvim";
+
+"budget.label.totalBudget" = "Toplam Bütçe";
+"budget.label.spent" = "Harcanan";
+"budget.label.remaining" = "Kalan";
+
+"budget.action.addExpense" = "Harcama Ekle";
+
+// MARK: - Guests
+
+"guests.title" = "Davetliler";
+"guests.action.addGuest" = "Davetli Ekle";
+"guests.status.attending" = "Katılacak";
+"guests.status.notAttending" = "Katılmayacak";
+"guests.status.pending" = "Beklemede";
+
+// MARK: - Common
+
+"common.ok" = "Tamam";
+"common.cancel" = "İptal";
+"common.save" = "Kaydet";
+"common.delete" = "Sil";
+"common.edit" = "Düzenle";
+"common.done" = "Bitti";
+"common.add" = "Ekle";
+"common.search" = "Ara";
+"common.loading" = "Yükleniyor...";
+"common.error" = "Hata";
+"common.retry" = "Tekrar Dene";
+"common.seeAll" = "Tümünü Gör";
+
+// MARK: - Quick Add
+
+"quickAdd.title" = "Hızlı Ekle";
+"quickAdd.item.task" = "Görev";
+"quickAdd.item.expense" = "Harcama";
+"quickAdd.item.guest" = "Misafir";
+"quickAdd.item.note" = "Not";
+
+// MARK: - Weekly Brief
+
+"weeklyBrief.title" = "Haftalık Özet";
+"weeklyBrief.section.tasks" = "Bu Haftanın Görevleri";
+"weeklyBrief.section.payments" = "Yaklaşan Ödemeler";
+"weeklyBrief.section.rsvp" = "RSVP Güncelleme";
+"weeklyBrief.section.tip" = "Pro İpucu";
+
+// MARK: - Notifications
+
+"notifications.title" = "Bildirimler";
+"notifications.empty" = "Yeni bildirim yok";
+"notifications.action.markAllRead" = "Tümünü Okundu İşaretle";
+
+// MARK: - Users
+
+"users.title" = "Kullanıcılar";
+"users.activeUsers" = "Aktif Kullanıcılar";
+"users.inviteUser" = "Kullanıcı Davet Et";
+"users.role.owner" = "Yönetici";
+"users.role.editor" = "Düzenleyici";
+"users.role.viewer" = "Görüntüleyici";
+
+// MARK: - Project Settings
+
+"project.coupleName" = "Çift Bilgileri";
+"project.person1" = "1. Kişi Adı";
+"project.person2" = "2. Kişi Adı";
+"project.wedding" = "Düğün";
+"project.date" = "Tarih";
+"project.venueName" = "Mekan Adı";
+"project.city" = "Şehir";
+"project.preferences" = "Tercihler";
+"project.allowChildren" = "Çocuk Davetli";
+"project.currency" = "Para Birimi";

@@ -1,0 +1,144 @@
+/*
+  Localizable.strings (English)
+  Nuvia - Wedding Planning App
+
+  Convention: feature.section.element
+*/
+
+// MARK: - Tab Bar
+
+"tab.today" = "Today";
+"tab.plan" = "Plan";
+"tab.budget" = "Budget";
+"tab.guests" = "Guests";
+"tab.home" = "Home";
+"tab.quickAdd" = "Quick Add";
+
+// MARK: - Dashboard
+
+"dashboard.greeting.morning" = "Good Morning";
+"dashboard.greeting.afternoon" = "Good Afternoon";
+"dashboard.greeting.evening" = "Good Evening";
+"dashboard.greeting.night" = "Good Night";
+
+"dashboard.section.todaysFocus" = "TODAY'S FOCUS";
+"dashboard.section.progress" = "PROGRESS";
+"dashboard.section.quickAccess" = "QUICK ACCESS";
+"dashboard.section.upcomingTasks" = "UPCOMING TASKS";
+"dashboard.section.weeklyBrief" = "Weekly Brief";
+
+"dashboard.empty.noTasks" = "No tasks for today";
+"dashboard.empty.noProject" = "No Project Found";
+"dashboard.action.createProject" = "Create a wedding project to get started";
+
+"dashboard.countdown.daysRemaining" = "%d Days Left";
+
+// MARK: - Settings
+
+"settings.title" = "Settings";
+"settings.action.close" = "Close";
+"settings.action.logout" = "Log Out";
+
+"settings.section.project" = "Project Settings";
+"settings.section.organizer" = "Organizer";
+"settings.section.app" = "App";
+"settings.section.subscription" = "Subscription";
+"settings.section.dataPrivacy" = "Data & Privacy";
+"settings.section.about" = "About";
+
+"settings.item.weddingInfo" = "Wedding Info";
+"settings.item.usersRoles" = "Users & Roles";
+"settings.item.notifications" = "Notifications";
+"settings.item.multiWedding" = "Multi-Wedding Management";
+"settings.item.appearance" = "Appearance";
+"settings.item.language" = "Language";
+"settings.item.premium" = "Premium";
+"settings.item.backup" = "Backup";
+"settings.item.privacy" = "Privacy";
+"settings.item.exportData" = "Export Data";
+"settings.item.help" = "Help";
+"settings.item.privacyPolicy" = "Privacy Policy";
+"settings.item.version" = "Version";
+
+"settings.premium.active" = "Active";
+"settings.premium.upgrade" = "Upgrade";
+
+// MARK: - Budget
+
+"budget.title" = "Budget";
+"budget.section.summary" = "Summary";
+"budget.section.expenses" = "Expenses";
+"budget.section.calendar" = "Calendar";
+
+"budget.label.totalBudget" = "Total Budget";
+"budget.label.spent" = "Spent";
+"budget.label.remaining" = "Remaining";
+
+"budget.action.addExpense" = "Add Expense";
+
+// MARK: - Guests
+
+"guests.title" = "Guests";
+"guests.action.addGuest" = "Add Guest";
+"guests.status.attending" = "Attending";
+"guests.status.notAttending" = "Not Attending";
+"guests.status.pending" = "Pending";
+
+// MARK: - Common
+
+"common.ok" = "OK";
+"common.cancel" = "Cancel";
+"common.save" = "Save";
+"common.delete" = "Delete";
+"common.edit" = "Edit";
+"common.done" = "Done";
+"common.add" = "Add";
+"common.search" = "Search";
+"common.loading" = "Loading...";
+"common.error" = "Error";
+"common.retry" = "Retry";
+"common.seeAll" = "See All";
+
+// MARK: - Quick Add
+
+"quickAdd.title" = "Quick Add";
+"quickAdd.item.task" = "Task";
+"quickAdd.item.expense" = "Expense";
+"quickAdd.item.guest" = "Guest";
+"quickAdd.item.note" = "Note";
+
+// MARK: - Weekly Brief
+
+"weeklyBrief.title" = "Weekly Brief";
+"weeklyBrief.section.tasks" = "This Week's Tasks";
+"weeklyBrief.section.payments" = "Upcoming Payments";
+"weeklyBrief.section.rsvp" = "RSVP Update";
+"weeklyBrief.section.tip" = "Pro Tip";
+
+// MARK: - Notifications
+
+"notifications.title" = "Notifications";
+"notifications.empty" = "No new notifications";
+"notifications.action.markAllRead" = "Mark All as Read";
+
+// MARK: - Users
+
+"users.title" = "Users";
+"users.activeUsers" = "Active Users";
+"users.inviteUser" = "Invite User";
+"users.role.owner" = "Owner";
+"users.role.editor" = "Editor";
+"users.role.viewer" = "Viewer";
+
+// MARK: - Project Settings
+
+"project.coupleName" = "Couple Info";
+"project.person1" = "Partner 1 Name";
+"project.person2" = "Partner 2 Name";
+"project.wedding" = "Wedding";
+"project.date" = "Date";
+"project.venueName" = "Venue Name";
+"project.city" = "City";
+"project.preferences" = "Preferences";
+"project.allowChildren" = "Allow Children";
+"project.currency" = "Currency";
