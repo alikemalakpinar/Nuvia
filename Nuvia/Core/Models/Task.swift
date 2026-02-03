@@ -220,8 +220,8 @@ enum TaskCategory: String, CaseIterable, Codable {
         case .invitation: return .categoryInvitation
         case .catering: return .categoryFood
         case .decor: return .categoryDecor
-        case .home: return .nuviaInfo
-        case .other: return .nuviaSecondaryText
+        case .home: return .nuviaInfoStatic
+        case .other: return .nuviaSecondaryTextStatic
         }
     }
 }

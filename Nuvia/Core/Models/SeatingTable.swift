@@ -214,10 +214,10 @@ struct SeatingConflict: Identifiable {
 
         var color: Color {
             switch self {
-            case .personalConflict: return .nuviaError
-            case .familySeparation: return .nuviaWarning
-            case .capacityExceeded: return .nuviaError
-            case .noChildTable: return .nuviaWarning
+            case .personalConflict: return .nuviaErrorStatic
+            case .familySeparation: return .nuviaWarningStatic
+            case .capacityExceeded: return .nuviaErrorStatic
+            case .noChildTable: return .nuviaWarningStatic
             }
         }
     }

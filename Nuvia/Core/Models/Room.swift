@@ -221,16 +221,16 @@ enum RoomType: String, CaseIterable, Codable {
     var color: Color {
         switch self {
         case .kitchen: return .categoryFood
-        case .bathroom: return .nuviaInfo
+        case .bathroom: return .nuviaInfoStatic
         case .bedroom: return .categoryDress
         case .livingRoom: return .nuviaGoldFallback
         case .diningRoom: return .categoryDecor
-        case .office: return .nuviaSecondaryText
+        case .office: return .nuviaSecondaryTextStatic
         case .laundry: return .categoryFlowers
-        case .balcony: return .nuviaWarning
+        case .balcony: return .nuviaWarningStatic
         case .entrance: return .nuviaCopper
-        case .storage: return .nuviaTertiaryText
-        case .other: return .nuviaTertiaryText
+        case .storage: return .nuviaTertiaryTextStatic
+        case .other: return .nuviaTertiaryTextStatic
         }
     }
 }
