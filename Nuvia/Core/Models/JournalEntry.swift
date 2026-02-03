@@ -124,10 +124,10 @@ enum JournalMood: String, CaseIterable, Codable {
 
     var color: Color {
         switch self {
-        case .happy: return .nuviaSuccess
-        case .excited: return .nuviaWarning
-        case .stressed: return .nuviaError
-        case .calm: return .nuviaInfo
+        case .happy: return .nuviaSuccessStatic
+        case .excited: return .nuviaWarningStatic
+        case .stressed: return .nuviaErrorStatic
+        case .calm: return .nuviaInfoStatic
         case .romantic: return .categoryDress
         case .grateful: return .nuviaGoldFallback
         case .anxious: return .categoryMusic
