@@ -528,7 +528,7 @@ struct StudioElementContentView: View {
 #Preview("Movable Element") {
     let viewModel = CanvasViewModel(canvasSize: CGSize(width: 375, height: 500))
 
-    return ZStack {
+    ZStack {
         Color.nuviaBackground
 
         // Sample text element
