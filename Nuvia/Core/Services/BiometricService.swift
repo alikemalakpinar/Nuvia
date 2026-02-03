@@ -117,6 +117,10 @@ class HapticManager {
         notification(.success)
     }
 
+    func success() {
+        notification(.success)
+    }
+
     func error() {
         notification(.error)
     }

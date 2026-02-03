@@ -295,36 +295,42 @@ struct TableView: View {
         }
     }
 
+    private var fillColor: Color {
+        table.isFull ? Color.nuviaSuccess.opacity(0.3) : Color.nuviaCardBackground
+    }
+
+    private var strokeColor: Color {
+        isSelected ? Color.nuviaGoldFallback : Color.nuviaTertiaryText
+    }
+
+    private var strokeWidth: CGFloat {
+        isSelected ? 3 : 1
+    }
+
+    @ViewBuilder
+    private var tableShape: some View {
+        switch table.tableLayoutType {
+        case .round:
+            Circle()
+                .fill(fillColor)
+                .overlay(Circle().stroke(strokeColor, lineWidth: strokeWidth))
+        case .rectangular, .uShape:
+            RoundedRectangle(cornerRadius: 8)
+                .fill(fillColor)
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(strokeColor, lineWidth: strokeWidth))
+        case .oval:
+            Ellipse()
+                .fill(fillColor)
+                .overlay(Ellipse().stroke(strokeColor, lineWidth: strokeWidth))
+        }
+    }
+
     var body: some View {
         Button(action: onTap) {
             ZStack {
-                // Table shape
-                Group {
-                    switch table.tableLayoutType {
-                    case .round:
-                        Circle()
-                    case .rectangular:
-                        RoundedRectangle(cornerRadius: 8)
-                    case .oval:
-                        Ellipse()
-                    case .uShape:
-                        RoundedRectangle(cornerRadius: 8)
-                    }
-                }
-                .fill(table.isFull ? Color.nuviaSuccess.opacity(0.3) : Color.nuviaCardBackground)
-                .frame(width: tableSize, height: table.tableLayoutType == .rectangular ? tableSize * 0.6 : tableSize)
-                .overlay(
-                    Group {
-                        switch table.tableLayoutType {
-                        case .round:
-                            Circle().stroke(isSelected ? Color.nuviaGoldFallback : Color.nuviaTertiaryText, lineWidth: isSelected ? 3 : 1)
-                        case .rectangular, .uShape:
-                            RoundedRectangle(cornerRadius: 8).stroke(isSelected ? Color.nuviaGoldFallback : Color.nuviaTertiaryText, lineWidth: isSelected ? 3 : 1)
-                        case .oval:
-                            Ellipse().stroke(isSelected ? Color.nuviaGoldFallback : Color.nuviaTertiaryText, lineWidth: isSelected ? 3 : 1)
-                        }
-                    }
-                )
+                // Table shape with fill and stroke
+                tableShape
+                    .frame(width: tableSize, height: table.tableLayoutType == .rectangular ? tableSize * 0.6 : tableSize)
 
                 // Table info
                 VStack(spacing: 2) {
