@@ -295,3 +295,11 @@ extension ButtonStyle where Self == HapticButtonStyle {
         HapticButtonStyle(haptic: type)
     }
 }
+
+// MARK: - Compatibility Aliases
+
+/// Alias for HapticManager compatibility
+public typealias HapticManager = NuviaHaptics
+
+/// Alias for HapticEngine compatibility
+public typealias HapticEngine = NuviaHaptics
