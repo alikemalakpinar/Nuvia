@@ -50,7 +50,6 @@
 		A100000041 /* WeddingDayRunOfShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000041 /* WeddingDayRunOfShowView.swift */; };
 		A100000042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B100000042 /* Assets.xcassets */; };
 		A100000044 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000044 /* PaywallView.swift */; };
-		A100000045 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000045 /* DesignTokens.swift */; };
 		A100000046 /* CustomTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000046 /* CustomTransitions.swift */; };
 		A100000047 /* CanvasModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000047 /* CanvasModels.swift */; };
 		A100000048 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000048 /* CanvasViewModel.swift */; };
@@ -625,7 +624,6 @@
 				A100000040 /* VendorManagementView.swift in Sources */,
 				A100000041 /* WeddingDayRunOfShowView.swift in Sources */,
 				A100000044 /* PaywallView.swift in Sources */,
-				A100000045 /* DesignTokens.swift in Sources */,
 				A100000046 /* CustomTransitions.swift in Sources */,
 				A100000047 /* CanvasModels.swift in Sources */,
 				A100000048 /* CanvasViewModel.swift in Sources */,
