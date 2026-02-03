@@ -79,6 +79,9 @@ public enum DesignTokens {
 
         /// Progress bars (4pt)
         public static let progressBar: CGFloat = 4
+
+        /// Tab bar indicator (3pt)
+        public static let indicator: CGFloat = 3
     }
 
     // MARK: - Animation Timing

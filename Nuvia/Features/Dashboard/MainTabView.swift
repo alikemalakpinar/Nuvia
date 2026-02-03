@@ -71,15 +71,15 @@ struct CustomTabBar: View {
                     isSelected: selectedTab == tab
                 ) {
                     HapticManager.shared.selection()
-                    withAnimation(.spring(response: 0.3)) {
+                    withAnimation(MotionCurves.quick) {
                         selectedTab = tab
                     }
                 }
             }
         }
-        .padding(.horizontal, 8)
-        .padding(.top, 12)
-        .padding(.bottom, 24)
+        .padding(.horizontal, DesignTokens.Spacing.xs)
+        .padding(.top, DesignTokens.Spacing.sm)
+        .padding(.bottom, DesignTokens.Spacing.nuviaMargin)
         .background(
             // Clean, light background
             Color.nuviaCardBackground
@@ -96,26 +96,27 @@ struct TabBarButton: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 4) {
+            VStack(spacing: DesignTokens.Spacing.xxs) {
                 Image(systemName: isSelected ? tab.selectedIcon : tab.icon)
                     .font(.system(size: 22, weight: isSelected ? .semibold : .regular))
                     .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaTertiaryText)
                     .scaleEffect(isSelected ? 1.05 : 1.0)
-                    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
+                    .animation(MotionCurves.bouncy, value: isSelected)
 
                 Text(tab.rawValue)
                     .font(NuviaTypography.caption2())
                     .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaTertiaryText)
 
-                // Active indicator - ince ve zarif
+                // Active indicator - refined capsule
                 Capsule()
                     .fill(Color.nuviaGoldFallback)
-                    .frame(width: isSelected ? 20 : 0, height: 3)
-                    .animation(.spring(response: 0.3), value: isSelected)
+                    .frame(width: isSelected ? 20 : 0, height: DesignTokens.Radius.indicator)
+                    .animation(MotionCurves.quick, value: isSelected)
             }
             .frame(maxWidth: .infinity)
         }
         .accessibilityLabel(tab.rawValue)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 
