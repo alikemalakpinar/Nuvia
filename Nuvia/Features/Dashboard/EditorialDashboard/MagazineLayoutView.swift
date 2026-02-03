@@ -86,7 +86,7 @@ struct LayoutSwitcher: View {
                     withAnimation(DesignTokens.Animation.snappy) {
                         selectedLayout = layout
                     }
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 } label: {
                     Image(systemName: layout.icon)
                         .font(.system(size: 16, weight: .medium))
@@ -412,7 +412,7 @@ struct EditorialFeatureCard: View {
         .onLongPressGesture(minimumDuration: 0, pressing: { pressing in
             isPressed = pressing
             if pressing {
-                NuviaHaptics.shared.impact(.light)
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
             }
         }, perform: {})
     }

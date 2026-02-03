@@ -64,7 +64,7 @@ struct LiquidOnboardingView: View {
                     if currentPage == viewModel.pages.count - 1 {
                         // Get Started Button
                         Button {
-                            NuviaHaptics.shared.impact(.medium)
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             withAnimation(DesignTokens.Animation.smooth) {
                                 appState.isOnboardingComplete = true
                             }
@@ -82,7 +82,7 @@ struct LiquidOnboardingView: View {
                     } else {
                         // Continue Button
                         Button {
-                            NuviaHaptics.shared.impact(.light)
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
                             withAnimation(DesignTokens.Animation.smooth) {
                                 currentPage += 1
                             }
@@ -101,7 +101,7 @@ struct LiquidOnboardingView: View {
                     // Skip Button
                     if currentPage < viewModel.pages.count - 1 {
                         Button {
-                            NuviaHaptics.shared.selection()
+                            UISelectionFeedbackGenerator().selectionChanged()
                             withAnimation(DesignTokens.Animation.smooth) {
                                 currentPage = viewModel.pages.count - 1
                             }
@@ -117,7 +117,7 @@ struct LiquidOnboardingView: View {
             }
         }
         .onChange(of: currentPage) { _, _ in
-            NuviaHaptics.shared.selection()
+            UISelectionFeedbackGenerator().selectionChanged()
         }
     }
 }
@@ -243,7 +243,7 @@ struct TypewriterText: View {
 
                 // Haptic on each character (subtle)
                 if currentIndex % 3 == 0 {
-                    NuviaHaptics.shared.impact(.soft)
+                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                 }
             } else {
                 timer.invalidate()

@@ -151,7 +151,7 @@ struct InvitationStudioView: View {
                     isEnabled: viewModel.canUndo
                 ) {
                     viewModel.undo()
-                    NuviaHaptics.shared.impact(.light)
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 }
 
                 ToolbarIconButton(
@@ -159,7 +159,7 @@ struct InvitationStudioView: View {
                     isEnabled: viewModel.canRedo
                 ) {
                     viewModel.redo()
-                    NuviaHaptics.shared.impact(.light)
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 }
             }
         }
@@ -271,7 +271,7 @@ struct InvitationStudioView: View {
                         showLayerSheet = false
                         showPropertyInspector = false
                     }
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 }
 
                 // Layers
@@ -281,7 +281,7 @@ struct InvitationStudioView: View {
                         showElementPicker = false
                         showPropertyInspector = false
                     }
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 }
 
                 // Properties
@@ -296,19 +296,19 @@ struct InvitationStudioView: View {
                         showElementPicker = false
                         showLayerSheet = false
                     }
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 }
 
                 // Templates
                 GlassToolbarTab(icon: "square.grid.2x2", label: StudioStrings.templates, isActive: false) {
                     showTemplatePicker = true
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 }
 
                 // Export
                 GlassToolbarTab(icon: "square.and.arrow.up", label: StudioStrings.export, isActive: false, isPrimary: true) {
                     checkPremiumAndExport()
-                    NuviaHaptics.shared.impact(.medium)
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 }
             }
             .padding(.horizontal, StudioSpacing.sm)
@@ -346,7 +346,7 @@ struct InvitationStudioView: View {
                     withAnimation(MotionCurves.quick) {
                         canvasScale = max(0.5, canvasScale - 0.25)
                     }
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 }
 
                 Text("\(Int(canvasScale * 100))%")
@@ -359,7 +359,7 @@ struct InvitationStudioView: View {
                         // Clamp to 200% max
                         canvasScale = min(2.0, canvasScale + 0.25)
                     }
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 }
 
                 Divider()
@@ -372,7 +372,7 @@ struct InvitationStudioView: View {
                         canvasScale = 1.0
                         canvasOffset = .zero
                     }
-                    NuviaHaptics.shared.selection()
+                    UISelectionFeedbackGenerator().selectionChanged()
                 }
 
                 // Center selected
@@ -380,7 +380,7 @@ struct InvitationStudioView: View {
                     GlassQuickActionChip(icon: "arrow.up.and.down.and.arrow.left.and.right") {
                         if let id = viewModel.selectedElementId {
                             viewModel.centerElement(id: id)
-                            NuviaHaptics.shared.impact(.medium)
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         }
                     }
                 }
@@ -409,7 +409,7 @@ struct InvitationStudioView: View {
                     viewModel: viewModel,
                     onAddElement: { element in
                         viewModel.addElement(element)
-                        NuviaHaptics.shared.notification(.success)
+                        UINotificationFeedbackGenerator().notificationOccurred(.success)
                     },
                     onPremiumRequired: {
                         showPaywall = true
@@ -510,7 +510,7 @@ struct InvitationStudioView: View {
             viewModel.addElement(element)
         }
 
-        NuviaHaptics.shared.notification(.success)
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
 
     private func checkPremiumAndExport() {
@@ -956,7 +956,7 @@ struct ImageElementPicker: View {
             // Photo library button
             Button {
                 // Open photo picker
-                NuviaHaptics.shared.impact(.medium)
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             } label: {
                 HStack {
                     Image(systemName: "photo.on.rectangle")
@@ -988,7 +988,7 @@ struct ImageElementPicker: View {
             // Camera button
             Button {
                 // Open camera
-                NuviaHaptics.shared.impact(.medium)
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             } label: {
                 HStack {
                     Image(systemName: "camera.fill")

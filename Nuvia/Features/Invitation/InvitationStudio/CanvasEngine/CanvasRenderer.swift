@@ -372,10 +372,10 @@ public final class CanvasShareService {
                 vc.present(activityVC, animated: true)
             }
 
-            NuviaHaptics.shared.notification(.success)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
 
         } catch {
-            NuviaHaptics.shared.notification(.error)
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
             print("Share failed: \(error)")
         }
     }

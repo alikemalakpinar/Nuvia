@@ -70,7 +70,7 @@ struct GestureCoordinator: ViewModifier {
     private func startGesture() {
         isGestureActive = true
         viewModel.beginGesture(for: elementId, type: .combined)
-        NuviaHaptics.shared.impact(.light)
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
 
     private func endGesture() {
