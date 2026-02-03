@@ -408,7 +408,7 @@ struct ActionButton: View {
                 }
 
                 Text(label)
-                    .font(.system(size: 12, weight: .medium)Small)
+                    .font(.system(size: 11))
                     .foregroundColor(.nuviaSecondaryText)
             }
         }
@@ -438,7 +438,7 @@ struct SmallActionButton: View {
                     .font(.system(size: 12, weight: .medium))
 
                 Text(label)
-                    .font(.system(size: 12, weight: .medium)Small)
+                    .font(.system(size: 11))
             }
             .foregroundColor(isDestructive ? Color(hex: "C97A7A") : .nuviaSecondaryText)
             .padding(.horizontal, 10)
