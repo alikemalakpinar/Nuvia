@@ -21,11 +21,15 @@ struct MainTabView: View {
                 GuestListView()
                     .tag(MainTab.guests)
 
+                InvitationStudioView()
+                    .tag(MainTab.studio)
+
                 if appState.appMode == .weddingAndHome {
                     HomeSetupDashboardView()
                         .tag(MainTab.home)
                 }
             }
+            .toolbar(.hidden, for: .tabBar)
             .tint(.nuviaGoldFallback)
 
             // Custom Tab Bar
@@ -56,7 +60,7 @@ struct CustomTabBar: View {
     }
 
     private var rightTabs: [MainTab] {
-        var tabs: [MainTab] = [.budget, .guests]
+        var tabs: [MainTab] = [.budget, .guests, .studio]
         if showHomeTab {
             tabs.append(.home)
         }

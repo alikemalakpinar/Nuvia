@@ -96,16 +96,18 @@ enum MainTab: String, CaseIterable {
     case plan
     case budget
     case guests
+    case studio
     case home
 
     /// Localized display name
     var displayName: String {
         switch self {
-        case .today: return "Today"
-        case .plan: return "Plan"
-        case .budget: return "Budget"
-        case .guests: return "Guests"
-        case .home: return "Home"
+        case .today: return NSLocalizedString("tab.today", comment: "Today")
+        case .plan: return NSLocalizedString("tab.plan", comment: "Plan")
+        case .budget: return NSLocalizedString("tab.budget", comment: "Budget")
+        case .guests: return NSLocalizedString("tab.guests", comment: "Guests")
+        case .studio: return NSLocalizedString("tab.studio", comment: "Studio")
+        case .home: return NSLocalizedString("tab.home", comment: "Home")
         }
     }
 
@@ -115,6 +117,7 @@ enum MainTab: String, CaseIterable {
         case .plan: return "calendar.badge.clock"
         case .budget: return "creditcard"
         case .guests: return "person.2"
+        case .studio: return "paintpalette"
         case .home: return "house"
         }
     }
@@ -125,6 +128,7 @@ enum MainTab: String, CaseIterable {
         case .plan: return "calendar.badge.clock"
         case .budget: return "creditcard.fill"
         case .guests: return "person.2.fill"
+        case .studio: return "paintpalette.fill"
         case .home: return "house.fill"
         }
     }
