@@ -53,11 +53,10 @@ struct NuviaApp: App {
                 print("Local ModelContainer failed: \(error)")
 
                 // Last resort: delete the store and try again
-                if let url = localConfig.url {
-                    try? FileManager.default.removeItem(at: url)
-                    try? FileManager.default.removeItem(at: url.deletingPathExtension().appendingPathExtension("sqlite-shm"))
-                    try? FileManager.default.removeItem(at: url.deletingPathExtension().appendingPathExtension("sqlite-wal"))
-                }
+                let url = localConfig.url
+                try? FileManager.default.removeItem(at: url)
+                try? FileManager.default.removeItem(at: url.deletingPathExtension().appendingPathExtension("sqlite-shm"))
+                try? FileManager.default.removeItem(at: url.deletingPathExtension().appendingPathExtension("sqlite-wal"))
 
                 do {
                     return try ModelContainer(for: schema, configurations: [localConfig])
