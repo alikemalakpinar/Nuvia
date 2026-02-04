@@ -196,7 +196,7 @@ struct QuickAddButton: View {
         }
         .pressEffect()
         .offset(y: -16)
-        .accessibilityLabel(Hızlı Ekle)
+        .accessibilityLabel("Hızlı Ekle")
     }
 }
 
@@ -216,11 +216,11 @@ struct QuickAddSheet: View {
 
         var displayName: String {
             switch self {
-            case .task: return Görev
-            case .expense: return Harcama
-            case .guest: return Davetli
-            case .shopping: return Alışveriş
-            case .note: return Not
+            case .task: return "Görev"
+            case .expense: return "Harcama"
+            case .guest: return "Davetli"
+            case .shopping: return "Alışveriş"
+            case .note: return "Not"
             }
         }
 
@@ -248,7 +248,7 @@ struct QuickAddSheet: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: DSSpacing.lg) {
-                Text(Ne eklemek istersiniz?)
+                Text("Ne eklemek istersiniz?")
                     .font(DSTypography.heading2)
                     .foregroundColor(DSColors.textPrimary)
                     .padding(.top, DSSpacing.xs)
@@ -265,7 +265,7 @@ struct QuickAddSheet: View {
                 Spacer()
 
                 if selectedType != nil {
-                    NuviaPrimaryButton(Devam, icon: "arrow.right") {
+                    NuviaPrimaryButton("Devam", icon: "arrow.right") {
                         switch selectedType {
                         case .task:
                             dismiss()

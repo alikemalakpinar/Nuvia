@@ -76,8 +76,8 @@ struct TodayDashboardView: View {
                     } else {
                         NuviaEmptyState(
                             icon: "heart.slash",
-                            title: Proje Yok,
-                            message: İlk düğün projenizi oluşturun
+                            title: "Proje Yok",
+                            message: "İlk düğün projenizi oluşturun"
                         )
                         .padding(.horizontal, DSSpacing.nuviaMargin)
                     }
@@ -178,7 +178,7 @@ struct TodayDashboardView: View {
             .first
 
         return VStack(alignment: .leading, spacing: 16) {
-            Text(Bugünün Odağı)
+            Text("Bugünün Odağı")
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -225,7 +225,7 @@ struct TodayDashboardView: View {
                             HStack(spacing: 8) {
                                 Image(systemName: "checkmark")
                                     .font(.system(size: 14, weight: .semibold))
-                                Text(Tamamla)
+                                Text("Tamamla")
                                     .font(DSTypography.buttonSmall)
                             }
                             .foregroundColor(.white)
@@ -249,11 +249,11 @@ struct TodayDashboardView: View {
                         .font(.system(size: 40))
                         .foregroundStyle(DSColors.heroGradient)
 
-                    Text(Her Şey Tamam!)
+                    Text("Her Şey Tamam!")
                         .font(DSTypography.heading3)
                         .foregroundColor(DSColors.textPrimary)
 
-                    Text(Acil görev yok)
+                    Text("Acil görev yok")
                         .font(DSTypography.body)
                         .foregroundColor(DSColors.textSecondary)
                 }
@@ -276,7 +276,7 @@ struct TodayDashboardView: View {
                     .font(DSTypography.countdown)
                     .foregroundStyle(DSColors.heroGradient)
 
-                Text(gün kaldı)
+                Text("gün kaldı")
                     .font(DSTypography.caption)
                     .foregroundColor(DSColors.textSecondary)
             }
@@ -336,7 +336,7 @@ struct TodayDashboardView: View {
         let budgetProgress = totalBudget > 0 ? min(1.0, spentBudget / totalBudget) : 0
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(İlerleme.uppercased())
+            Text("İlerleme".uppercased())
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -344,7 +344,7 @@ struct TodayDashboardView: View {
             HStack(spacing: 16) {
                 // Tasks Progress
                 ProgressCard(
-                    title: Görevler,
+                    title: "Görevler",
                     value: "\(completedTasks)/\(totalTasks)",
                     progress: progress,
                     color: .nuviaSage
@@ -352,7 +352,7 @@ struct TodayDashboardView: View {
 
                 // Budget Progress
                 ProgressCard(
-                    title: Bütçe,
+                    title: "Bütçe",
                     value: "\(Int(budgetProgress * 100))%",
                     progress: budgetProgress,
                     color: .nuviaChampagne
@@ -370,7 +370,7 @@ struct TodayDashboardView: View {
         @State var showZenMode = false
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(Hızlı Erişim.uppercased())
+            Text("Hızlı Erişim".uppercased())
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -387,7 +387,7 @@ struct TodayDashboardView: View {
         let totalGuests = project.guests.count
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(Bir Bakışta.uppercased())
+            Text("Bir Bakışta".uppercased())
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -396,16 +396,16 @@ struct TodayDashboardView: View {
                 // RSVP Card
                 MetricCard(
                     icon: "person.2.fill",
-                    title: Katılıyor,
+                    title: "Katılıyor",
                     value: "\(attending)",
-                    subtitle: "\(pending) \(bekliyor.lowercased())",
+                    subtitle: "\(pending) \("bekliyor".lowercased())",
                     color: .nuviaSage
                 )
 
                 // Budget Card
                 MetricCard(
                     icon: "creditcard.fill",
-                    title: Harcanan,
+                    title: "Harcanan",
                     value: formatCurrency(project.expenses.reduce(0) { $0 + $1.amount }, currency: project.currency),
                     subtitle: "of \(formatCurrency(project.totalBudget, currency: project.currency))",
                     color: .nuviaChampagne
@@ -430,7 +430,7 @@ struct TodayDashboardView: View {
             .map { $0 }
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(Yaklaşanlar.uppercased())
+            Text("Yaklaşanlar".uppercased())
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -462,7 +462,7 @@ struct TodayDashboardView: View {
                             .font(.system(size: 20))
                             .foregroundColor(DSColors.success)
 
-                        Text(Yaklaşan son tarih yok)
+                        Text("Yaklaşan son tarih yok")
                             .font(DSTypography.body)
                             .foregroundColor(DSColors.textSecondary)
                     }
@@ -716,7 +716,7 @@ struct WeeklyBriefView: View {
                             .font(.system(size: 48))
                             .foregroundStyle(DSColors.heroGradient)
 
-                        Text(Haftalık Özet)
+                        Text("Haftalık Özet")
                             .font(DSTypography.displaySmall)
                             .foregroundColor(DSColors.textPrimary)
 
@@ -731,7 +731,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "checklist",
                             iconColor: .nuviaSage,
-                            title: Bu Haftanın Görevleri,
+                            title: "Bu Haftanın Görevleri",
                             value: "5 tasks",
                             description: "Focus on venue confirmation and catering menu selection"
                         )
@@ -739,7 +739,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "creditcard.fill",
                             iconColor: .nuviaChampagne,
-                            title: Yaklaşan Ödemeler,
+                            title: "Yaklaşan Ödemeler",
                             value: "₺25,000",
                             description: "Venue deposit due in 3 days"
                         )
@@ -747,7 +747,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "person.2.fill",
                             iconColor: .nuviaRoseDust,
-                            title: RSVP Durumu,
+                            title: "RSVP Durumu",
                             value: "15 pending",
                             description: "Send reminders to guests who haven't responded"
                         )
@@ -755,7 +755,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "lightbulb.fill",
                             iconColor: .nuviaWisteria,
-                            title: İpucu,
+                            title: "İpucu",
                             value: nil,
                             description: "Schedule vendor meetings at least 2 weeks before your decision deadline"
                         )
@@ -851,11 +851,11 @@ struct NotificationsInboxView: View {
                         .font(.system(size: 48))
                         .foregroundColor(DSColors.textTertiary)
 
-                    Text(Her Şey Tamam!)
+                    Text("Her Şey Tamam!")
                         .font(DSTypography.heading2)
                         .foregroundColor(DSColors.textPrimary)
 
-                    Text(Yeni bildirim yok)
+                    Text("Yeni bildirim yok")
                         .font(DSTypography.body)
                         .foregroundColor(DSColors.textSecondary)
                 }
