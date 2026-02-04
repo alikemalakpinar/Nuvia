@@ -44,10 +44,10 @@ struct TodayDashboardView: View {
                 VStack(spacing: 0) {
                     // Magazine-style Hero Header
                     heroHeader
-                        .padding(.bottom, DesignTokens.Spacing.xl)
+                        .padding(.bottom, DSSpacing.xl)
 
                     if let project = currentProject {
-                        VStack(spacing: DesignTokens.Spacing.sectionSpacing) {
+                        VStack(spacing: DSSpacing.sectionSpacing) {
                             // Today's Focus - Featured Card
                             todaysFocusSection(project: project)
                                 .cardEntrance(delay: 0.05)
@@ -72,20 +72,20 @@ struct TodayDashboardView: View {
                             upcomingSection(project: project)
                                 .cardEntrance(delay: 0.3)
                         }
-                        .padding(.horizontal, DesignTokens.Spacing.nuviaMargin)
+                        .padding(.horizontal, DSSpacing.nuviaMargin)
                     } else {
                         NuviaEmptyState(
                             icon: "heart.slash",
                             title: NSLocalizedString("dashboard.empty.noProject", comment: "No Project"),
                             message: NSLocalizedString("dashboard.empty.noProjectMessage", comment: "Create your first wedding project")
                         )
-                        .padding(.horizontal, DesignTokens.Spacing.nuviaMargin)
+                        .padding(.horizontal, DSSpacing.nuviaMargin)
                     }
                 }
-                .padding(.bottom, DesignTokens.Spacing.scrollBottomInset)
+                .padding(.bottom, DSSpacing.scrollBottomInset)
             }
             .background(
-                Color.themed.backgroundGradient
+                DSColors.backgroundGradient
                 .ignoresSafeArea()
             )
             .navigationBarTitleDisplayMode(.inline)
@@ -96,7 +96,7 @@ struct TodayDashboardView: View {
                     } label: {
                         Image(systemName: "newspaper")
                             .font(.system(size: 18, weight: .medium))
-                            .foregroundColor(.nuviaChampagne)
+                            .foregroundColor(DSColors.primaryAction)
                     }
                 }
 
@@ -107,7 +107,7 @@ struct TodayDashboardView: View {
                         } label: {
                             Image(systemName: "bell")
                                 .font(.system(size: 18, weight: .medium))
-                                .foregroundColor(.nuviaSecondaryText)
+                                .foregroundColor(DSColors.textSecondary)
                         }
 
                         Button {
@@ -115,7 +115,7 @@ struct TodayDashboardView: View {
                         } label: {
                             Image(systemName: "gearshape")
                                 .font(.system(size: 18, weight: .medium))
-                                .foregroundColor(.nuviaSecondaryText)
+                                .foregroundColor(DSColors.textSecondary)
                         }
                     }
                 }
@@ -135,33 +135,33 @@ struct TodayDashboardView: View {
     // MARK: - Hero Header (Magazine Cover Style)
 
     private var heroHeader: some View {
-        VStack(spacing: DesignTokens.Spacing.md) {
+        VStack(spacing: DSSpacing.md) {
             // Date & Greeting
-            VStack(spacing: DesignTokens.Spacing.xs) {
+            VStack(spacing: DSSpacing.xs) {
                 Text(Date().formatted(.dateTime.weekday(.wide).month(.wide).day()))
-                    .font(NuviaTypography.overline())
+                    .font(DSTypography.overline)
                     .tracking(2)
-                    .foregroundColor(.nuviaSecondaryText)
+                    .foregroundColor(DSColors.textSecondary)
                     .textCase(.uppercase)
 
-                HStack(spacing: DesignTokens.Spacing.sm) {
+                HStack(spacing: DSSpacing.sm) {
                     Image(systemName: greetingEmoji)
                         .font(.system(size: 24))
-                        .foregroundStyle(Color.etherealGradient)
+                        .foregroundStyle(DSColors.heroGradient)
 
                     Text(greeting)
-                        .font(NuviaTypography.displaySmall())
-                        .foregroundColor(.nuviaPrimaryText)
+                        .font(DSTypography.displaySmall)
+                        .foregroundColor(DSColors.textPrimary)
                 }
             }
-            .padding(.top, DesignTokens.Spacing.xl)
+            .padding(.top, DSSpacing.xl)
 
             // Couple Names (if available)
             if let project = currentProject {
                 Text("\(project.partnerName1) & \(project.partnerName2)")
-                    .font(NuviaTypography.title3())
-                    .foregroundColor(.nuviaSecondaryText)
-                    .padding(.top, DesignTokens.Spacing.xxs)
+                    .font(DSTypography.heading3)
+                    .foregroundColor(DSColors.textSecondary)
+                    .padding(.top, DSSpacing.xxs)
             }
         }
         .frame(maxWidth: .infinity)
@@ -179,9 +179,9 @@ struct TodayDashboardView: View {
 
         return VStack(alignment: .leading, spacing: 16) {
             Text(NSLocalizedString("dashboard.section.todaysFocus", comment: "Today's Focus"))
-                .font(NuviaTypography.overline())
+                .font(DSTypography.overline)
                 .tracking(2)
-                .foregroundColor(.nuviaChampagne)
+                .foregroundColor(DSColors.primaryAction)
 
             if let task = priorityTask {
                 VStack(alignment: .leading, spacing: 12) {
@@ -191,27 +191,27 @@ struct TodayDashboardView: View {
                             .frame(width: 8, height: 8)
 
                         Text(task.taskCategory.displayName)
-                            .font(NuviaTypography.caption())
-                            .foregroundColor(.nuviaSecondaryText)
+                            .font(DSTypography.caption)
+                            .foregroundColor(DSColors.textSecondary)
 
                         Spacer()
 
                         if let dueDate = task.dueDate {
                             Text(dueDate.formatted(.dateTime.month(.abbreviated).day()))
-                                .font(NuviaTypography.caption())
-                                .foregroundColor(.nuviaTertiaryText)
+                                .font(DSTypography.caption)
+                                .foregroundColor(DSColors.textTertiary)
                         }
                     }
 
                     Text(task.title)
-                        .font(NuviaTypography.title2())
-                        .foregroundColor(.nuviaPrimaryText)
+                        .font(DSTypography.heading2)
+                        .foregroundColor(DSColors.textPrimary)
                         .lineLimit(2)
 
                     if let desc = task.taskDescription, !desc.isEmpty {
                         Text(desc)
-                            .font(NuviaTypography.body())
-                            .foregroundColor(.nuviaSecondaryText)
+                            .font(DSTypography.body)
+                            .foregroundColor(DSColors.textSecondary)
                             .lineLimit(2)
                     }
 
@@ -226,12 +226,12 @@ struct TodayDashboardView: View {
                                 Image(systemName: "checkmark")
                                     .font(.system(size: 14, weight: .semibold))
                                 Text(NSLocalizedString("dashboard.action.complete", comment: "Complete"))
-                                    .font(NuviaTypography.smallButton())
+                                    .font(DSTypography.buttonSmall)
                             }
                             .foregroundColor(.white)
                             .padding(.horizontal, 20)
                             .padding(.vertical, 12)
-                            .background(Color.nuviaPrimaryAction)
+                            .background(DSColors.primaryAction)
                             .cornerRadius(24)
                         }
                         .pressEffect()
@@ -239,7 +239,7 @@ struct TodayDashboardView: View {
                     .padding(.top, 8)
                 }
                 .padding(24)
-                .background(Color.nuviaSurface)
+                .background(DSColors.surface)
                 .cornerRadius(24)
                 .etherealShadow(.soft)
             } else {
@@ -247,19 +247,19 @@ struct TodayDashboardView: View {
                 VStack(spacing: 16) {
                     Image(systemName: "checkmark.seal.fill")
                         .font(.system(size: 40))
-                        .foregroundStyle(Color.etherealGradient)
+                        .foregroundStyle(DSColors.heroGradient)
 
                     Text(NSLocalizedString("dashboard.state.allCaughtUp", comment: "All Caught Up!"))
-                        .font(NuviaTypography.title3())
-                        .foregroundColor(.nuviaPrimaryText)
+                        .font(DSTypography.heading3)
+                        .foregroundColor(DSColors.textPrimary)
 
                     Text(NSLocalizedString("dashboard.state.noUrgentTasks", comment: "No urgent tasks"))
-                        .font(NuviaTypography.body())
-                        .foregroundColor(.nuviaSecondaryText)
+                        .font(DSTypography.body)
+                        .foregroundColor(DSColors.textSecondary)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(32)
-                .background(Color.nuviaSurface)
+                .background(DSColors.surface)
                 .cornerRadius(24)
                 .etherealShadow(.soft)
             }
@@ -273,53 +273,53 @@ struct TodayDashboardView: View {
             // Days countdown
             VStack(spacing: 4) {
                 Text("\(project.daysUntilWedding)")
-                    .font(NuviaTypography.countdown())
-                    .foregroundStyle(Color.etherealGradient)
+                    .font(DSTypography.countdown)
+                    .foregroundStyle(DSColors.heroGradient)
 
                 Text(NSLocalizedString("dashboard.countdown.daysToGo", comment: "days to go"))
-                    .font(NuviaTypography.caption())
-                    .foregroundColor(.nuviaSecondaryText)
+                    .font(DSTypography.caption)
+                    .foregroundColor(DSColors.textSecondary)
             }
             .frame(maxWidth: .infinity)
 
             // Divider
             Rectangle()
-                .fill(Color.nuviaTertiaryBackground)
+                .fill(DSColors.surfaceTertiary)
                 .frame(width: 1, height: 60)
 
             // Date
             VStack(spacing: 4) {
                 Text(project.weddingDate.formatted(.dateTime.month(.abbreviated).day()))
-                    .font(NuviaTypography.title1())
-                    .foregroundColor(.nuviaPrimaryText)
+                    .font(DSTypography.heading1)
+                    .foregroundColor(DSColors.textPrimary)
 
                 Text(project.weddingDate.formatted(.dateTime.year()))
-                    .font(NuviaTypography.caption())
-                    .foregroundColor(.nuviaSecondaryText)
+                    .font(DSTypography.caption)
+                    .foregroundColor(DSColors.textSecondary)
             }
             .frame(maxWidth: .infinity)
 
             // Divider
             Rectangle()
-                .fill(Color.nuviaTertiaryBackground)
+                .fill(DSColors.surfaceTertiary)
                 .frame(width: 1, height: 60)
 
             // Venue
             VStack(spacing: 4) {
                 Image(systemName: "mappin.circle.fill")
                     .font(.system(size: 24))
-                    .foregroundColor(.nuviaChampagne)
+                    .foregroundColor(DSColors.primaryAction)
 
                 Text(project.venueName ?? "Venue")
-                    .font(NuviaTypography.caption())
-                    .foregroundColor(.nuviaSecondaryText)
+                    .font(DSTypography.caption)
+                    .foregroundColor(DSColors.textSecondary)
                     .lineLimit(1)
             }
             .frame(maxWidth: .infinity)
         }
         .padding(.vertical, 24)
         .padding(.horizontal, 16)
-        .background(Color.nuviaSurface)
+        .background(DSColors.surface)
         .cornerRadius(24)
         .etherealShadow(.whisper)
     }
@@ -337,9 +337,9 @@ struct TodayDashboardView: View {
 
         return VStack(alignment: .leading, spacing: 20) {
             Text(NSLocalizedString("dashboard.section.progress", comment: "Progress").uppercased())
-                .font(NuviaTypography.overline())
+                .font(DSTypography.overline)
                 .tracking(2)
-                .foregroundColor(.nuviaChampagne)
+                .foregroundColor(DSColors.primaryAction)
 
             HStack(spacing: 16) {
                 // Tasks Progress
@@ -371,9 +371,9 @@ struct TodayDashboardView: View {
 
         return VStack(alignment: .leading, spacing: 20) {
             Text(NSLocalizedString("dashboard.section.quickAccess", comment: "Quick Access").uppercased())
-                .font(NuviaTypography.overline())
+                .font(DSTypography.overline)
                 .tracking(2)
-                .foregroundColor(.nuviaChampagne)
+                .foregroundColor(DSColors.primaryAction)
 
             QuickActionsGrid()
         }
@@ -388,9 +388,9 @@ struct TodayDashboardView: View {
 
         return VStack(alignment: .leading, spacing: 20) {
             Text(NSLocalizedString("dashboard.section.atAGlance", comment: "At a Glance").uppercased())
-                .font(NuviaTypography.overline())
+                .font(DSTypography.overline)
                 .tracking(2)
-                .foregroundColor(.nuviaChampagne)
+                .foregroundColor(DSColors.primaryAction)
 
             HStack(spacing: 12) {
                 // RSVP Card
@@ -431,9 +431,9 @@ struct TodayDashboardView: View {
 
         return VStack(alignment: .leading, spacing: 20) {
             Text(NSLocalizedString("dashboard.section.comingUp", comment: "Coming Up").uppercased())
-                .font(NuviaTypography.overline())
+                .font(DSTypography.overline)
                 .tracking(2)
-                .foregroundColor(.nuviaChampagne)
+                .foregroundColor(DSColors.primaryAction)
 
             VStack(spacing: 12) {
                 ForEach(upcomingTasks, id: \.id) { task in
@@ -460,15 +460,15 @@ struct TodayDashboardView: View {
                     HStack(spacing: 12) {
                         Image(systemName: "calendar.badge.checkmark")
                             .font(.system(size: 20))
-                            .foregroundColor(.nuviaSuccess)
+                            .foregroundColor(DSColors.success)
 
                         Text(NSLocalizedString("dashboard.state.noDeadlines", comment: "No upcoming deadlines"))
-                            .font(NuviaTypography.body())
-                            .foregroundColor(.nuviaSecondaryText)
+                            .font(DSTypography.body)
+                            .foregroundColor(DSColors.textSecondary)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(20)
-                    .background(Color.nuviaSurface)
+                    .background(DSColors.surface)
                     .cornerRadius(16)
                     .etherealShadow(.whisper)
                 }
@@ -495,18 +495,18 @@ struct ProgressCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .font(NuviaTypography.caption())
-                .foregroundColor(.nuviaSecondaryText)
+                .font(DSTypography.caption)
+                .foregroundColor(DSColors.textSecondary)
 
             Text(value)
-                .font(NuviaTypography.title3())
-                .foregroundColor(.nuviaPrimaryText)
+                .font(DSTypography.heading3)
+                .foregroundColor(DSColors.textPrimary)
 
             // Progress bar
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.nuviaTertiaryBackground)
+                        .fill(DSColors.surfaceTertiary)
                         .frame(height: 6)
 
                     RoundedRectangle(cornerRadius: 4)
@@ -518,7 +518,7 @@ struct ProgressCard: View {
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.nuviaSurface)
+        .background(DSColors.surface)
         .cornerRadius(20)
         .etherealShadow(.whisper)
     }
@@ -541,21 +541,21 @@ struct MetricCard: View {
                     .foregroundColor(color)
 
                 Text(title)
-                    .font(NuviaTypography.caption())
-                    .foregroundColor(.nuviaSecondaryText)
+                    .font(DSTypography.caption)
+                    .foregroundColor(DSColors.textSecondary)
             }
 
             Text(value)
-                .font(NuviaTypography.title2())
-                .foregroundColor(.nuviaPrimaryText)
+                .font(DSTypography.heading2)
+                .foregroundColor(DSColors.textPrimary)
 
             Text(subtitle)
-                .font(NuviaTypography.caption())
-                .foregroundColor(.nuviaTertiaryText)
+                .font(DSTypography.caption)
+                .foregroundColor(DSColors.textTertiary)
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.nuviaSurface)
+        .background(DSColors.surface)
         .cornerRadius(20)
         .etherealShadow(.whisper)
     }
@@ -585,23 +585,23 @@ struct UpcomingItem: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(NuviaTypography.body())
-                    .foregroundColor(.nuviaPrimaryText)
+                    .font(DSTypography.body)
+                    .foregroundColor(DSColors.textPrimary)
                     .lineLimit(1)
 
                 Text(subtitle)
-                    .font(NuviaTypography.caption())
-                    .foregroundColor(.nuviaSecondaryText)
+                    .font(DSTypography.caption)
+                    .foregroundColor(DSColors.textSecondary)
             }
 
             Spacer()
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.nuviaTertiaryText)
+                .foregroundColor(DSColors.textTertiary)
         }
         .padding(16)
-        .background(Color.nuviaSurface)
+        .background(DSColors.surface)
         .cornerRadius(16)
         .etherealShadow(.whisper)
     }
@@ -692,8 +692,8 @@ struct QuickActionItem: View {
                     .cornerRadius(16)
 
                 Text(title)
-                    .font(NuviaTypography.caption())
-                    .foregroundColor(.nuviaSecondaryText)
+                    .font(DSTypography.caption)
+                    .foregroundColor(DSColors.textSecondary)
                     .lineLimit(1)
             }
         }
@@ -709,24 +709,24 @@ struct WeeklyBriefView: View {
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
-                VStack(spacing: DesignTokens.Spacing.xl) {
+                VStack(spacing: DSSpacing.xl) {
                     // Hero Header
-                    VStack(spacing: DesignTokens.Spacing.md) {
+                    VStack(spacing: DSSpacing.md) {
                         Image(systemName: "newspaper.fill")
                             .font(.system(size: 48))
-                            .foregroundStyle(Color.etherealGradient)
+                            .foregroundStyle(DSColors.heroGradient)
 
                         Text(NSLocalizedString("weeklyBrief.title", comment: "Weekly Brief"))
-                            .font(NuviaTypography.displaySmall())
-                            .foregroundColor(.nuviaPrimaryText)
+                            .font(DSTypography.displaySmall)
+                            .foregroundColor(DSColors.textPrimary)
 
                         Text(Date().formatted(.dateTime.month(.wide).day().year()))
-                            .font(NuviaTypography.body())
-                            .foregroundColor(.nuviaSecondaryText)
+                            .font(DSTypography.body)
+                            .foregroundColor(DSColors.textSecondary)
                     }
-                    .padding(.top, DesignTokens.Spacing.xl)
+                    .padding(.top, DSSpacing.xl)
 
-                    VStack(spacing: DesignTokens.Spacing.cardPadding) {
+                    VStack(spacing: DSSpacing.cardPadding) {
                         // This week's summary
                         BriefSection(
                             icon: "checklist",
@@ -760,13 +760,13 @@ struct WeeklyBriefView: View {
                             description: "Schedule vendor meetings at least 2 weeks before your decision deadline"
                         )
                     }
-                    .padding(.horizontal, DesignTokens.Spacing.nuviaMargin)
+                    .padding(.horizontal, DSSpacing.nuviaMargin)
 
-                    Spacer(minLength: DesignTokens.Spacing.xxl)
+                    Spacer(minLength: DSSpacing.xxl)
                 }
             }
             .background(
-                Color.themed.backgroundGradient
+                DSColors.backgroundGradient
                 .ignoresSafeArea()
             )
             .navigationBarTitleDisplayMode(.inline)
@@ -777,9 +777,9 @@ struct WeeklyBriefView: View {
                     } label: {
                         Image(systemName: "xmark")
                             .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(.nuviaSecondaryText)
+                            .foregroundColor(DSColors.textSecondary)
                             .frame(width: 32, height: 32)
-                            .background(Color.nuviaSurface)
+                            .background(DSColors.surface)
                             .clipShape(Circle())
                     }
                 }
@@ -798,38 +798,38 @@ struct BriefSection: View {
     let description: String
 
     var body: some View {
-        HStack(alignment: .top, spacing: DesignTokens.Spacing.md) {
+        HStack(alignment: .top, spacing: DSSpacing.md) {
             Image(systemName: icon)
                 .font(.system(size: 20))
                 .foregroundColor(iconColor)
-                .frame(width: DesignTokens.Touch.comfortable, height: DesignTokens.Touch.comfortable)
+                .frame(width: 48, height: 48)
                 .background(iconColor.opacity(0.1))
-                .cornerRadius(DesignTokens.Radius.md)
+                .cornerRadius(DSRadii.md)
 
-            VStack(alignment: .leading, spacing: DesignTokens.Spacing.xxs + 2) {
+            VStack(alignment: .leading, spacing: DSSpacing.xxs + 2) {
                 HStack {
                     Text(title)
-                        .font(NuviaTypography.bodyBold())
-                        .foregroundColor(.nuviaPrimaryText)
+                        .font(DSTypography.bodyBold)
+                        .foregroundColor(DSColors.textPrimary)
 
                     Spacer()
 
                     if let value = value {
                         Text(value)
-                            .font(NuviaTypography.bodyBold())
+                            .font(DSTypography.bodyBold)
                             .foregroundColor(iconColor)
                     }
                 }
 
                 Text(description)
-                    .font(NuviaTypography.body())
-                    .foregroundColor(.nuviaSecondaryText)
+                    .font(DSTypography.body)
+                    .foregroundColor(DSColors.textSecondary)
                     .lineLimit(2)
             }
         }
-        .padding(DesignTokens.Spacing.cardPadding)
-        .background(Color.nuviaSurface)
-        .cornerRadius(DesignTokens.Radius.xl)
+        .padding(DSSpacing.cardPadding)
+        .background(DSColors.surface)
+        .cornerRadius(DSRadii.xl)
         .etherealShadow(.whisper)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title). \(value ?? ""). \(description)")
@@ -849,21 +849,21 @@ struct NotificationsInboxView: View {
                 VStack(spacing: 20) {
                     Image(systemName: "bell.slash")
                         .font(.system(size: 48))
-                        .foregroundColor(.nuviaTertiaryText)
+                        .foregroundColor(DSColors.textTertiary)
 
                     Text(NSLocalizedString("dashboard.state.allCaughtUp", comment: "All Caught Up!"))
-                        .font(NuviaTypography.title2())
-                        .foregroundColor(.nuviaPrimaryText)
+                        .font(DSTypography.heading2)
+                        .foregroundColor(DSColors.textPrimary)
 
                     Text(NSLocalizedString("notifications.empty", comment: "No new notifications"))
-                        .font(NuviaTypography.body())
-                        .foregroundColor(.nuviaSecondaryText)
+                        .font(DSTypography.body)
+                        .foregroundColor(DSColors.textSecondary)
                 }
 
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.nuviaBackground.ignoresSafeArea())
+            .background(DSColors.background.ignoresSafeArea())
             .navigationTitle("Notifications")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -873,9 +873,9 @@ struct NotificationsInboxView: View {
                     } label: {
                         Image(systemName: "xmark")
                             .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(.nuviaSecondaryText)
+                            .foregroundColor(DSColors.textSecondary)
                             .frame(width: 32, height: 32)
-                            .background(Color.nuviaSurface)
+                            .background(DSColors.surface)
                             .clipShape(Circle())
                     }
                 }

@@ -10,9 +10,14 @@ public final class BudgetService: ObservableObject {
     private let modelContext: ModelContext
     private weak var projectProvider: ProjectProvider?
 
-    init(modelContext: ModelContext, projectProvider: ProjectProvider) {
+    init(modelContext: ModelContext, projectProvider: ProjectProvider? = nil) {
         self.modelContext = modelContext
         self.projectProvider = projectProvider
+    }
+
+    /// Set the project provider (used for post-init wiring)
+    func setProjectProvider(_ provider: ProjectProvider) {
+        self.projectProvider = provider
     }
 
     private var currentProject: WeddingProject? {

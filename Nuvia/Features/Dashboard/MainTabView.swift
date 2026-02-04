@@ -70,7 +70,7 @@ struct CustomTabBar: View {
     var body: some View {
         HStack(spacing: 0) {
             // Left side tabs
-            HStack(spacing: DesignTokens.Spacing.xxs) {
+            HStack(spacing: DSSpacing.xxs) {
                 ForEach(leftTabs, id: \.self) { tab in
                     FloatingTabButton(
                         tab: tab,
@@ -92,7 +92,7 @@ struct CustomTabBar: View {
             Spacer()
 
             // Right side tabs
-            HStack(spacing: DesignTokens.Spacing.xxs) {
+            HStack(spacing: DSSpacing.xxs) {
                 ForEach(rightTabs, id: \.self) { tab in
                     FloatingTabButton(
                         tab: tab,
@@ -106,8 +106,8 @@ struct CustomTabBar: View {
                 }
             }
         }
-        .padding(.horizontal, DesignTokens.Spacing.sm)
-        .padding(.vertical, DesignTokens.Spacing.xs)
+        .padding(.horizontal, DSSpacing.sm)
+        .padding(.vertical, DSSpacing.xs)
         .background(
             // Floating glass capsule
             Capsule()
@@ -129,8 +129,8 @@ struct CustomTabBar: View {
                 .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: 8)
                 .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
         )
-        .padding(.horizontal, DesignTokens.Spacing.md)
-        .padding(.bottom, DesignTokens.Spacing.sm)
+        .padding(.horizontal, DSSpacing.md)
+        .padding(.bottom, DSSpacing.sm)
     }
 }
 
@@ -151,7 +151,7 @@ struct FloatingTabButton: View {
                     .animation(DesignTokens.Animation.bouncy, value: isSelected)
 
                 Text(tab.displayName)
-                    .font(NuviaTypography.caption2())
+                    .font(DSTypography.captionSmall)
                     .foregroundColor(isSelected ? .nuviaGoldFallback : .nuviaTertiaryText)
                     .lineLimit(1)
             }
@@ -247,13 +247,13 @@ struct QuickAddSheet: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: DesignTokens.Spacing.lg) {
+            VStack(spacing: DSSpacing.lg) {
                 Text(NSLocalizedString("quickAdd.prompt", comment: "What would you like to add?"))
-                    .font(NuviaTypography.title2())
-                    .foregroundColor(.nuviaPrimaryText)
-                    .padding(.top, DesignTokens.Spacing.xs)
+                    .font(DSTypography.heading2)
+                    .foregroundColor(DSColors.textPrimary)
+                    .padding(.top, DSSpacing.xs)
 
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: DesignTokens.Spacing.md) {
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: DSSpacing.md) {
                     ForEach(QuickAddType.allCases, id: \.self) { type in
                         QuickAddTypeCard(type: type, isSelected: selectedType == type) {
                             selectedType = type
@@ -290,7 +290,7 @@ struct QuickAddSheet: View {
                 }
             }
             .padding(.vertical)
-            .background(Color.nuviaBackground)
+            .background(DSColors.background)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -298,7 +298,7 @@ struct QuickAddSheet: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.nuviaSecondaryText)
+                            .foregroundColor(DSColors.textSecondary)
                             .font(.system(size: 24))
                     }
                 }
@@ -319,21 +319,21 @@ struct QuickAddTypeCard: View {
             HapticManager.shared.selection()
             action()
         } label: {
-            VStack(spacing: DesignTokens.Spacing.sm) {
+            VStack(spacing: DSSpacing.sm) {
                 Image(systemName: type.icon)
                     .font(.system(size: 32))
                     .foregroundColor(isSelected ? type.color : .nuviaSecondaryText)
 
                 Text(type.displayName)
-                    .font(NuviaTypography.bodyBold())
-                    .foregroundColor(.nuviaPrimaryText)
+                    .font(DSTypography.bodyBold)
+                    .foregroundColor(DSColors.textPrimary)
             }
             .frame(maxWidth: .infinity)
             .frame(height: 100)
-            .background(Color.nuviaCardBackground)
-            .cornerRadius(DesignTokens.Radius.card)
+            .background(DSColors.surface)
+            .cornerRadius(DSRadii.card)
             .overlay(
-                RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
+                RoundedRectangle(cornerRadius: DSRadii.card)
                     .stroke(
                         isSelected ? type.color : Color.clear,
                         lineWidth: 2
