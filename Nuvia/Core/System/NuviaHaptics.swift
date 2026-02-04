@@ -217,7 +217,7 @@ public struct HapticFeedbackModifier: ViewModifier {
         content
             .onChange(of: value) { _, newValue in
                 if newValue {
-                    Swift.Task { @MainActor in
+                    _Concurrency.Task { @MainActor in
                         trigger.fire()
                     }
                 }
@@ -266,7 +266,7 @@ extension View {
     /// Convenience for button haptic
     public func buttonHaptic() -> some View {
         self.simultaneousGesture(TapGesture().onEnded { _ in
-            Swift.Task { @MainActor in
+            _Concurrency.Task { @MainActor in
                 NuviaHaptics.shared.buttonTap()
             }
         })
@@ -291,7 +291,7 @@ public struct HapticButtonStyle: ButtonStyle {
             .animation(MotionCurves.snappy, value: configuration.isPressed)
             .onChange(of: configuration.isPressed) { _, isPressed in
                 if isPressed {
-                    Swift.Task { @MainActor in
+                    _Concurrency.Task { @MainActor in
                         hapticType.fire()
                     }
                 }
@@ -311,42 +311,42 @@ extension ButtonStyle where Self == HapticButtonStyle {
 extension NuviaHaptics {
     /// Static selection feedback
     public static func selection() {
-        Swift.Task { @MainActor in shared.selection() }
+        _Concurrency.Task { @MainActor in shared.selection() }
     }
 
     /// Static impact feedback
     public static func impact(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
-        Swift.Task { @MainActor in shared.impact(style) }
+        _Concurrency.Task { @MainActor in shared.impact(style) }
     }
 
     /// Static notification feedback
     public static func notification(_ type: UINotificationFeedbackGenerator.FeedbackType) {
-        Swift.Task { @MainActor in shared.notification(type) }
+        _Concurrency.Task { @MainActor in shared.notification(type) }
     }
 
     /// Static success feedback
     public static func success() {
-        Swift.Task { @MainActor in shared.success() }
+        _Concurrency.Task { @MainActor in shared.success() }
     }
 
     /// Static warning feedback
     public static func warning() {
-        Swift.Task { @MainActor in shared.warning() }
+        _Concurrency.Task { @MainActor in shared.warning() }
     }
 
     /// Static error feedback
     public static func error() {
-        Swift.Task { @MainActor in shared.error() }
+        _Concurrency.Task { @MainActor in shared.error() }
     }
 
     /// Static button tap feedback
     public static func buttonTap() {
-        Swift.Task { @MainActor in shared.buttonTap() }
+        _Concurrency.Task { @MainActor in shared.buttonTap() }
     }
 
     /// Static task completed feedback
     public static func taskCompleted() {
-        Swift.Task { @MainActor in shared.taskCompleted() }
+        _Concurrency.Task { @MainActor in shared.taskCompleted() }
     }
 }
 
