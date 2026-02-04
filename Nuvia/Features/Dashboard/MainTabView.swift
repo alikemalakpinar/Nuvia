@@ -11,25 +11,30 @@ struct MainTabView: View {
             TabView(selection: $appState.selectedTab) {
                 TodayDashboardView()
                     .tag(MainTab.today)
+                    .toolbar(.hidden, for: .tabBar)
 
                 TimelineView()
                     .tag(MainTab.plan)
+                    .toolbar(.hidden, for: .tabBar)
 
                 BudgetHomeView()
                     .tag(MainTab.budget)
+                    .toolbar(.hidden, for: .tabBar)
 
                 GuestListView()
                     .tag(MainTab.guests)
+                    .toolbar(.hidden, for: .tabBar)
 
                 InvitationStudioView()
                     .tag(MainTab.studio)
+                    .toolbar(.hidden, for: .tabBar)
 
                 if appState.appMode == .weddingAndHome {
                     HomeSetupDashboardView()
                         .tag(MainTab.home)
+                        .toolbar(.hidden, for: .tabBar)
                 }
             }
-            .toolbar(.hidden, for: .tabBar)
             .tint(.nuviaGoldFallback)
 
             // Custom Tab Bar
