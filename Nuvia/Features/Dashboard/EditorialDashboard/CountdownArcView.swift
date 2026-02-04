@@ -143,7 +143,7 @@ struct CountdownArcView: View {
         VStack(spacing: DesignTokens.Spacing.xs) {
             // Days number
             Text("\(daysRemaining)")
-                .font(DSTypography.countdown)
+                .font(NuviaTypography.countdown())
                 .foregroundStyle(
                     LinearGradient(
                         colors: [Color.nuviaPrimaryText, Color.nuviaPrimaryText.opacity(0.8)],
@@ -155,12 +155,12 @@ struct CountdownArcView: View {
 
             // Label
             Text(daysRemaining == 1 ? "day" : "days")
-                .font(DSTypography.heading3)
+                .font(NuviaTypography.title2())
                 .foregroundColor(.nuviaSecondaryText)
 
             // Wedding date
             Text(weddingDate.formatted(.dateTime.month(.wide).day()))
-                .font(DSTypography.caption)
+                .font(NuviaTypography.caption())
                 .foregroundColor(.nuviaTertiaryText)
         }
     }
@@ -284,12 +284,12 @@ struct CountdownCard: View {
             // Header
             VStack(spacing: DesignTokens.Spacing.xxs) {
                 Text("THE BIG DAY")
-                    .font(DSTypography.overline)
+                    .font(NuviaTypography.overline())
                     .tracking(2)
                     .foregroundColor(.nuviaTertiaryText)
 
                 Text("\(partnerNames.0) & \(partnerNames.1)")
-                    .font(DSTypography.heading2)
+                    .font(NuviaTypography.title1())
                     .foregroundColor(.nuviaPrimaryText)
             }
 
@@ -335,7 +335,7 @@ struct CountdownCard: View {
 
         VStack(spacing: DesignTokens.Spacing.xs) {
             Text("\(percentage)% of your planning journey complete")
-                .font(DSTypography.bodySmall)
+                .font(NuviaTypography.footnote())
                 .foregroundColor(.nuviaSecondaryText)
                 .multilineTextAlignment(.center)
 
@@ -369,12 +369,12 @@ struct CountdownStat: View {
     var body: some View {
         VStack(spacing: DesignTokens.Spacing.xxs) {
             Text("\(value)")
-                .font(DSTypography.heading2)
+                .font(NuviaTypography.title1())
                 .foregroundColor(.nuviaPrimaryText)
                 .contentTransition(.numericText())
 
             Text(label)
-                .font(DSTypography.caption)
+                .font(NuviaTypography.caption())
                 .foregroundColor(.nuviaTertiaryText)
         }
     }
@@ -404,7 +404,7 @@ struct MiniCountdownBadge: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 Text("\(daysRemaining)")
-                    .font(DSTypography.bodyBold)
+                    .font(NuviaTypography.bodyBold())
                     .foregroundColor(.nuviaPrimaryText)
 
                 Text("days")
@@ -488,7 +488,7 @@ struct TimeUnit: View {
                 .contentTransition(.numericText())
 
             Text(label)
-                .font(DSTypography.captionSmall)
+                .font(NuviaTypography.caption()Small)
                 .foregroundColor(.nuviaTertiaryText)
         }
     }
