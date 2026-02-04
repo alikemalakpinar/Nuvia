@@ -160,6 +160,22 @@ extension DSColors {
     }
 }
 
+// MARK: - Convenience Fallback Aliases
+
+extension DSColors {
+    /// Fallback text primary (light mode default)
+    public static var fallbackTextPrimary: Color { Fallback.textPrimaryLight }
+
+    /// Fallback surface (light mode default)
+    public static var fallbackSurface: Color { Fallback.surfaceLight }
+
+    /// Fallback accent (gold)
+    public static var fallbackAccent: Color { Fallback.gold }
+
+    /// Fallback background (light mode default)
+    public static var fallbackBackground: Color { Fallback.backgroundLight }
+}
+
 // MARK: - Adaptive Color Provider
 // Returns correct color based on color scheme when Asset Catalog unavailable
 

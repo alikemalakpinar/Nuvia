@@ -124,7 +124,7 @@ struct PaywallView: View {
     
     private func startTrial() {
         isLoading = true
-        HapticManager.shared.impact()
+        HapticManager.shared.impact(.medium)
         
         // TODO: Integrate with StoreKit for actual subscription
         // For now, simulate a purchase
