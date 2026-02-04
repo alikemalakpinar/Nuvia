@@ -1,8 +1,8 @@
 import SwiftUI
 import SwiftData
 
-// MARK: - Morning Briefing Dashboard
-// Magazine cover style dashboard - "Awwwards Mobile Excellence"
+// MARK: - Premium Dashboard
+// Magazine-style editorial dashboard with stunning animations
 
 struct TodayDashboardView: View {
     @Environment(\.modelContext) private var modelContext
@@ -41,52 +41,50 @@ struct TodayDashboardView: View {
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    // Magazine-style Hero Header
-                    heroHeader
-                        .padding(.bottom, DSSpacing.xl)
+                ScrollOffsetReader()
 
+                VStack(spacing: 0) {
                     if let project = currentProject {
+                        // Hero Section with Parallax
+                        heroSection(project: project)
+                            .padding(.bottom, DSSpacing.xl)
+
+                        // Main Content
                         VStack(spacing: DSSpacing.sectionSpacing) {
-                            // Today's Focus - Featured Card
-                            todaysFocusSection(project: project)
+                            // Live Countdown Card
+                            liveCountdownCard(project: project)
                                 .cardEntrance(delay: 0.05)
 
-                            // Countdown - Elegant Timeline
-                            countdownSection(project: project)
+                            // Today's Priority Task
+                            todaysPriorityCard(project: project)
                                 .cardEntrance(delay: 0.1)
 
-                            // Progress Overview
-                            progressOverview(project: project)
+                            // Stats Grid
+                            statsGrid(project: project)
                                 .cardEntrance(delay: 0.15)
 
-                            // Quick Actions - Minimal Grid
+                            // Quick Actions
                             quickActionsSection
                                 .cardEntrance(delay: 0.2)
 
-                            // RSVP & Budget Summary
-                            metricsSection(project: project)
+                            // Upcoming Timeline
+                            upcomingTimeline(project: project)
                                 .cardEntrance(delay: 0.25)
-
-                            // Upcoming - Timeline Style
-                            upcomingSection(project: project)
-                                .cardEntrance(delay: 0.3)
                         }
                         .padding(.horizontal, DSSpacing.nuviaMargin)
                     } else {
-                        NuviaEmptyState(
-                            icon: "heart.slash",
-                            title: "Proje Yok",
-                            message: "İlk düğün projenizi oluşturun"
-                        )
-                        .padding(.horizontal, DSSpacing.nuviaMargin)
+                        emptyStateView
                     }
                 }
                 .padding(.bottom, DSSpacing.scrollBottomInset)
             }
+            .coordinateSpace(name: "scroll")
+            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+                scrollOffset = value
+            }
             .background(
                 DSColors.backgroundGradient
-                .ignoresSafeArea()
+                    .ignoresSafeArea()
             )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -132,60 +130,127 @@ struct TodayDashboardView: View {
         }
     }
 
-    // MARK: - Hero Header (Magazine Cover Style)
+    // MARK: - Hero Section
 
-    private var heroHeader: some View {
-        VStack(spacing: DSSpacing.md) {
-            // Date & Greeting
-            VStack(spacing: DSSpacing.xs) {
-                Text(Date().formatted(.dateTime.weekday(.wide).month(.wide).day()))
-                    .font(DSTypography.overline)
-                    .tracking(2)
-                    .foregroundColor(DSColors.textSecondary)
-                    .textCase(.uppercase)
+    private func heroSection(project: WeddingProject) -> some View {
+        let parallaxOffset = max(0, scrollOffset * 0.4)
+        let opacity = 1 - min(1, scrollOffset / 300) * 0.3
+        let scale = 1 - min(1, scrollOffset / 400) * 0.1
 
-                HStack(spacing: DSSpacing.sm) {
-                    Image(systemName: greetingEmoji)
-                        .font(.system(size: 24))
-                        .foregroundStyle(DSColors.heroGradient)
+        return VStack(spacing: DSSpacing.md) {
+            // Date
+            Text(Date().formatted(.dateTime.weekday(.wide).month(.wide).day()))
+                .font(DSTypography.overline)
+                .tracking(2)
+                .foregroundColor(DSColors.textSecondary)
+                .textCase(.uppercase)
 
-                    Text(greeting)
-                        .font(DSTypography.displaySmall)
-                        .foregroundColor(DSColors.textPrimary)
-                }
+            // Greeting
+            HStack(spacing: DSSpacing.sm) {
+                Image(systemName: greetingEmoji)
+                    .font(.system(size: 28))
+                    .foregroundStyle(DSColors.heroGradient)
+
+                Text(greeting)
+                    .font(DSTypography.displaySmall)
+                    .foregroundColor(DSColors.textPrimary)
             }
-            .padding(.top, DSSpacing.xl)
 
-            // Couple Names (if available)
-            if let project = currentProject {
-                Text("\(project.partnerName1) & \(project.partnerName2)")
+            // Couple Names with Heart
+            HStack(spacing: DSSpacing.sm) {
+                Text(project.partnerName1)
                     .font(DSTypography.heading3)
-                    .foregroundColor(DSColors.textSecondary)
-                    .padding(.top, DSSpacing.xxs)
+                    .foregroundColor(DSColors.textPrimary)
+
+                Image(systemName: "heart.fill")
+                    .font(.system(size: 14))
+                    .foregroundColor(DSColors.accentRose)
+
+                Text(project.partnerName2)
+                    .font(DSTypography.heading3)
+                    .foregroundColor(DSColors.textPrimary)
             }
+            .padding(.top, DSSpacing.xxs)
         }
         .frame(maxWidth: .infinity)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(greeting). \(currentProject?.partnerName1 ?? "") and \(currentProject?.partnerName2 ?? "")")
+        .padding(.top, DSSpacing.xl)
+        .offset(y: -parallaxOffset)
+        .opacity(opacity)
+        .scaleEffect(scale)
     }
 
-    // MARK: - Today's Focus Section
+    // MARK: - Live Countdown Card
 
-    private func todaysFocusSection(project: WeddingProject) -> some View {
+    private func liveCountdownCard(project: WeddingProject) -> some View {
+        VStack(spacing: DSSpacing.lg) {
+            // Countdown Arc
+            CountdownArcView(
+                daysRemaining: project.daysUntilWedding,
+                totalDays: 365,
+                weddingDate: project.weddingDate,
+                size: 200,
+                strokeWidth: 12
+            )
+
+            // Live Timer
+            LiveCountdownView(weddingDate: project.weddingDate)
+                .padding(.top, DSSpacing.sm)
+
+            // Wedding Date
+            HStack(spacing: DSSpacing.md) {
+                Image(systemName: "calendar")
+                    .foregroundColor(DSColors.primaryAction)
+
+                Text(project.weddingDate.formatted(.dateTime.day().month(.wide).year()))
+                    .font(DSTypography.body)
+                    .foregroundColor(DSColors.textSecondary)
+
+                if let venue = project.venueName {
+                    Text("•")
+                        .foregroundColor(DSColors.textTertiary)
+
+                    Image(systemName: "mappin")
+                        .foregroundColor(DSColors.primaryAction)
+
+                    Text(venue)
+                        .font(DSTypography.body)
+                        .foregroundColor(DSColors.textSecondary)
+                        .lineLimit(1)
+                }
+            }
+        }
+        .padding(DSSpacing.xl)
+        .background(DSColors.surface)
+        .cornerRadius(DSRadii.cardHero)
+        .etherealShadow(.medium, colored: .nuviaChampagne)
+    }
+
+    // MARK: - Today's Priority Card
+
+    private func todaysPriorityCard(project: WeddingProject) -> some View {
         let priorityTask = project.tasks
             .filter { $0.status != TaskStatus.completed.rawValue }
             .sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
             .first
 
-        return VStack(alignment: .leading, spacing: 16) {
-            Text("Bugünün Odağı")
-                .font(DSTypography.overline)
-                .tracking(2)
-                .foregroundColor(DSColors.primaryAction)
+        return VStack(alignment: .leading, spacing: DSSpacing.md) {
+            // Header
+            HStack {
+                Image(systemName: "star.fill")
+                    .foregroundColor(DSColors.primaryAction)
+
+                Text("BUGÜNÜN ÖNCELİĞİ")
+                    .font(DSTypography.overline)
+                    .tracking(2)
+                    .foregroundColor(DSColors.primaryAction)
+
+                Spacer()
+            }
 
             if let task = priorityTask {
-                VStack(alignment: .leading, spacing: 12) {
-                    HStack {
+                VStack(alignment: .leading, spacing: DSSpacing.sm) {
+                    // Category Badge
+                    HStack(spacing: DSSpacing.xs) {
                         Circle()
                             .fill(task.taskCategory.color)
                             .frame(width: 8, height: 8)
@@ -203,11 +268,13 @@ struct TodayDashboardView: View {
                         }
                     }
 
+                    // Task Title
                     Text(task.title)
                         .font(DSTypography.heading2)
                         .foregroundColor(DSColors.textPrimary)
                         .lineLimit(2)
 
+                    // Description
                     if let desc = task.taskDescription, !desc.isEmpty {
                         Text(desc)
                             .font(DSTypography.body)
@@ -215,12 +282,12 @@ struct TodayDashboardView: View {
                             .lineLimit(2)
                     }
 
-                    // Action Button
+                    // Complete Button
                     HStack {
                         Spacer()
-
                         Button {
-                            // Mark as complete
+                            task.status = TaskStatus.completed.rawValue
+                            HapticManager.shared.success()
                         } label: {
                             HStack(spacing: 8) {
                                 Image(systemName: "checkmark")
@@ -229,148 +296,115 @@ struct TodayDashboardView: View {
                                     .font(DSTypography.buttonSmall)
                             }
                             .foregroundColor(.white)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 12)
-                            .background(DSColors.primaryAction)
-                            .cornerRadius(24)
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 14)
+                            .background(DSColors.heroGradient)
+                            .cornerRadius(28)
                         }
                         .pressEffect()
                     }
-                    .padding(.top, 8)
+                    .padding(.top, DSSpacing.sm)
                 }
-                .padding(24)
-                .background(DSColors.surface)
-                .cornerRadius(24)
-                .etherealShadow(.soft)
             } else {
-                // All caught up state
-                VStack(spacing: 16) {
+                // All done state
+                HStack(spacing: DSSpacing.md) {
                     Image(systemName: "checkmark.seal.fill")
-                        .font(.system(size: 40))
+                        .font(.system(size: 44))
                         .foregroundStyle(DSColors.heroGradient)
 
-                    Text("Her Şey Tamam!")
-                        .font(DSTypography.heading3)
-                        .foregroundColor(DSColors.textPrimary)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Her Şey Tamam!")
+                            .font(DSTypography.heading3)
+                            .foregroundColor(DSColors.textPrimary)
 
-                    Text("Acil görev yok")
-                        .font(DSTypography.body)
-                        .foregroundColor(DSColors.textSecondary)
+                        Text("Bekleyen acil görev yok")
+                            .font(DSTypography.body)
+                            .foregroundColor(DSColors.textSecondary)
+                    }
                 }
-                .frame(maxWidth: .infinity)
-                .padding(32)
-                .background(DSColors.surface)
-                .cornerRadius(24)
-                .etherealShadow(.soft)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-    }
-
-    // MARK: - Countdown Section (Elegant Timeline)
-
-    private func countdownSection(project: WeddingProject) -> some View {
-        HStack(spacing: 0) {
-            // Days countdown
-            VStack(spacing: 4) {
-                Text("\(project.daysUntilWedding)")
-                    .font(DSTypography.countdown)
-                    .foregroundStyle(DSColors.heroGradient)
-
-                Text("gün kaldı")
-                    .font(DSTypography.caption)
-                    .foregroundColor(DSColors.textSecondary)
-            }
-            .frame(maxWidth: .infinity)
-
-            // Divider
-            Rectangle()
-                .fill(DSColors.surfaceTertiary)
-                .frame(width: 1, height: 60)
-
-            // Date
-            VStack(spacing: 4) {
-                Text(project.weddingDate.formatted(.dateTime.month(.abbreviated).day()))
-                    .font(DSTypography.heading1)
-                    .foregroundColor(DSColors.textPrimary)
-
-                Text(project.weddingDate.formatted(.dateTime.year()))
-                    .font(DSTypography.caption)
-                    .foregroundColor(DSColors.textSecondary)
-            }
-            .frame(maxWidth: .infinity)
-
-            // Divider
-            Rectangle()
-                .fill(DSColors.surfaceTertiary)
-                .frame(width: 1, height: 60)
-
-            // Venue
-            VStack(spacing: 4) {
-                Image(systemName: "mappin.circle.fill")
-                    .font(.system(size: 24))
-                    .foregroundColor(DSColors.primaryAction)
-
-                Text(project.venueName ?? "Venue")
-                    .font(DSTypography.caption)
-                    .foregroundColor(DSColors.textSecondary)
-                    .lineLimit(1)
-            }
-            .frame(maxWidth: .infinity)
-        }
-        .padding(.vertical, 24)
-        .padding(.horizontal, 16)
+        .padding(DSSpacing.cardPadding)
         .background(DSColors.surface)
-        .cornerRadius(24)
-        .etherealShadow(.whisper)
+        .cornerRadius(DSRadii.card)
+        .etherealShadow(.soft)
     }
 
-    // MARK: - Progress Overview
+    // MARK: - Stats Grid
 
-    private func progressOverview(project: WeddingProject) -> some View {
+    private func statsGrid(project: WeddingProject) -> some View {
         let completedTasks = project.tasks.filter { $0.status == TaskStatus.completed.rawValue }.count
         let totalTasks = max(project.tasks.count, 1)
-        let progress = Double(completedTasks) / Double(totalTasks)
+        let taskProgress = Double(completedTasks) / Double(totalTasks)
 
         let totalBudget = project.totalBudget
         let spentBudget = project.expenses.reduce(0) { $0 + $1.amount }
         let budgetProgress = totalBudget > 0 ? min(1.0, spentBudget / totalBudget) : 0
 
-        return VStack(alignment: .leading, spacing: 20) {
-            Text("İlerleme".uppercased())
-                .font(DSTypography.overline)
-                .tracking(2)
-                .foregroundColor(DSColors.primaryAction)
+        let attending = project.guests.filter { $0.rsvp == .attending }.reduce(0) { $0 + 1 + $1.plusOneCount }
+        let pending = project.guests.filter { $0.rsvp == .pending }.count
+        let totalGuests = project.guests.count
 
-            HStack(spacing: 16) {
+        return VStack(spacing: DSSpacing.md) {
+            // Row 1: Tasks & Budget
+            HStack(spacing: DSSpacing.md) {
                 // Tasks Progress
-                ProgressCard(
+                StatCard(
+                    icon: "checkmark.circle.fill",
+                    iconColor: .nuviaSage,
                     title: "Görevler",
                     value: "\(completedTasks)/\(totalTasks)",
-                    progress: progress,
-                    color: .nuviaSage
+                    progress: taskProgress,
+                    progressColor: .nuviaSage
                 )
 
                 // Budget Progress
-                ProgressCard(
+                StatCard(
+                    icon: "creditcard.fill",
+                    iconColor: .nuviaChampagne,
                     title: "Bütçe",
-                    value: "\(Int(budgetProgress * 100))%",
+                    value: formatCurrency(spentBudget, currency: project.currency),
+                    subtitle: "/ \(formatCurrency(totalBudget, currency: project.currency))",
                     progress: budgetProgress,
-                    color: .nuviaChampagne
+                    progressColor: .nuviaChampagne
+                )
+            }
+
+            // Row 2: Guests
+            HStack(spacing: DSSpacing.md) {
+                // Attending
+                MiniStatCard(
+                    icon: "person.fill.checkmark",
+                    iconColor: .nuviaSage,
+                    value: "\(attending)",
+                    label: "Katılıyor"
+                )
+
+                // Pending
+                MiniStatCard(
+                    icon: "person.fill.questionmark",
+                    iconColor: .nuviaWarning,
+                    value: "\(pending)",
+                    label: "Bekliyor"
+                )
+
+                // Total
+                MiniStatCard(
+                    icon: "person.2.fill",
+                    iconColor: .nuviaInfo,
+                    value: "\(totalGuests)",
+                    label: "Toplam"
                 )
             }
         }
     }
 
-    // MARK: - Quick Actions Section
+    // MARK: - Quick Actions
 
     private var quickActionsSection: some View {
-        @State var showRunOfShow = false
-        @State var showVendors = false
-        @State var showFileVault = false
-        @State var showZenMode = false
-
-        return VStack(alignment: .leading, spacing: 20) {
-            Text("Hızlı Erişim".uppercased())
+        VStack(alignment: .leading, spacing: DSSpacing.md) {
+            Text("HIZLI ERİŞİM")
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -379,101 +413,75 @@ struct TodayDashboardView: View {
         }
     }
 
-    // MARK: - Metrics Section
+    // MARK: - Upcoming Timeline
 
-    private func metricsSection(project: WeddingProject) -> some View {
-        let attending = project.guests.filter { $0.rsvp == .attending }.reduce(0) { $0 + 1 + $1.plusOneCount }
-        let pending = project.guests.filter { $0.rsvp == .pending }.count
-        let totalGuests = project.guests.count
+    private func upcomingTimeline(project: WeddingProject) -> some View {
+        let upcomingTasks = project.tasks
+            .filter { $0.status != TaskStatus.completed.rawValue && $0.dueDate != nil }
+            .sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
+            .prefix(4)
+            .map { $0 }
 
-        return VStack(alignment: .leading, spacing: 20) {
-            Text("Bir Bakışta".uppercased())
+        return VStack(alignment: .leading, spacing: DSSpacing.md) {
+            Text("YAKLAŞAN GÖREVLER")
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
 
-            HStack(spacing: 12) {
-                // RSVP Card
-                MetricCard(
-                    icon: "person.2.fill",
-                    title: "Katılıyor",
-                    value: "\(attending)",
-                    subtitle: "\(pending) \("bekliyor".lowercased())",
-                    color: .nuviaSage
-                )
+            if upcomingTasks.isEmpty {
+                HStack(spacing: DSSpacing.md) {
+                    Image(systemName: "calendar.badge.checkmark")
+                        .font(.system(size: 24))
+                        .foregroundColor(DSColors.success)
 
-                // Budget Card
-                MetricCard(
-                    icon: "creditcard.fill",
-                    title: "Harcanan",
-                    value: formatCurrency(project.expenses.reduce(0) { $0 + $1.amount }, currency: project.currency),
-                    subtitle: "of \(formatCurrency(project.totalBudget, currency: project.currency))",
-                    color: .nuviaChampagne
-                )
+                    Text("Yaklaşan görev yok")
+                        .font(DSTypography.body)
+                        .foregroundColor(DSColors.textSecondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(DSSpacing.cardPadding)
+                .background(DSColors.surface)
+                .cornerRadius(DSRadii.card)
+                .etherealShadow(.whisper)
+            } else {
+                VStack(spacing: 0) {
+                    ForEach(Array(upcomingTasks.enumerated()), id: \.element.id) { index, task in
+                        TimelineItem(
+                            task: task,
+                            isLast: index == upcomingTasks.count - 1
+                        )
+                    }
+                }
+                .padding(DSSpacing.md)
+                .background(DSColors.surface)
+                .cornerRadius(DSRadii.card)
+                .etherealShadow(.soft)
             }
         }
     }
 
-    // MARK: - Upcoming Section
+    // MARK: - Empty State
 
-    private func upcomingSection(project: WeddingProject) -> some View {
-        let upcomingTasks = project.tasks
-            .filter { $0.status != TaskStatus.completed.rawValue && $0.dueDate != nil }
-            .sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
-            .prefix(3)
-            .map { $0 }
+    private var emptyStateView: some View {
+        VStack(spacing: DSSpacing.xl) {
+            Spacer()
 
-        let upcomingPayments = project.expenses
-            .filter { !$0.isPaid && $0.daysUntilDue >= 0 }
-            .sorted { $0.date < $1.date }
-            .prefix(2)
-            .map { $0 }
+            Image(systemName: "heart.text.square")
+                .font(.system(size: 64))
+                .foregroundStyle(DSColors.heroGradient)
 
-        return VStack(alignment: .leading, spacing: 20) {
-            Text("Yaklaşanlar".uppercased())
-                .font(DSTypography.overline)
-                .tracking(2)
-                .foregroundColor(DSColors.primaryAction)
+            Text("Projeniz Yok")
+                .font(DSTypography.heading1)
+                .foregroundColor(DSColors.textPrimary)
 
-            VStack(spacing: 12) {
-                ForEach(upcomingTasks, id: \.id) { task in
-                    UpcomingItem(
-                        icon: task.taskCategory.icon,
-                        title: task.title,
-                        subtitle: task.dueDate?.formatted(.dateTime.month(.abbreviated).day()) ?? "",
-                        color: task.taskCategory.color,
-                        type: .task
-                    )
-                }
+            Text("Düğün planlamaya başlamak için\nbir proje oluşturun")
+                .font(DSTypography.body)
+                .foregroundColor(DSColors.textSecondary)
+                .multilineTextAlignment(.center)
 
-                ForEach(upcomingPayments, id: \.id) { expense in
-                    UpcomingItem(
-                        icon: "creditcard.fill",
-                        title: expense.title,
-                        subtitle: formatCurrency(expense.amount, currency: project.currency),
-                        color: .nuviaWarning,
-                        type: .payment
-                    )
-                }
-
-                if upcomingTasks.isEmpty && upcomingPayments.isEmpty {
-                    HStack(spacing: 12) {
-                        Image(systemName: "calendar.badge.checkmark")
-                            .font(.system(size: 20))
-                            .foregroundColor(DSColors.success)
-
-                        Text("Yaklaşan son tarih yok")
-                            .font(DSTypography.body)
-                            .foregroundColor(DSColors.textSecondary)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(20)
-                    .background(DSColors.surface)
-                    .cornerRadius(16)
-                    .etherealShadow(.whisper)
-                }
-            }
+            Spacer()
         }
+        .padding(DSSpacing.xl)
     }
 
     // MARK: - Helpers
@@ -484,130 +492,148 @@ struct TodayDashboardView: View {
     }
 }
 
-// MARK: - Progress Card
+// MARK: - Stat Card
 
-struct ProgressCard: View {
-    let title: String
-    let value: String
-    let progress: Double
-    let color: Color
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(title)
-                .font(DSTypography.caption)
-                .foregroundColor(DSColors.textSecondary)
-
-            Text(value)
-                .font(DSTypography.heading3)
-                .foregroundColor(DSColors.textPrimary)
-
-            // Progress bar
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(DSColors.surfaceTertiary)
-                        .frame(height: 6)
-
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(color)
-                        .frame(width: geo.size.width * progress, height: 6)
-                }
-            }
-            .frame(height: 6)
-        }
-        .padding(20)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(DSColors.surface)
-        .cornerRadius(20)
-        .etherealShadow(.whisper)
-    }
-}
-
-// MARK: - Metric Card
-
-struct MetricCard: View {
+struct StatCard: View {
     let icon: String
+    let iconColor: Color
     let title: String
     let value: String
-    let subtitle: String
-    let color: Color
+    var subtitle: String? = nil
+    let progress: Double
+    let progressColor: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DSSpacing.sm) {
             HStack {
                 Image(systemName: icon)
                     .font(.system(size: 16))
-                    .foregroundColor(color)
+                    .foregroundColor(iconColor)
 
                 Text(title)
                     .font(DSTypography.caption)
                     .foregroundColor(DSColors.textSecondary)
             }
+
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                Text(value)
+                    .font(DSTypography.heading2)
+                    .foregroundColor(DSColors.textPrimary)
+
+                if let subtitle = subtitle {
+                    Text(subtitle)
+                        .font(DSTypography.caption)
+                        .foregroundColor(DSColors.textTertiary)
+                }
+            }
+
+            // Progress Bar
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(DSColors.surfaceTertiary)
+
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(progressColor)
+                        .frame(width: geo.size.width * progress)
+                }
+            }
+            .frame(height: 6)
+        }
+        .padding(DSSpacing.cardPadding)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(DSColors.surface)
+        .cornerRadius(DSRadii.card)
+        .etherealShadow(.whisper)
+    }
+}
+
+// MARK: - Mini Stat Card
+
+struct MiniStatCard: View {
+    let icon: String
+    let iconColor: Color
+    let value: String
+    let label: String
+
+    var body: some View {
+        VStack(spacing: DSSpacing.xs) {
+            Image(systemName: icon)
+                .font(.system(size: 24))
+                .foregroundColor(iconColor)
 
             Text(value)
                 .font(DSTypography.heading2)
                 .foregroundColor(DSColors.textPrimary)
 
-            Text(subtitle)
+            Text(label)
                 .font(DSTypography.caption)
-                .foregroundColor(DSColors.textTertiary)
+                .foregroundColor(DSColors.textSecondary)
         }
-        .padding(20)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity)
+        .padding(DSSpacing.md)
         .background(DSColors.surface)
-        .cornerRadius(20)
+        .cornerRadius(DSRadii.card)
         .etherealShadow(.whisper)
     }
 }
 
-// MARK: - Upcoming Item
+// MARK: - Timeline Item
 
-struct UpcomingItem: View {
-    let icon: String
-    let title: String
-    let subtitle: String
-    let color: Color
-    let type: ItemType
-
-    enum ItemType {
-        case task, payment
-    }
+struct TimelineItem: View {
+    let task: Task
+    let isLast: Bool
 
     var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: icon)
-                .font(.system(size: 18))
-                .foregroundColor(color)
-                .frame(width: 44, height: 44)
-                .background(color.opacity(0.1))
-                .cornerRadius(12)
+        HStack(alignment: .top, spacing: DSSpacing.md) {
+            // Timeline dot and line
+            VStack(spacing: 0) {
+                Circle()
+                    .fill(task.taskCategory.color)
+                    .frame(width: 12, height: 12)
 
+                if !isLast {
+                    Rectangle()
+                        .fill(DSColors.surfaceTertiary)
+                        .frame(width: 2)
+                        .frame(maxHeight: .infinity)
+                }
+            }
+
+            // Content
             VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(DSTypography.body)
+                Text(task.title)
+                    .font(DSTypography.bodyBold)
                     .foregroundColor(DSColors.textPrimary)
                     .lineLimit(1)
 
-                Text(subtitle)
-                    .font(DSTypography.caption)
-                    .foregroundColor(DSColors.textSecondary)
+                HStack(spacing: DSSpacing.xs) {
+                    Text(task.taskCategory.displayName)
+                        .font(DSTypography.caption)
+                        .foregroundColor(task.taskCategory.color)
+
+                    if let dueDate = task.dueDate {
+                        Text("•")
+                            .foregroundColor(DSColors.textTertiary)
+
+                        Text(dueDate.formatted(.dateTime.month(.abbreviated).day()))
+                            .font(DSTypography.caption)
+                            .foregroundColor(DSColors.textTertiary)
+                    }
+                }
             }
 
             Spacer()
 
             Image(systemName: "chevron.right")
-                .font(.system(size: 14, weight: .medium))
+                .font(.system(size: 12, weight: .medium))
                 .foregroundColor(DSColors.textTertiary)
         }
-        .padding(16)
-        .background(DSColors.surface)
-        .cornerRadius(16)
-        .etherealShadow(.whisper)
+        .padding(.vertical, DSSpacing.sm)
     }
 }
 
-// MARK: - Quick Actions Grid (Redesigned)
+// MARK: - Quick Actions Grid
 
 struct QuickActionsGrid: View {
     @State private var showRunOfShow = false
@@ -619,17 +645,6 @@ struct QuickActionsGrid: View {
     @State private var showPostWedding = false
     @State private var showVendors = false
 
-    private let actions: [(icon: String, title: String, color: Color)] = [
-        ("clock.badge.checkmark", "Timeline", .nuviaWisteria),
-        ("person.2.badge.gearshape", "Vendors", .nuviaDustyBlue),
-        ("lock.doc", "Files", .nuviaTerracotta),
-        ("leaf.fill", "Zen Mode", .nuviaSage),
-        ("music.note.list", "Music", .nuviaRoseDust),
-        ("photo.on.rectangle", "Photos", .nuviaChampagne),
-        ("person.badge.shield.checkmark", "Check-in", .nuviaInfo),
-        ("heart.text.square", "Post-Wedding", .nuviaBlush)
-    ]
-
     var body: some View {
         LazyVGrid(columns: [
             GridItem(.flexible()),
@@ -637,28 +652,28 @@ struct QuickActionsGrid: View {
             GridItem(.flexible()),
             GridItem(.flexible())
         ], spacing: 16) {
-            QuickActionItem(icon: "clock.badge.checkmark", title: "Timeline", color: .nuviaWisteria) {
+            QuickActionItem(icon: "clock.badge.checkmark", title: "Akış", color: .nuviaWisteria) {
                 showRunOfShow = true
             }
-            QuickActionItem(icon: "person.2.badge.gearshape", title: "Vendors", color: .nuviaDustyBlue) {
+            QuickActionItem(icon: "person.2.badge.gearshape", title: "Tedarik", color: .nuviaDustyBlue) {
                 showVendors = true
             }
-            QuickActionItem(icon: "lock.doc", title: "Files", color: .nuviaTerracotta) {
+            QuickActionItem(icon: "lock.doc", title: "Dosyalar", color: .nuviaTerracotta) {
                 showFileVault = true
             }
             QuickActionItem(icon: "leaf.fill", title: "Zen", color: .nuviaSage) {
                 showZenMode = true
             }
-            QuickActionItem(icon: "music.note.list", title: "Music", color: .nuviaRoseDust) {
+            QuickActionItem(icon: "music.note.list", title: "Müzik", color: .nuviaRoseDust) {
                 showMusicVoting = true
             }
-            QuickActionItem(icon: "photo.on.rectangle", title: "Photos", color: .nuviaChampagne) {
+            QuickActionItem(icon: "photo.on.rectangle", title: "Foto", color: .nuviaChampagne) {
                 showPhotoStream = true
             }
-            QuickActionItem(icon: "person.badge.shield.checkmark", title: "Check-in", color: .nuviaInfo) {
+            QuickActionItem(icon: "person.badge.shield.checkmark", title: "Giriş", color: .nuviaInfo) {
                 showCheckIn = true
             }
-            QuickActionItem(icon: "heart.text.square", title: "After", color: .nuviaBlush) {
+            QuickActionItem(icon: "heart.text.square", title: "Sonra", color: .nuviaBlush) {
                 showPostWedding = true
             }
         }
@@ -673,7 +688,7 @@ struct QuickActionsGrid: View {
     }
 }
 
-// MARK: - Quick Action Item (Minimal Style)
+// MARK: - Quick Action Item
 
 struct QuickActionItem: View {
     let icon: String
@@ -688,7 +703,7 @@ struct QuickActionItem: View {
                     .font(.system(size: 22, weight: .medium))
                     .foregroundColor(color)
                     .frame(width: 52, height: 52)
-                    .background(color.opacity(0.1))
+                    .background(color.opacity(0.12))
                     .cornerRadius(16)
 
                 Text(title)
@@ -701,7 +716,7 @@ struct QuickActionItem: View {
     }
 }
 
-// MARK: - Weekly Brief View (Redesigned)
+// MARK: - Weekly Brief View
 
 struct WeeklyBriefView: View {
     @Environment(\.dismiss) private var dismiss
@@ -727,29 +742,28 @@ struct WeeklyBriefView: View {
                     .padding(.top, DSSpacing.xl)
 
                     VStack(spacing: DSSpacing.cardPadding) {
-                        // This week's summary
                         BriefSection(
                             icon: "checklist",
                             iconColor: .nuviaSage,
                             title: "Bu Haftanın Görevleri",
-                            value: "5 tasks",
-                            description: "Focus on venue confirmation and catering menu selection"
+                            value: "5 görev",
+                            description: "Mekan onayı ve catering menü seçimine odaklanın"
                         )
 
                         BriefSection(
                             icon: "creditcard.fill",
                             iconColor: .nuviaChampagne,
                             title: "Yaklaşan Ödemeler",
-                            value: "₺25,000",
-                            description: "Venue deposit due in 3 days"
+                            value: "₺25.000",
+                            description: "Mekan depozitosu 3 gün içinde ödenmeli"
                         )
 
                         BriefSection(
                             icon: "person.2.fill",
                             iconColor: .nuviaRoseDust,
                             title: "RSVP Durumu",
-                            value: "15 pending",
-                            description: "Send reminders to guests who haven't responded"
+                            value: "15 bekliyor",
+                            description: "Yanıt vermeyen davetlilere hatırlatma gönderin"
                         )
 
                         BriefSection(
@@ -757,7 +771,7 @@ struct WeeklyBriefView: View {
                             iconColor: .nuviaWisteria,
                             title: "İpucu",
                             value: nil,
-                            description: "Schedule vendor meetings at least 2 weeks before your decision deadline"
+                            description: "Tedarikçi toplantılarını karar son tarihinden en az 2 hafta önce planlayın"
                         )
                     }
                     .padding(.horizontal, DSSpacing.nuviaMargin)
@@ -765,16 +779,11 @@ struct WeeklyBriefView: View {
                     Spacer(minLength: DSSpacing.xxl)
                 }
             }
-            .background(
-                DSColors.backgroundGradient
-                .ignoresSafeArea()
-            )
+            .background(DSColors.backgroundGradient.ignoresSafeArea())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        dismiss()
-                    } label: {
+                    Button { dismiss() } label: {
                         Image(systemName: "xmark")
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(DSColors.textSecondary)
@@ -831,12 +840,10 @@ struct BriefSection: View {
         .background(DSColors.surface)
         .cornerRadius(DSRadii.xl)
         .etherealShadow(.whisper)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(title). \(value ?? ""). \(description)")
     }
 }
 
-// MARK: - Notifications Inbox (Redesigned)
+// MARK: - Notifications Inbox
 
 struct NotificationsInboxView: View {
     @Environment(\.dismiss) private var dismiss
@@ -864,13 +871,11 @@ struct NotificationsInboxView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(DSColors.background.ignoresSafeArea())
-            .navigationTitle("Notifications")
+            .navigationTitle("Bildirimler")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        dismiss()
-                    } label: {
+                    Button { dismiss() } label: {
                         Image(systemName: "xmark")
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(DSColors.textSecondary)
