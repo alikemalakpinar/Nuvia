@@ -27,16 +27,44 @@ struct NuviaApp: App {
             Room.self,
             InventoryItem.self
         ])
-        let modelConfiguration = ModelConfiguration(
+
+        // Try with CloudKit first
+        let cloudConfig = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
             cloudKitDatabase: .automatic
         )
 
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: schema, configurations: [cloudConfig])
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            print("CloudKit ModelContainer failed: \(error)")
+
+            // Try without CloudKit
+            let localConfig = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false,
+                cloudKitDatabase: .none
+            )
+
+            do {
+                return try ModelContainer(for: schema, configurations: [localConfig])
+            } catch {
+                print("Local ModelContainer failed: \(error)")
+
+                // Last resort: delete the store and try again
+                if let url = localConfig.url {
+                    try? FileManager.default.removeItem(at: url)
+                    try? FileManager.default.removeItem(at: url.deletingPathExtension().appendingPathExtension("sqlite-shm"))
+                    try? FileManager.default.removeItem(at: url.deletingPathExtension().appendingPathExtension("sqlite-wal"))
+                }
+
+                do {
+                    return try ModelContainer(for: schema, configurations: [localConfig])
+                } catch {
+                    fatalError("Could not create ModelContainer after recovery: \(error)")
+                }
+            }
         }
     }()
 
