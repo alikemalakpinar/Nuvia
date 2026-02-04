@@ -327,6 +327,10 @@ public enum DesignTokens {
 
 public struct NuviaTypography {
 
+    // Font family names for direct access
+    public static let serifFamily = "PlayfairDisplay"
+    public static let sansFamily = "Manrope"
+
     // Display
     public static func displayLarge() -> Font { DSTypography.displayXL }
     public static func displayMedium() -> Font { DSTypography.display }
@@ -403,6 +407,7 @@ extension Color {
     // Static variants (non-adaptive)
     public static var nuviaPrimaryTextStatic: Color { DSColors.Fallback.textPrimaryLight }
     public static var nuviaSecondaryTextStatic: Color { DSColors.Fallback.textSecondaryLight }
+    public static var nuviaTertiaryTextStatic: Color { DSColors.Fallback.textTertiaryLight }
     public static var nuviaInfoStatic: Color { DSColors.Fallback.info }
     public static var nuviaSuccessStatic: Color { DSColors.Fallback.success }
     public static var nuviaWarningStatic: Color { DSColors.Fallback.warning }
@@ -673,7 +678,6 @@ public struct SeedableRNG: RandomNumberGenerator {
 extension Color {
     // More static color aliases from NuviaColors
     public static let nuviaMutedSurface = Color(hex: "EDECE9")
-    public static let nuviaBlush = Color(hex: "E8D5D5")
     public static let nuviaMidnight = Color(hex: "2C2C2C")
     public static let nuviaCharcoal = Color(hex: "6B6B6B")
     public static let nuviaCopper = Color(hex: "C4A389")
