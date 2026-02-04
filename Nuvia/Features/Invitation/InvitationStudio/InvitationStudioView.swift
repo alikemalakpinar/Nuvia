@@ -124,7 +124,7 @@ struct InvitationStudioView: View {
                         Circle()
                             .fill(Color.nuviaSurface)
                     )
-                    .elevation(.raised)
+                    .elevation(ElevationLevel.raised)
             }
 
             Spacer()
@@ -132,12 +132,12 @@ struct InvitationStudioView: View {
             // Title
             VStack(spacing: 2) {
                 Text("Invitation Studio")
-                    .font(DSTypography.heading4)
+                    .font(NuviaTypography.title3())
                     .foregroundColor(.nuviaPrimaryText)
 
                 if let project = currentProject {
                     Text("\(project.partnerName1) & \(project.partnerName2)")
-                        .font(DSTypography.caption)
+                        .font(NuviaTypography.caption())
                         .foregroundColor(.nuviaTertiaryText)
                 }
             }
@@ -189,7 +189,7 @@ struct InvitationStudioView: View {
                 }
                 .frame(width: viewModel.canvasSize.width, height: viewModel.canvasSize.height)
                 .clipShape(RoundedRectangle(cornerRadius: StudioRadius.lg, style: .continuous))
-                .elevation(.floating)
+                .elevation(ElevationLevel.floating)
                 .scaleEffect(canvasScale)
                 .offset(canvasOffset)
                 .gesture(canvasGesture)
@@ -266,7 +266,7 @@ struct InvitationStudioView: View {
             HStack(spacing: 0) {
                 // Add elements
                 GlassToolbarTab(icon: "plus.circle.fill", label: StudioStrings.add, isActive: showElementPicker) {
-                    withAnimation(MotionCurves.quick) {
+                    withAnimation(DesignTokens.Animation.snappy) {
                         showElementPicker.toggle()
                         showLayerSheet = false
                         showPropertyInspector = false
@@ -276,7 +276,7 @@ struct InvitationStudioView: View {
 
                 // Layers
                 GlassToolbarTab(icon: "square.3.layers.3d", label: StudioStrings.layers, isActive: showLayerSheet) {
-                    withAnimation(MotionCurves.quick) {
+                    withAnimation(DesignTokens.Animation.snappy) {
                         showLayerSheet.toggle()
                         showElementPicker = false
                         showPropertyInspector = false
@@ -291,7 +291,7 @@ struct InvitationStudioView: View {
                     isActive: showPropertyInspector,
                     badge: viewModel.selectedElementId != nil ? "1" : nil
                 ) {
-                    withAnimation(MotionCurves.quick) {
+                    withAnimation(DesignTokens.Animation.snappy) {
                         showPropertyInspector.toggle()
                         showElementPicker = false
                         showLayerSheet = false
@@ -343,7 +343,7 @@ struct InvitationStudioView: View {
             HStack(spacing: StudioSpacing.sm) {
                 // Zoom controls (clamped 50%-200%)
                 GlassQuickActionChip(icon: "minus.magnifyingglass") {
-                    withAnimation(MotionCurves.quick) {
+                    withAnimation(DesignTokens.Animation.snappy) {
                         canvasScale = max(0.5, canvasScale - 0.25)
                     }
                     UISelectionFeedbackGenerator().selectionChanged()
@@ -355,7 +355,7 @@ struct InvitationStudioView: View {
                     .frame(width: 50)
 
                 GlassQuickActionChip(icon: "plus.magnifyingglass") {
-                    withAnimation(MotionCurves.quick) {
+                    withAnimation(DesignTokens.Animation.snappy) {
                         // Clamp to 200% max
                         canvasScale = min(2.0, canvasScale + 0.25)
                     }
@@ -368,7 +368,7 @@ struct InvitationStudioView: View {
 
                 // Fit to screen
                 GlassQuickActionChip(icon: "arrow.up.left.and.arrow.down.right") {
-                    withAnimation(MotionCurves.smooth) {
+                    withAnimation(DesignTokens.Animation.smooth) {
                         canvasScale = 1.0
                         canvasOffset = .zero
                     }
@@ -415,7 +415,7 @@ struct InvitationStudioView: View {
                         showPaywall = true
                     },
                     onClose: {
-                        withAnimation(MotionCurves.snappy) {
+                        withAnimation(DesignTokens.Animation.snappy) {
                             showElementPicker = false
                         }
                     }
@@ -457,7 +457,7 @@ struct InvitationStudioView: View {
             content: "\(project.partnerName1)\n&\n\(project.partnerName2)",
             color: HexColor(hex: "2C2C2C"),
             style: StudioTextStyle(
-                fontFamily: DSTypography.FontFamily.serifBold,
+                fontFamily: NuviaTypography.serifFamily,
                 fontSize: 36,
                 fontWeight: .bold,
                 letterSpacing: 0,
@@ -472,7 +472,7 @@ struct InvitationStudioView: View {
             content: project.weddingDate.formatted(date: .complete, time: .omitted),
             color: HexColor(hex: "6B6B6B"),
             style: StudioTextStyle(
-                fontFamily: DSTypography.FontFamily.sansRegular,
+                fontFamily: NuviaTypography.sansFamily,
                 fontSize: 14,
                 fontWeight: .regular,
                 letterSpacing: 2,
@@ -572,7 +572,7 @@ struct ToolbarTab: View {
                 }
 
                 Text(label)
-                    .font(DSTypography.captionSmall)
+                    .font(NuviaTypography.caption()Small)
                     .foregroundColor(labelColor)
             }
             .frame(maxWidth: .infinity)
@@ -613,7 +613,7 @@ struct GlassToolbarTab: View {
                         .font(.system(size: 18, weight: isActive ? .semibold : .medium))
                         .foregroundStyle(isActive || isPrimary ? AnyShapeStyle(Color.nuviaGradient) : AnyShapeStyle(Color.nuviaPrimaryText))
                         .scaleEffect(isActive ? 1.1 : 1.0)
-                        .animation(MotionCurves.bouncy, value: isActive)
+                        .animation(DesignTokens.Animation.bouncy, value: isActive)
 
                     if let badge = badge {
                         Text(badge)
@@ -636,7 +636,7 @@ struct GlassToolbarTab: View {
                 // Subtle highlight for active tab
                 Capsule()
                     .fill(isActive ? Color.nuviaGoldFallback.opacity(0.12) : Color.clear)
-                    .animation(MotionCurves.quick, value: isActive)
+                    .animation(DesignTokens.Animation.snappy, value: isActive)
             )
         }
         .accessibilityLabel(label)
@@ -681,7 +681,7 @@ struct QuickActionChip: View {
                     Circle()
                         .fill(Color.nuviaSurface)
                 )
-                .elevation(.raised)
+                .elevation(ElevationLevel.raised)
         }
     }
 }
@@ -707,7 +707,7 @@ struct ElementPickerPanel: View {
             // Header
             HStack {
                 Text("Add Element")
-                    .font(DSTypography.heading4)
+                    .font(NuviaTypography.title3())
                     .foregroundColor(.nuviaPrimaryText)
 
                 Spacer()
@@ -724,12 +724,12 @@ struct ElementPickerPanel: View {
             HStack(spacing: 0) {
                 ForEach(ElementPickerTab.allCases, id: \.self) { tab in
                     Button {
-                        withAnimation(MotionCurves.snappy) {
+                        withAnimation(DesignTokens.Animation.snappy) {
                             selectedTab = tab
                         }
                     } label: {
                         Text(tab.rawValue)
-                            .font(DSTypography.caption)
+                            .font(NuviaTypography.caption())
                             .foregroundColor(selectedTab == tab ? .nuviaChampagne : .nuviaSecondaryText)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, StudioSpacing.sm)
@@ -760,7 +760,7 @@ struct ElementPickerPanel: View {
         }
         .background(Color.nuviaSurface)
         .clipShape(RoundedRectangle(cornerRadius: StudioRadius.xl, style: .continuous))
-        .elevation(.overlay)
+        .elevation(ElevationLevel.overlay)
         .padding(.horizontal, StudioSpacing.md)
         .padding(.bottom, StudioSpacing.lg)
     }
@@ -787,7 +787,7 @@ struct TextElementPicker: View {
                         content: "Your text here",
                         color: HexColor(hex: "2C2C2C"),
                         style: StudioTextStyle(
-                            fontFamily: preset.weight == .bold ? DSTypography.FontFamily.serifBold : DSTypography.FontFamily.sansRegular,
+                            fontFamily: preset.weight == .bold ? NuviaTypography.serifFamily : NuviaTypography.sansFamily,
                             fontSize: preset.fontSize,
                             fontWeight: preset.weight,
                             letterSpacing: 0,
@@ -801,11 +801,11 @@ struct TextElementPicker: View {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(preset.label)
-                                .font(DSTypography.bodyBold)
+                                .font(NuviaTypography.bodyBold())
                                 .foregroundColor(.nuviaPrimaryText)
 
                             Text("Tap to add \(preset.label.lowercased())")
-                                .font(DSTypography.caption)
+                                .font(NuviaTypography.caption())
                                 .foregroundColor(.nuviaTertiaryText)
                         }
 
@@ -871,7 +871,7 @@ struct ShapeElementPicker: View {
                             )
 
                         Text(shape.label)
-                            .font(DSTypography.captionSmall)
+                            .font(NuviaTypography.caption()Small)
                             .foregroundColor(.nuviaSecondaryText)
                     }
                 }
@@ -965,11 +965,11 @@ struct ImageElementPicker: View {
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Choose from Library")
-                            .font(DSTypography.bodyBold)
+                            .font(NuviaTypography.bodyBold())
                             .foregroundColor(.nuviaPrimaryText)
 
                         Text("Select a photo from your device")
-                            .font(DSTypography.caption)
+                            .font(NuviaTypography.caption())
                             .foregroundColor(.nuviaTertiaryText)
                     }
 
@@ -997,11 +997,11 @@ struct ImageElementPicker: View {
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Take a Photo")
-                            .font(DSTypography.bodyBold)
+                            .font(NuviaTypography.bodyBold())
                             .foregroundColor(.nuviaPrimaryText)
 
                         Text("Capture a new image")
-                            .font(DSTypography.caption)
+                            .font(NuviaTypography.caption())
                             .foregroundColor(.nuviaTertiaryText)
                     }
 
@@ -1038,7 +1038,7 @@ struct StudioTemplatePicker: View {
         NavigationStack {
             ScrollView {
                 Text("Coming Soon")
-                    .font(DSTypography.body)
+                    .font(NuviaTypography.body())
                     .foregroundColor(.nuviaSecondaryText)
                     .padding()
             }
@@ -1088,7 +1088,7 @@ struct ExportOptionsSheet: View {
                             .resizable()
                             .scaledToFit()
                             .clipShape(RoundedRectangle(cornerRadius: StudioRadius.md))
-                            .elevation(.raised)
+                            .elevation(ElevationLevel.raised)
                             .padding()
                     }
                 }
@@ -1098,7 +1098,7 @@ struct ExportOptionsSheet: View {
                 // Format options
                 VStack(alignment: .leading, spacing: StudioSpacing.sm) {
                     Text("Format")
-                        .font(DSTypography.overline)
+                        .font(NuviaTypography.overline())
                         .foregroundColor(.nuviaSecondaryText)
 
                     HStack(spacing: StudioSpacing.sm) {
@@ -1117,7 +1117,7 @@ struct ExportOptionsSheet: View {
                 // Resolution options
                 VStack(alignment: .leading, spacing: StudioSpacing.sm) {
                     Text("Resolution")
-                        .font(DSTypography.overline)
+                        .font(NuviaTypography.overline())
                         .foregroundColor(.nuviaSecondaryText)
 
                     HStack(spacing: StudioSpacing.sm) {
@@ -1152,7 +1152,7 @@ struct ExportOptionsSheet: View {
                         }
                         Text(isExporting ? "Exporting..." : "Export & Share")
                     }
-                    .font(DSTypography.button)
+                    .font(NuviaTypography.button())
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, StudioSpacing.md)
@@ -1209,7 +1209,7 @@ struct ExportFormatButton: View {
     var body: some View {
         Button(action: action) {
             Text(label)
-                .font(DSTypography.caption)
+                .font(NuviaTypography.caption())
                 .foregroundColor(isSelected ? .white : .nuviaPrimaryText)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, StudioSpacing.sm)
@@ -1248,9 +1248,9 @@ struct ResolutionButton: View {
         Button(action: action) {
             VStack(spacing: 2) {
                 Text(label)
-                    .font(DSTypography.bodyBold)
+                    .font(NuviaTypography.bodyBold())
                 Text(subtitle)
-                    .font(DSTypography.captionSmall)
+                    .font(NuviaTypography.caption()Small)
             }
             .foregroundColor(isSelected ? .white : .nuviaPrimaryText)
             .frame(maxWidth: .infinity)

@@ -26,7 +26,7 @@ struct MagazineLayoutView<Content: View, Item: Identifiable>: View {
         AnyLayout(currentLayoutType) {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                 content(item)
-                    .dsCardEntrance(delay: Double(index) * 0.05)
+                    .cardEntrance(delay: Double(index) * 0.05)
             }
         }
         .animation(DesignTokens.Animation.smooth, value: currentLayout)
@@ -322,13 +322,13 @@ struct MagazineSectionView<Item: Identifiable, Content: View>: View {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.xxs) {
                     if let subtitle = subtitle {
                         Text(subtitle.uppercased())
-                            .font(DSTypography.overline)
+                            .font(NuviaTypography.overline())
                             .tracking(1.5)
                             .foregroundColor(.nuviaTertiaryText)
                     }
 
                     Text(title)
-                        .font(DSTypography.heading2)
+                        .font(NuviaTypography.title1())
                         .foregroundColor(.nuviaPrimaryText)
                 }
 
@@ -391,12 +391,12 @@ struct EditorialFeatureCard: View {
                 // Content
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.xs) {
                     Text(title)
-                        .font(DSTypography.heading3)
+                        .font(NuviaTypography.title2())
                         .foregroundColor(.nuviaPrimaryText)
                         .lineLimit(2)
 
                     Text(subtitle)
-                        .font(DSTypography.bodySmall)
+                        .font(NuviaTypography.footnote())
                         .foregroundColor(.nuviaSecondaryText)
                         .lineLimit(2)
                 }
@@ -441,13 +441,13 @@ struct EditorialCompactCard: View {
                 // Content
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.xxs) {
                     Text(title)
-                        .font(DSTypography.bodyBold)
+                        .font(NuviaTypography.bodyBold())
                         .foregroundColor(.nuviaPrimaryText)
                         .lineLimit(1)
 
                     if let subtitle = subtitle {
                         Text(subtitle)
-                            .font(DSTypography.caption)
+                            .font(NuviaTypography.caption())
                             .foregroundColor(.nuviaTertiaryText)
                             .lineLimit(1)
                     }
@@ -498,18 +498,18 @@ struct ProgressRingCard: View {
                 // Center text
                 VStack(spacing: 2) {
                     Text("\(Int(progress * 100))%")
-                        .font(DSTypography.heading3)
+                        .font(NuviaTypography.title2())
                         .foregroundColor(.nuviaPrimaryText)
 
                     Text("\(completed)/\(total)")
-                        .font(DSTypography.caption)
+                        .font(NuviaTypography.caption())
                         .foregroundColor(.nuviaTertiaryText)
                 }
             }
             .frame(width: 100, height: 100)
 
             Text(title)
-                .font(DSTypography.bodyBold)
+                .font(NuviaTypography.bodyBold())
                 .foregroundColor(.nuviaPrimaryText)
         }
         .padding(DesignTokens.Spacing.md)

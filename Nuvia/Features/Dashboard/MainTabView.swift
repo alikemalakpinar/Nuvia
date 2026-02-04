@@ -73,7 +73,7 @@ struct CustomTabBar: View {
                         isSelected: selectedTab == tab
                     ) {
                         HapticManager.shared.selection()
-                        withAnimation(MotionCurves.quick) {
+                        withAnimation(DesignTokens.Animation.snappy) {
                             selectedTab = tab
                         }
                     }
@@ -95,7 +95,7 @@ struct CustomTabBar: View {
                         isSelected: selectedTab == tab
                     ) {
                         HapticManager.shared.selection()
-                        withAnimation(MotionCurves.quick) {
+                        withAnimation(DesignTokens.Animation.snappy) {
                             selectedTab = tab
                         }
                     }
@@ -144,7 +144,7 @@ struct FloatingTabButton: View {
                     .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
                     .foregroundStyle(isSelected ? AnyShapeStyle(Color.nuviaGradient) : AnyShapeStyle(Color.nuviaTertiaryText))
                     .scaleEffect(isSelected ? 1.1 : 1.0)
-                    .animation(MotionCurves.bouncy, value: isSelected)
+                    .animation(DesignTokens.Animation.bouncy, value: isSelected)
 
                 Text(tab.displayName)
                     .font(NuviaTypography.caption2())
@@ -156,7 +156,7 @@ struct FloatingTabButton: View {
                 // Subtle highlight for selected tab
                 Capsule()
                     .fill(isSelected ? Color.nuviaGoldFallback.opacity(0.12) : Color.clear)
-                    .animation(MotionCurves.quick, value: isSelected)
+                    .animation(DesignTokens.Animation.snappy, value: isSelected)
             )
         }
         .accessibilityLabel(tab.displayName)
@@ -192,7 +192,7 @@ struct QuickAddButton: View {
         }
         .pressEffect()
         .offset(y: -16)
-        .accessibilityLabel(L10n.Tab.quickAdd)
+        .accessibilityLabel(NSLocalizedString("tab.quickAdd", comment: "Quick Add"))
     }
 }
 
@@ -212,11 +212,11 @@ struct QuickAddSheet: View {
 
         var displayName: String {
             switch self {
-            case .task: return L10n.QuickAdd.task
-            case .expense: return L10n.QuickAdd.expense
-            case .guest: return L10n.QuickAdd.guest
-            case .shopping: return L10n.QuickAdd.shopping
-            case .note: return L10n.QuickAdd.note
+            case .task: return NSLocalizedString("quickAdd.item.task", comment: "Task")
+            case .expense: return NSLocalizedString("quickAdd.item.expense", comment: "Expense")
+            case .guest: return NSLocalizedString("quickAdd.item.guest", comment: "Guest")
+            case .shopping: return NSLocalizedString("quickAdd.item.shopping", comment: "Shopping")
+            case .note: return NSLocalizedString("quickAdd.item.note", comment: "Note")
             }
         }
 
@@ -244,7 +244,7 @@ struct QuickAddSheet: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: DesignTokens.Spacing.lg) {
-                Text(L10n.QuickAdd.prompt)
+                Text(NSLocalizedString("quickAdd.prompt", comment: "What would you like to add?"))
                     .font(NuviaTypography.title2())
                     .foregroundColor(.nuviaPrimaryText)
                     .padding(.top, DesignTokens.Spacing.xs)
@@ -261,7 +261,7 @@ struct QuickAddSheet: View {
                 Spacer()
 
                 if selectedType != nil {
-                    NuviaPrimaryButton(L10n.QuickAdd.continueAction, icon: "arrow.right") {
+                    NuviaPrimaryButton(NSLocalizedString("quickAdd.continue", comment: "Continue"), icon: "arrow.right") {
                         switch selectedType {
                         case .task:
                             dismiss()

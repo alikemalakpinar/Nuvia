@@ -21,10 +21,10 @@ struct TodayDashboardView: View {
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 5..<12: return L10n.Dashboard.goodMorning
-        case 12..<17: return L10n.Dashboard.goodAfternoon
-        case 17..<21: return L10n.Dashboard.goodEvening
-        default: return L10n.Dashboard.goodNight
+        case 5..<12: return NSLocalizedString("dashboard.greeting.morning", comment: "Good Morning")
+        case 12..<17: return NSLocalizedString("dashboard.greeting.afternoon", comment: "Good Afternoon")
+        case 17..<21: return NSLocalizedString("dashboard.greeting.evening", comment: "Good Evening")
+        default: return NSLocalizedString("dashboard.greeting.night", comment: "Good Night")
         }
     }
 
@@ -76,8 +76,8 @@ struct TodayDashboardView: View {
                     } else {
                         NuviaEmptyState(
                             icon: "heart.slash",
-                            title: L10n.Dashboard.noProject,
-                            message: L10n.Dashboard.noProjectMessage
+                            title: NSLocalizedString("dashboard.empty.noProject", comment: "No Project"),
+                            message: NSLocalizedString("dashboard.empty.noProjectMessage", comment: "Create your first wedding project")
                         )
                         .padding(.horizontal, DesignTokens.Spacing.nuviaMargin)
                     }
@@ -178,7 +178,7 @@ struct TodayDashboardView: View {
             .first
 
         return VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.Dashboard.todaysFocus)
+            Text(NSLocalizedString("dashboard.section.todaysFocus", comment: "Today's Focus"))
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -225,7 +225,7 @@ struct TodayDashboardView: View {
                             HStack(spacing: 8) {
                                 Image(systemName: "checkmark")
                                     .font(.system(size: 14, weight: .semibold))
-                                Text(L10n.Dashboard.complete)
+                                Text(NSLocalizedString("dashboard.action.complete", comment: "Complete"))
                                     .font(NuviaTypography.smallButton())
                             }
                             .foregroundColor(.white)
@@ -249,11 +249,11 @@ struct TodayDashboardView: View {
                         .font(.system(size: 40))
                         .foregroundStyle(Color.etherealGradient)
 
-                    Text(L10n.Dashboard.allCaughtUp)
+                    Text(NSLocalizedString("dashboard.state.allCaughtUp", comment: "All Caught Up!"))
                         .font(NuviaTypography.title3())
                         .foregroundColor(.nuviaPrimaryText)
 
-                    Text(L10n.Dashboard.noUrgentTasks)
+                    Text(NSLocalizedString("dashboard.state.noUrgentTasks", comment: "No urgent tasks"))
                         .font(NuviaTypography.body())
                         .foregroundColor(.nuviaSecondaryText)
                 }
@@ -276,7 +276,7 @@ struct TodayDashboardView: View {
                     .font(NuviaTypography.countdown())
                     .foregroundStyle(Color.etherealGradient)
 
-                Text(L10n.Dashboard.daysToGo)
+                Text(NSLocalizedString("dashboard.countdown.daysToGo", comment: "days to go"))
                     .font(NuviaTypography.caption())
                     .foregroundColor(.nuviaSecondaryText)
             }
@@ -336,7 +336,7 @@ struct TodayDashboardView: View {
         let budgetProgress = totalBudget > 0 ? min(1.0, spentBudget / totalBudget) : 0
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(L10n.Dashboard.progress.uppercased())
+            Text(NSLocalizedString("dashboard.section.progress", comment: "Progress").uppercased())
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -344,7 +344,7 @@ struct TodayDashboardView: View {
             HStack(spacing: 16) {
                 // Tasks Progress
                 ProgressCard(
-                    title: L10n.Dashboard.tasks,
+                    title: NSLocalizedString("dashboard.metric.tasks", comment: "Tasks"),
                     value: "\(completedTasks)/\(totalTasks)",
                     progress: progress,
                     color: .nuviaSage
@@ -352,7 +352,7 @@ struct TodayDashboardView: View {
 
                 // Budget Progress
                 ProgressCard(
-                    title: L10n.Dashboard.budget,
+                    title: NSLocalizedString("dashboard.metric.budget", comment: "Budget"),
                     value: "\(Int(budgetProgress * 100))%",
                     progress: budgetProgress,
                     color: .nuviaChampagne
@@ -370,7 +370,7 @@ struct TodayDashboardView: View {
         @State var showZenMode = false
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(L10n.Dashboard.quickAccess.uppercased())
+            Text(NSLocalizedString("dashboard.section.quickAccess", comment: "Quick Access").uppercased())
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -387,7 +387,7 @@ struct TodayDashboardView: View {
         let totalGuests = project.guests.count
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(L10n.Dashboard.atAGlance.uppercased())
+            Text(NSLocalizedString("dashboard.section.atAGlance", comment: "At a Glance").uppercased())
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -396,16 +396,16 @@ struct TodayDashboardView: View {
                 // RSVP Card
                 MetricCard(
                     icon: "person.2.fill",
-                    title: L10n.Dashboard.attending,
+                    title: NSLocalizedString("dashboard.metric.attending", comment: "Attending"),
                     value: "\(attending)",
-                    subtitle: "\(pending) \(L10n.Guests.pending.lowercased())",
+                    subtitle: "\(pending) \(NSLocalizedString("guests.status.pending", comment: "pending").lowercased())",
                     color: .nuviaSage
                 )
 
                 // Budget Card
                 MetricCard(
                     icon: "creditcard.fill",
-                    title: L10n.Dashboard.spent,
+                    title: NSLocalizedString("dashboard.metric.spent", comment: "Spent"),
                     value: formatCurrency(project.expenses.reduce(0) { $0 + $1.amount }, currency: project.currency),
                     subtitle: "of \(formatCurrency(project.totalBudget, currency: project.currency))",
                     color: .nuviaChampagne
@@ -430,7 +430,7 @@ struct TodayDashboardView: View {
             .map { $0 }
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(L10n.Dashboard.comingUp.uppercased())
+            Text(NSLocalizedString("dashboard.section.comingUp", comment: "Coming Up").uppercased())
                 .font(NuviaTypography.overline())
                 .tracking(2)
                 .foregroundColor(.nuviaChampagne)
@@ -462,7 +462,7 @@ struct TodayDashboardView: View {
                             .font(.system(size: 20))
                             .foregroundColor(.nuviaSuccess)
 
-                        Text(L10n.Dashboard.noDeadlines)
+                        Text(NSLocalizedString("dashboard.state.noDeadlines", comment: "No upcoming deadlines"))
                             .font(NuviaTypography.body())
                             .foregroundColor(.nuviaSecondaryText)
                     }
@@ -716,7 +716,7 @@ struct WeeklyBriefView: View {
                             .font(.system(size: 48))
                             .foregroundStyle(Color.etherealGradient)
 
-                        Text(L10n.WeeklyBrief.title)
+                        Text(NSLocalizedString("weeklyBrief.title", comment: "Weekly Brief"))
                             .font(NuviaTypography.displaySmall())
                             .foregroundColor(.nuviaPrimaryText)
 
@@ -731,7 +731,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "checklist",
                             iconColor: .nuviaSage,
-                            title: L10n.WeeklyBrief.thisWeeksTasks,
+                            title: NSLocalizedString("weeklyBrief.section.tasks", comment: "This Week's Tasks"),
                             value: "5 tasks",
                             description: "Focus on venue confirmation and catering menu selection"
                         )
@@ -739,7 +739,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "creditcard.fill",
                             iconColor: .nuviaChampagne,
-                            title: L10n.WeeklyBrief.upcomingPayments,
+                            title: NSLocalizedString("weeklyBrief.section.payments", comment: "Upcoming Payments"),
                             value: "₺25,000",
                             description: "Venue deposit due in 3 days"
                         )
@@ -747,7 +747,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "person.2.fill",
                             iconColor: .nuviaRoseDust,
-                            title: L10n.WeeklyBrief.rsvpUpdate,
+                            title: NSLocalizedString("weeklyBrief.section.rsvp", comment: "RSVP Update"),
                             value: "15 pending",
                             description: "Send reminders to guests who haven't responded"
                         )
@@ -755,7 +755,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "lightbulb.fill",
                             iconColor: .nuviaWisteria,
-                            title: L10n.WeeklyBrief.proTip,
+                            title: NSLocalizedString("weeklyBrief.section.tip", comment: "Pro Tip"),
                             value: nil,
                             description: "Schedule vendor meetings at least 2 weeks before your decision deadline"
                         )
@@ -851,11 +851,11 @@ struct NotificationsInboxView: View {
                         .font(.system(size: 48))
                         .foregroundColor(.nuviaTertiaryText)
 
-                    Text(L10n.Dashboard.allCaughtUp)
+                    Text(NSLocalizedString("dashboard.state.allCaughtUp", comment: "All Caught Up!"))
                         .font(NuviaTypography.title2())
                         .foregroundColor(.nuviaPrimaryText)
 
-                    Text(L10n.Notifications.empty)
+                    Text(NSLocalizedString("notifications.empty", comment: "No new notifications"))
                         .font(NuviaTypography.body())
                         .foregroundColor(.nuviaSecondaryText)
                 }

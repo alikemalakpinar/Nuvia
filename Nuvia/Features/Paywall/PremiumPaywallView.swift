@@ -127,11 +127,11 @@ struct PremiumPaywallView: View {
             }
 
             Text("Unlock Premium")
-                .font(DSTypography.display)
+                .font(NuviaTypography.displayMedium())
                 .foregroundColor(.white)
 
             Text("Elevate your wedding planning experience")
-                .font(DSTypography.body)
+                .font(NuviaTypography.body())
                 .foregroundColor(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
@@ -180,7 +180,7 @@ struct PremiumPaywallView: View {
                 }
 
                 Text(isProcessing ? "Processing..." : "Start Free Trial")
-                    .font(DSTypography.button)
+                    .font(NuviaTypography.button())
             }
             .foregroundColor(Color(hex: "0D0D0F"))
             .frame(maxWidth: .infinity)
@@ -204,26 +204,26 @@ struct PremiumPaywallView: View {
     private var legalText: some View {
         VStack(spacing: DesignTokens.Spacing.xs) {
             Text("7-day free trial, then \(selectedPlan.priceString)")
-                .font(DSTypography.bodySmall)
+                .font(NuviaTypography.body()Small)
                 .foregroundColor(.white.opacity(0.5))
 
             HStack(spacing: DesignTokens.Spacing.md) {
                 Button("Terms") {}
-                    .font(DSTypography.caption)
+                    .font(NuviaTypography.caption())
                     .foregroundColor(.white.opacity(0.4))
 
                 Text("•")
                     .foregroundColor(.white.opacity(0.3))
 
                 Button("Privacy") {}
-                    .font(DSTypography.caption)
+                    .font(NuviaTypography.caption())
                     .foregroundColor(.white.opacity(0.4))
 
                 Text("•")
                     .foregroundColor(.white.opacity(0.3))
 
                 Button("Restore") {}
-                    .font(DSTypography.caption)
+                    .font(NuviaTypography.caption())
                     .foregroundColor(.white.opacity(0.4))
             }
         }
@@ -272,11 +272,11 @@ struct PremiumPaywallView: View {
                 }
 
                 Text("Welcome to Premium!")
-                    .font(DSTypography.displaySmall)
+                    .font(NuviaTypography.displayMedium()Small)
                     .foregroundColor(.white)
 
                 Text("Your wedding planning just got magical")
-                    .font(DSTypography.body)
+                    .font(NuviaTypography.body())
                     .foregroundColor(.white.opacity(0.7))
             }
         }
@@ -406,7 +406,7 @@ struct MembershipCard3D: View {
                             .foregroundColor(.white.opacity(0.5))
 
                         Text("Premium Member")
-                            .font(DSTypography.heading3)
+                            .font(NuviaTypography.title2())
                             .foregroundColor(.white)
                     }
 
@@ -434,7 +434,7 @@ struct MembershipCard3D: View {
                         .foregroundColor(.nuviaChampagne)
 
                     Text(plan.priceString)
-                        .font(DSTypography.heading2)
+                        .font(NuviaTypography.title1())
                         .foregroundColor(.white)
                 }
 
@@ -500,17 +500,17 @@ struct PlanButton: View {
 
                 // Plan name
                 Text(plan.name)
-                    .font(DSTypography.bodyBold)
+                    .font(NuviaTypography.body()Bold)
                     .foregroundColor(isSelected ? .white : .white.opacity(0.6))
 
                 // Price
                 VStack(spacing: 2) {
                     Text(plan.priceString)
-                        .font(DSTypography.heading4)
+                        .font(NuviaTypography.title3())
                         .foregroundColor(isSelected ? .white : .white.opacity(0.6))
 
                     Text(plan.billingCycle)
-                        .font(DSTypography.caption)
+                        .font(NuviaTypography.caption())
                         .foregroundColor(.white.opacity(0.4))
                 }
             }
@@ -558,11 +558,11 @@ struct PaywallPremiumFeatureRow: View {
             // Content
             VStack(alignment: .leading, spacing: 2) {
                 Text(feature.title)
-                    .font(DSTypography.bodyBold)
+                    .font(NuviaTypography.body()Bold)
                     .foregroundColor(.white)
 
                 Text(feature.subtitle)
-                    .font(DSTypography.caption)
+                    .font(NuviaTypography.caption())
                     .foregroundColor(.white.opacity(0.5))
             }
 
