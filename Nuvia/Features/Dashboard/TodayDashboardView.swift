@@ -15,33 +15,31 @@ struct TodayDashboardView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 16) {
-                    // Header
-                    headerSection
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 16) {
+                // Header
+                headerSection
 
-                    if let project = currentProject {
-                        // Hero Card - Countdown
-                        heroCard(project: project)
+                if let project = currentProject {
+                    // Hero Card - Countdown
+                    heroCard(project: project)
 
-                        // Stats Grid (2 columns)
-                        statsGrid(project: project)
+                    // Stats Grid (2 columns)
+                    statsGrid(project: project)
 
-                        // Next Task Card
-                        nextTaskCard(project: project)
+                    // Next Task Card
+                    nextTaskCard(project: project)
 
-                        Spacer().frame(height: 100)
-                    } else {
-                        emptyState
-                    }
+                    Spacer().frame(height: 120)
+                } else {
+                    emptyState
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 8)
             }
-            .background(DSColors.background.ignoresSafeArea())
-            .sheet(isPresented: $showSettings) { SettingsView() }
+            .padding(.horizontal, 20)
+            .padding(.top, 16)
         }
+        .background(DSColors.background.ignoresSafeArea())
+        .sheet(isPresented: $showSettings) { SettingsView() }
     }
 
     // MARK: - Header
