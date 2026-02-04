@@ -523,6 +523,7 @@
 				B100000054 /* MovableElementView.swift */,
 				B100000055 /* LayerSheet.swift */,
 				B100000056 /* PropertyInspector.swift */,
+				B100000081 /* InvitationTemplate.swift */,
 			);
 			path = CanvasEngine;
 			sourceTree = "<group>";
