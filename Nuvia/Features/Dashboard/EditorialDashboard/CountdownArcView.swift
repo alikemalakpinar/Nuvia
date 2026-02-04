@@ -488,7 +488,7 @@ struct TimeUnit: View {
                 .contentTransition(.numericText())
 
             Text(label)
-                .font(NuviaTypography.caption()Small)
+                .font(NuviaTypography.caption2())
                 .foregroundColor(.nuviaTertiaryText)
         }
     }

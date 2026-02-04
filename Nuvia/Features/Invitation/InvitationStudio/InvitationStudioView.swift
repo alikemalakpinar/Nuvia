@@ -572,7 +572,7 @@ struct ToolbarTab: View {
                 }
 
                 Text(label)
-                    .font(NuviaTypography.caption()Small)
+                    .font(NuviaTypography.caption2())
                     .foregroundColor(labelColor)
             }
             .frame(maxWidth: .infinity)
@@ -871,7 +871,7 @@ struct ShapeElementPicker: View {
                             )
 
                         Text(shape.label)
-                            .font(NuviaTypography.caption()Small)
+                            .font(NuviaTypography.caption2())
                             .foregroundColor(.nuviaSecondaryText)
                     }
                 }
@@ -1250,7 +1250,7 @@ struct ResolutionButton: View {
                 Text(label)
                     .font(NuviaTypography.bodyBold())
                 Text(subtitle)
-                    .font(NuviaTypography.caption()Small)
+                    .font(NuviaTypography.caption2())
             }
             .foregroundColor(isSelected ? .white : .nuviaPrimaryText)
             .frame(maxWidth: .infinity)

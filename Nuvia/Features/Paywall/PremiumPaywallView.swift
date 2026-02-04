@@ -204,7 +204,7 @@ struct PremiumPaywallView: View {
     private var legalText: some View {
         VStack(spacing: DesignTokens.Spacing.xs) {
             Text("7-day free trial, then \(selectedPlan.priceString)")
-                .font(NuviaTypography.body()Small)
+                .font(NuviaTypography.footnote())
                 .foregroundColor(.white.opacity(0.5))
 
             HStack(spacing: DesignTokens.Spacing.md) {
@@ -272,7 +272,7 @@ struct PremiumPaywallView: View {
                 }
 
                 Text("Welcome to Premium!")
-                    .font(NuviaTypography.displayMedium()Small)
+                    .font(NuviaTypography.displaySmall())
                     .foregroundColor(.white)
 
                 Text("Your wedding planning just got magical")
@@ -500,7 +500,7 @@ struct PlanButton: View {
 
                 // Plan name
                 Text(plan.name)
-                    .font(NuviaTypography.body()Bold)
+                    .font(NuviaTypography.bodyBold())
                     .foregroundColor(isSelected ? .white : .white.opacity(0.6))
 
                 // Price
@@ -558,7 +558,7 @@ struct PaywallPremiumFeatureRow: View {
             // Content
             VStack(alignment: .leading, spacing: 2) {
                 Text(feature.title)
-                    .font(NuviaTypography.body()Bold)
+                    .font(NuviaTypography.bodyBold())
                     .foregroundColor(.white)
 
                 Text(feature.subtitle)
