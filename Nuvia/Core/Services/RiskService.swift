@@ -13,7 +13,7 @@ public final class RiskService: ObservableObject {
     private let projectService: ProjectService
 
     init(
-        projectProvider: ProjectProvider,
+        projectProvider: ProjectProvider? = nil,
         guestService: GuestService,
         budgetService: BudgetService,
         projectService: ProjectService
@@ -22,6 +22,11 @@ public final class RiskService: ObservableObject {
         self.guestService = guestService
         self.budgetService = budgetService
         self.projectService = projectService
+    }
+
+    /// Set the project provider (used for post-init wiring)
+    func setProjectProvider(_ provider: ProjectProvider) {
+        self.projectProvider = provider
     }
 
     private var currentProject: WeddingProject? {
