@@ -7,6 +7,7 @@ import SwiftUI
 final class SeatingTable {
     @Attribute(.unique) var id: UUID
     var createdAt: Date
+    var updatedAt: Date
 
     /// Masa bilgileri
     var name: String
@@ -77,6 +78,7 @@ final class SeatingTable {
     ) {
         self.id = UUID()
         self.createdAt = Date()
+        self.updatedAt = Date()
         self.name = name
         self.tableNumber = tableNumber
         self.capacity = capacity
