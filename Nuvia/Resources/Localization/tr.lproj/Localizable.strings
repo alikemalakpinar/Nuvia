@@ -11,6 +11,7 @@
 "tab.plan" = "Plan";
 "tab.budget" = "Bütçe";
 "tab.guests" = "Davetli";
+"tab.studio" = "Stüdyo";
 "tab.home" = "Ev";
 "tab.quickAdd" = "Hızlı Ekle";
 
@@ -29,9 +30,24 @@
 
 "dashboard.empty.noTasks" = "Bugün için görev yok";
 "dashboard.empty.noProject" = "Proje Bulunamadı";
+"dashboard.empty.noProjectMessage" = "Başlamak için ilk düğün projenizi oluşturun";
 "dashboard.action.createProject" = "Başlamak için bir düğün projesi oluşturun";
+"dashboard.action.complete" = "Tamamla";
 
 "dashboard.countdown.daysRemaining" = "%d Gün Kaldı";
+"dashboard.countdown.daysToGo" = "gün kaldı";
+
+"dashboard.state.allCaughtUp" = "Her Şey Tamam!";
+"dashboard.state.noUrgentTasks" = "Bugün için acil görev yok";
+"dashboard.state.noDeadlines" = "Yaklaşan son tarih yok";
+
+"dashboard.section.atAGlance" = "GENEL BAKIŞ";
+"dashboard.section.comingUp" = "YAKLAŞAN";
+
+"dashboard.metric.tasks" = "Görevler";
+"dashboard.metric.budget" = "Bütçe";
+"dashboard.metric.attending" = "Katılanlar";
+"dashboard.metric.spent" = "Harcanan";
 
 // MARK: - Settings
 

@@ -11,6 +11,7 @@
 "tab.plan" = "Plan";
 "tab.budget" = "Budget";
 "tab.guests" = "Guests";
+"tab.studio" = "Studio";
 "tab.home" = "Home";
 "tab.quickAdd" = "Quick Add";
 
@@ -28,10 +29,25 @@
 "dashboard.section.weeklyBrief" = "Weekly Brief";
 
 "dashboard.empty.noTasks" = "No tasks for today";
-"dashboard.empty.noProject" = "No Project Found";
+"dashboard.empty.noProject" = "No Project";
+"dashboard.empty.noProjectMessage" = "Create your first wedding project to get started";
 "dashboard.action.createProject" = "Create a wedding project to get started";
+"dashboard.action.complete" = "Complete";
 
 "dashboard.countdown.daysRemaining" = "%d Days Left";
+"dashboard.countdown.daysToGo" = "days to go";
+
+"dashboard.state.allCaughtUp" = "All Caught Up!";
+"dashboard.state.noUrgentTasks" = "No urgent tasks for today";
+"dashboard.state.noDeadlines" = "No upcoming deadlines";
+
+"dashboard.section.atAGlance" = "AT A GLANCE";
+"dashboard.section.comingUp" = "COMING UP";
+
+"dashboard.metric.tasks" = "Tasks";
+"dashboard.metric.budget" = "Budget";
+"dashboard.metric.attending" = "Attending";
+"dashboard.metric.spent" = "Spent";
 
 // MARK: - Settings
 
