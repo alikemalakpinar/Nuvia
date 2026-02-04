@@ -21,10 +21,10 @@ struct TodayDashboardView: View {
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 5..<12: return NSLocalizedString("dashboard.greeting.morning", comment: "Good Morning")
-        case 12..<17: return NSLocalizedString("dashboard.greeting.afternoon", comment: "Good Afternoon")
-        case 17..<21: return NSLocalizedString("dashboard.greeting.evening", comment: "Good Evening")
-        default: return NSLocalizedString("dashboard.greeting.night", comment: "Good Night")
+        case 5..<12: return "Günaydın"
+        case 12..<17: return "İyi Öğlenler"
+        case 17..<21: return "İyi Akşamlar"
+        default: return "İyi Geceler"
         }
     }
 
@@ -76,8 +76,8 @@ struct TodayDashboardView: View {
                     } else {
                         NuviaEmptyState(
                             icon: "heart.slash",
-                            title: NSLocalizedString("dashboard.empty.noProject", comment: "No Project"),
-                            message: NSLocalizedString("dashboard.empty.noProjectMessage", comment: "Create your first wedding project")
+                            title: Proje Yok,
+                            message: İlk düğün projenizi oluşturun
                         )
                         .padding(.horizontal, DSSpacing.nuviaMargin)
                     }
@@ -178,7 +178,7 @@ struct TodayDashboardView: View {
             .first
 
         return VStack(alignment: .leading, spacing: 16) {
-            Text(NSLocalizedString("dashboard.section.todaysFocus", comment: "Today's Focus"))
+            Text(Bugünün Odağı)
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -225,7 +225,7 @@ struct TodayDashboardView: View {
                             HStack(spacing: 8) {
                                 Image(systemName: "checkmark")
                                     .font(.system(size: 14, weight: .semibold))
-                                Text(NSLocalizedString("dashboard.action.complete", comment: "Complete"))
+                                Text(Tamamla)
                                     .font(DSTypography.buttonSmall)
                             }
                             .foregroundColor(.white)
@@ -249,11 +249,11 @@ struct TodayDashboardView: View {
                         .font(.system(size: 40))
                         .foregroundStyle(DSColors.heroGradient)
 
-                    Text(NSLocalizedString("dashboard.state.allCaughtUp", comment: "All Caught Up!"))
+                    Text(Her Şey Tamam!)
                         .font(DSTypography.heading3)
                         .foregroundColor(DSColors.textPrimary)
 
-                    Text(NSLocalizedString("dashboard.state.noUrgentTasks", comment: "No urgent tasks"))
+                    Text(Acil görev yok)
                         .font(DSTypography.body)
                         .foregroundColor(DSColors.textSecondary)
                 }
@@ -276,7 +276,7 @@ struct TodayDashboardView: View {
                     .font(DSTypography.countdown)
                     .foregroundStyle(DSColors.heroGradient)
 
-                Text(NSLocalizedString("dashboard.countdown.daysToGo", comment: "days to go"))
+                Text(gün kaldı)
                     .font(DSTypography.caption)
                     .foregroundColor(DSColors.textSecondary)
             }
@@ -336,7 +336,7 @@ struct TodayDashboardView: View {
         let budgetProgress = totalBudget > 0 ? min(1.0, spentBudget / totalBudget) : 0
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(NSLocalizedString("dashboard.section.progress", comment: "Progress").uppercased())
+            Text(İlerleme.uppercased())
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -344,7 +344,7 @@ struct TodayDashboardView: View {
             HStack(spacing: 16) {
                 // Tasks Progress
                 ProgressCard(
-                    title: NSLocalizedString("dashboard.metric.tasks", comment: "Tasks"),
+                    title: Görevler,
                     value: "\(completedTasks)/\(totalTasks)",
                     progress: progress,
                     color: .nuviaSage
@@ -352,7 +352,7 @@ struct TodayDashboardView: View {
 
                 // Budget Progress
                 ProgressCard(
-                    title: NSLocalizedString("dashboard.metric.budget", comment: "Budget"),
+                    title: Bütçe,
                     value: "\(Int(budgetProgress * 100))%",
                     progress: budgetProgress,
                     color: .nuviaChampagne
@@ -370,7 +370,7 @@ struct TodayDashboardView: View {
         @State var showZenMode = false
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(NSLocalizedString("dashboard.section.quickAccess", comment: "Quick Access").uppercased())
+            Text(Hızlı Erişim.uppercased())
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -387,7 +387,7 @@ struct TodayDashboardView: View {
         let totalGuests = project.guests.count
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(NSLocalizedString("dashboard.section.atAGlance", comment: "At a Glance").uppercased())
+            Text(Bir Bakışta.uppercased())
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -396,16 +396,16 @@ struct TodayDashboardView: View {
                 // RSVP Card
                 MetricCard(
                     icon: "person.2.fill",
-                    title: NSLocalizedString("dashboard.metric.attending", comment: "Attending"),
+                    title: Katılıyor,
                     value: "\(attending)",
-                    subtitle: "\(pending) \(NSLocalizedString("guests.status.pending", comment: "pending").lowercased())",
+                    subtitle: "\(pending) \(bekliyor.lowercased())",
                     color: .nuviaSage
                 )
 
                 // Budget Card
                 MetricCard(
                     icon: "creditcard.fill",
-                    title: NSLocalizedString("dashboard.metric.spent", comment: "Spent"),
+                    title: Harcanan,
                     value: formatCurrency(project.expenses.reduce(0) { $0 + $1.amount }, currency: project.currency),
                     subtitle: "of \(formatCurrency(project.totalBudget, currency: project.currency))",
                     color: .nuviaChampagne
@@ -430,7 +430,7 @@ struct TodayDashboardView: View {
             .map { $0 }
 
         return VStack(alignment: .leading, spacing: 20) {
-            Text(NSLocalizedString("dashboard.section.comingUp", comment: "Coming Up").uppercased())
+            Text(Yaklaşanlar.uppercased())
                 .font(DSTypography.overline)
                 .tracking(2)
                 .foregroundColor(DSColors.primaryAction)
@@ -462,7 +462,7 @@ struct TodayDashboardView: View {
                             .font(.system(size: 20))
                             .foregroundColor(DSColors.success)
 
-                        Text(NSLocalizedString("dashboard.state.noDeadlines", comment: "No upcoming deadlines"))
+                        Text(Yaklaşan son tarih yok)
                             .font(DSTypography.body)
                             .foregroundColor(DSColors.textSecondary)
                     }
@@ -716,7 +716,7 @@ struct WeeklyBriefView: View {
                             .font(.system(size: 48))
                             .foregroundStyle(DSColors.heroGradient)
 
-                        Text(NSLocalizedString("weeklyBrief.title", comment: "Weekly Brief"))
+                        Text(Haftalık Özet)
                             .font(DSTypography.displaySmall)
                             .foregroundColor(DSColors.textPrimary)
 
@@ -731,7 +731,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "checklist",
                             iconColor: .nuviaSage,
-                            title: NSLocalizedString("weeklyBrief.section.tasks", comment: "This Week's Tasks"),
+                            title: Bu Haftanın Görevleri,
                             value: "5 tasks",
                             description: "Focus on venue confirmation and catering menu selection"
                         )
@@ -739,7 +739,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "creditcard.fill",
                             iconColor: .nuviaChampagne,
-                            title: NSLocalizedString("weeklyBrief.section.payments", comment: "Upcoming Payments"),
+                            title: Yaklaşan Ödemeler,
                             value: "₺25,000",
                             description: "Venue deposit due in 3 days"
                         )
@@ -747,7 +747,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "person.2.fill",
                             iconColor: .nuviaRoseDust,
-                            title: NSLocalizedString("weeklyBrief.section.rsvp", comment: "RSVP Update"),
+                            title: RSVP Durumu,
                             value: "15 pending",
                             description: "Send reminders to guests who haven't responded"
                         )
@@ -755,7 +755,7 @@ struct WeeklyBriefView: View {
                         BriefSection(
                             icon: "lightbulb.fill",
                             iconColor: .nuviaWisteria,
-                            title: NSLocalizedString("weeklyBrief.section.tip", comment: "Pro Tip"),
+                            title: İpucu,
                             value: nil,
                             description: "Schedule vendor meetings at least 2 weeks before your decision deadline"
                         )
@@ -851,11 +851,11 @@ struct NotificationsInboxView: View {
                         .font(.system(size: 48))
                         .foregroundColor(DSColors.textTertiary)
 
-                    Text(NSLocalizedString("dashboard.state.allCaughtUp", comment: "All Caught Up!"))
+                    Text(Her Şey Tamam!)
                         .font(DSTypography.heading2)
                         .foregroundColor(DSColors.textPrimary)
 
-                    Text(NSLocalizedString("notifications.empty", comment: "No new notifications"))
+                    Text(Yeni bildirim yok)
                         .font(DSTypography.body)
                         .foregroundColor(DSColors.textSecondary)
                 }
