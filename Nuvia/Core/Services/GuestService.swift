@@ -272,7 +272,7 @@ public final class GuestService: ObservableObject {
 
     func getGuestsByGroup() -> [GuestGroup: [Guest]] {
         guard let project = currentProject else { return [:] }
-        return Dictionary(grouping: project.guests, by: { $0.group })
+        return Dictionary(grouping: project.guests, by: { $0.guestGroup })
     }
 
     func getGuestsByRSVP() -> [RSVPStatus: [Guest]] {
