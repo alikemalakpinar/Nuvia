@@ -41,7 +41,7 @@ struct TodayDashboardView: View {
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
-                ScrollOffsetReader()
+                ScrollOffsetReader(coordinateSpace: "scroll")
 
                 VStack(spacing: 0) {
                     if let project = currentProject {
