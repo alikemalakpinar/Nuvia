@@ -1032,26 +1032,230 @@ struct StudioTemplate {
 
 struct StudioTemplatePicker: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var appState: AppState
     let onSelect: (StudioTemplate) -> Void
+
+    @State private var selectedCategory: TemplateCategory = .all
+    @State private var appeared = false
+
+    private let columns = [
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
+    ]
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                Text("Coming Soon")
-                    .font(NuviaTypography.body())
-                    .foregroundColor(.nuviaSecondaryText)
-                    .padding()
+            VStack(spacing: 0) {
+                // Category filter
+                categoryFilter
+                    .padding(.top, 8)
+
+                // Templates grid
+                ScrollView(showsIndicators: false) {
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(Array(TemplateLibrary.templates(for: selectedCategory).enumerated()), id: \.element.id) { index, template in
+                            TemplateCard(
+                                template: template,
+                                isPremiumUser: appState.isPremium
+                            ) {
+                                selectTemplate(template)
+                            }
+                            .offset(y: appeared ? 0 : 30)
+                            .opacity(appeared ? 1 : 0)
+                            .animation(
+                                .spring(response: 0.5, dampingFraction: 0.8)
+                                .delay(Double(index) * 0.05),
+                                value: appeared
+                            )
+                        }
+                    }
+                    .padding(20)
+                }
             }
-            .background(Color.nuviaBackground)
-            .navigationTitle("Templates")
+            .background(DSColors.background)
+            .navigationTitle("Şablonlar")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Close") { dismiss() }
-                        .foregroundColor(.nuviaChampagne)
+                    Button("Kapat") { dismiss() }
+                        .foregroundColor(DSColors.primaryAction)
+                }
+            }
+            .onAppear {
+                withAnimation {
+                    appeared = true
                 }
             }
         }
+    }
+
+    private var categoryFilter: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(TemplateCategory.allCases, id: \.self) { category in
+                    Button {
+                        withAnimation(.spring(response: 0.3)) {
+                            selectedCategory = category
+                        }
+                        HapticManager.shared.selection()
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: category.icon)
+                                .font(.system(size: 12))
+
+                            Text(category.rawValue)
+                                .font(.system(size: 13, weight: .medium))
+                        }
+                        .foregroundColor(selectedCategory == category ? .white : DSColors.textSecondary)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(
+                            selectedCategory == category
+                                ? DSColors.primaryAction
+                                : DSColors.surface
+                        )
+                        .clipShape(Capsule())
+                        .shadow(
+                            color: selectedCategory == category ? DSColors.primaryAction.opacity(0.3) : .clear,
+                            radius: 6, x: 0, y: 3
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
+        }
+    }
+
+    private func selectTemplate(_ template: InvitationTemplate) {
+        if template.isPremium && !appState.isPremium {
+            // Show paywall
+            HapticManager.shared.error()
+        } else {
+            // Convert to StudioTemplate and select
+            let studioTemplate = StudioTemplate(
+                name: template.name,
+                backgroundColor: template.backgroundColor,
+                elements: template.elements,
+                isPremium: template.isPremium
+            )
+            onSelect(studioTemplate)
+            HapticManager.shared.success()
+        }
+    }
+}
+
+// MARK: - Template Card
+
+struct TemplateCard: View {
+    let template: InvitationTemplate
+    let isPremiumUser: Bool
+    let onSelect: () -> Void
+
+    @State private var isPressed = false
+
+    private var isLocked: Bool {
+        template.isPremium && !isPremiumUser
+    }
+
+    var body: some View {
+        Button(action: onSelect) {
+            VStack(spacing: 0) {
+                // Preview
+                ZStack {
+                    // Background gradient
+                    LinearGradient(
+                        colors: template.previewGradient,
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+
+                    // Mini preview content
+                    VStack(spacing: 8) {
+                        // Decorative element
+                        Circle()
+                            .fill(template.accentColor.color.opacity(0.3))
+                            .frame(width: 20, height: 20)
+
+                        // Names placeholder
+                        VStack(spacing: 2) {
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(template.textColor.color)
+                                .frame(width: 60, height: 8)
+
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(template.accentColor.color)
+                                .frame(width: 20, height: 6)
+
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(template.textColor.color)
+                                .frame(width: 60, height: 8)
+                        }
+
+                        // Date placeholder
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(template.secondaryTextColor.color)
+                            .frame(width: 50, height: 4)
+                    }
+
+                    // Premium badge
+                    if template.isPremium {
+                        VStack {
+                            HStack {
+                                Spacer()
+                                HStack(spacing: 3) {
+                                    Image(systemName: isLocked ? "lock.fill" : "crown.fill")
+                                        .font(.system(size: 8))
+                                    Text("PRO")
+                                        .font(.system(size: 9, weight: .bold))
+                                }
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 3)
+                                .background(
+                                    LinearGradient(
+                                        colors: [DSColors.primaryAction, DSColors.primaryAction.opacity(0.8)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .clipShape(Capsule())
+                                .padding(8)
+                            }
+                            Spacer()
+                        }
+                    }
+
+                    // Locked overlay
+                    if isLocked {
+                        Color.black.opacity(0.3)
+                    }
+                }
+                .frame(height: 180)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+
+                // Info
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(template.name)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(DSColors.textPrimary)
+                        .lineLimit(1)
+
+                    HStack(spacing: 4) {
+                        Image(systemName: template.category.icon)
+                            .font(.system(size: 10))
+                        Text(template.category.rawValue)
+                            .font(.system(size: 11))
+                    }
+                    .foregroundColor(DSColors.textSecondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, 10)
+            }
+        }
+        .scaleEffect(isPressed ? 0.96 : 1)
+        .animation(.spring(response: 0.3), value: isPressed)
+        .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
     }
 }
 
