@@ -154,7 +154,7 @@ struct CountdownArcView: View {
                 .contentTransition(.numericText())
 
             // Label
-            Text(daysRemaining == 1 ? "day" : "days")
+            Text(daysRemaining == 1 ? "gün" : "gün")
                 .font(NuviaTypography.title2())
                 .foregroundColor(.nuviaSecondaryText)
 
@@ -283,7 +283,7 @@ struct CountdownCard: View {
         VStack(spacing: DesignTokens.Spacing.lg) {
             // Header
             VStack(spacing: DesignTokens.Spacing.xxs) {
-                Text("THE BIG DAY")
+                Text("BÜYÜK GÜN")
                     .font(NuviaTypography.overline())
                     .tracking(2)
                     .foregroundColor(.nuviaTertiaryText)
@@ -304,9 +304,9 @@ struct CountdownCard: View {
 
             // Stats row
             HStack(spacing: DesignTokens.Spacing.xl) {
-                CountdownStat(value: weeks, label: "Weeks")
-                CountdownStat(value: months, label: "Months")
-                CountdownStat(value: hours, label: "Hours")
+                CountdownStat(value: weeks, label: "Hafta")
+                CountdownStat(value: months, label: "Ay")
+                CountdownStat(value: hours, label: "Saat")
             }
 
             // Progress message
@@ -334,7 +334,7 @@ struct CountdownCard: View {
         let percentage = min(100, max(0, Int(Double(totalDays - daysRemaining) / Double(totalDays) * 100)))
 
         return VStack(spacing: DesignTokens.Spacing.xs) {
-            Text("\(percentage)% of your planning journey complete")
+            Text("Planlama yolculuğunuzun %\(percentage)'i tamamlandı")
                 .font(NuviaTypography.footnote())
                 .foregroundColor(.nuviaSecondaryText)
                 .multilineTextAlignment(.center)
@@ -407,7 +407,7 @@ struct MiniCountdownBadge: View {
                     .font(NuviaTypography.bodyBold())
                     .foregroundColor(.nuviaPrimaryText)
 
-                Text("days")
+                Text("gün")
                     .font(.system(size: 10))
                     .foregroundColor(.nuviaTertiaryText)
             }
@@ -448,13 +448,13 @@ struct LiveCountdownView: View {
 
     var body: some View {
         HStack(spacing: DesignTokens.Spacing.md) {
-            TimeUnit(value: days, label: "Days")
+            TimeUnit(value: days, label: "Gün")
             TimeSeparator()
-            TimeUnit(value: hours, label: "Hours")
+            TimeUnit(value: hours, label: "Saat")
             TimeSeparator()
-            TimeUnit(value: minutes, label: "Min")
+            TimeUnit(value: minutes, label: "Dk")
             TimeSeparator()
-            TimeUnit(value: seconds, label: "Sec")
+            TimeUnit(value: seconds, label: "Sn")
         }
         .onAppear {
             updateTimeRemaining()
