@@ -63,6 +63,25 @@
 		A100000058 /* MagazineLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000058 /* MagazineLayoutView.swift */; };
 		A100000059 /* CountdownArcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000059 /* CountdownArcView.swift */; };
 		A100000060 /* PremiumPaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000060 /* PremiumPaywallView.swift */; };
+		A100000061 /* BudgetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000061 /* BudgetService.swift */; };
+		A100000062 /* GuestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000062 /* GuestService.swift */; };
+		A100000063 /* ProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000063 /* ProjectService.swift */; };
+		A100000064 /* RiskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000064 /* RiskService.swift */; };
+		A100000065 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000065 /* L10n.swift */; };
+		A100000066 /* DSColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000066 /* DSColors.swift */; };
+		A100000067 /* DSTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000067 /* DSTypography.swift */; };
+		A100000068 /* DSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000068 /* DSButton.swift */; };
+		A100000069 /* DSCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000069 /* DSCard.swift */; };
+		A100000070 /* DSEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000070 /* DSEmptyState.swift */; };
+		A100000071 /* DSModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000071 /* DSModifiers.swift */; };
+		A100000072 /* DSRadii.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000072 /* DSRadii.swift */; };
+		A100000073 /* DSShadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000073 /* DSShadows.swift */; };
+		A100000074 /* DSSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000074 /* DSSpacing.swift */; };
+		A100000075 /* DSTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000075 /* DSTheme.swift */; };
+		A100000076 /* MotionCurves.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000076 /* MotionCurves.swift */; };
+		A100000077 /* NuviaHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000077 /* NuviaHaptics.swift */; };
+		A100000078 /* ReduceMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000078 /* ReduceMotion.swift */; };
+		A100000081 /* InvitationTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000081 /* InvitationTemplate.swift */; };
 		A95900812F31E2B0003D1348 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95900802F31E2B0003D1348 /* FilterChip.swift */; };
 		A959008F2F322D29003D1348 /* View+Elevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A959008E2F322D29003D1348 /* View+Elevation.swift */; };
 /* End PBXBuildFile section */
