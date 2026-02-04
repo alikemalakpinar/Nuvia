@@ -129,12 +129,12 @@ enum MainTab: String, CaseIterable {
     /// Localized display name
     var displayName: String {
         switch self {
-        case .today: return NSLocalizedString("tab.today", comment: "Today")
-        case .plan: return NSLocalizedString("tab.plan", comment: "Plan")
-        case .budget: return NSLocalizedString("tab.budget", comment: "Budget")
-        case .guests: return NSLocalizedString("tab.guests", comment: "Guests")
-        case .studio: return NSLocalizedString("tab.studio", comment: "Studio")
-        case .home: return NSLocalizedString("tab.home", comment: "Home")
+        case .today: return "Bugün"
+        case .plan: return "Plan"
+        case .budget: return "Bütçe"
+        case .guests: return "Davetliler"
+        case .studio: return "Stüdyo"
+        case .home: return "Ev"
         }
     }
 

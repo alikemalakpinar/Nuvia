@@ -196,7 +196,7 @@ struct QuickAddButton: View {
         }
         .pressEffect()
         .offset(y: -16)
-        .accessibilityLabel(NSLocalizedString("tab.quickAdd", comment: "Quick Add"))
+        .accessibilityLabel(Hızlı Ekle)
     }
 }
 
@@ -216,11 +216,11 @@ struct QuickAddSheet: View {
 
         var displayName: String {
             switch self {
-            case .task: return NSLocalizedString("quickAdd.item.task", comment: "Task")
-            case .expense: return NSLocalizedString("quickAdd.item.expense", comment: "Expense")
-            case .guest: return NSLocalizedString("quickAdd.item.guest", comment: "Guest")
-            case .shopping: return NSLocalizedString("quickAdd.item.shopping", comment: "Shopping")
-            case .note: return NSLocalizedString("quickAdd.item.note", comment: "Note")
+            case .task: return Görev
+            case .expense: return Harcama
+            case .guest: return Davetli
+            case .shopping: return Alışveriş
+            case .note: return Not
             }
         }
 
@@ -248,7 +248,7 @@ struct QuickAddSheet: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: DSSpacing.lg) {
-                Text(NSLocalizedString("quickAdd.prompt", comment: "What would you like to add?"))
+                Text(Ne eklemek istersiniz?)
                     .font(DSTypography.heading2)
                     .foregroundColor(DSColors.textPrimary)
                     .padding(.top, DSSpacing.xs)
@@ -265,7 +265,7 @@ struct QuickAddSheet: View {
                 Spacer()
 
                 if selectedType != nil {
-                    NuviaPrimaryButton(NSLocalizedString("quickAdd.continue", comment: "Continue"), icon: "arrow.right") {
+                    NuviaPrimaryButton(Devam, icon: "arrow.right") {
                         switch selectedType {
                         case .task:
                             dismiss()
