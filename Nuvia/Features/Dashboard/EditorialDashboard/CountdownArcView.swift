@@ -333,7 +333,7 @@ struct CountdownCard: View {
     private var progressMessage: some View {
         let percentage = min(100, max(0, Int(Double(totalDays - daysRemaining) / Double(totalDays) * 100)))
 
-        VStack(spacing: DesignTokens.Spacing.xs) {
+        return VStack(spacing: DesignTokens.Spacing.xs) {
             Text("\(percentage)% of your planning journey complete")
                 .font(NuviaTypography.footnote())
                 .foregroundColor(.nuviaSecondaryText)
