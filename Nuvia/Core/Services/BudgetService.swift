@@ -207,4 +207,8 @@ struct BudgetSummary {
     var isOverBudget: Bool {
         totalSpent > totalBudget
     }
+
+    var overBudgetAmount: Double {
+        max(0, totalSpent - totalBudget)
+    }
 }

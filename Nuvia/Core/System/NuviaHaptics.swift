@@ -122,6 +122,16 @@ public final class NuviaHaptics {
         impact(.heavy)
     }
 
+    /// Seating drop - heavy impact (alias for drop)
+    public func seatingDrop() {
+        drop()
+    }
+
+    /// Seat conflict pattern (legacy compatibility)
+    public func seatConflict() {
+        conflict()
+    }
+
     /// Slider tick - soft impact
     public func sliderTick() {
         impact(.soft, intensity: 0.5)
@@ -293,6 +303,50 @@ extension ButtonStyle where Self == HapticButtonStyle {
     public static var haptic: HapticButtonStyle { HapticButtonStyle() }
     public static func haptic(_ type: HapticTrigger) -> HapticButtonStyle {
         HapticButtonStyle(haptic: type)
+    }
+}
+
+// MARK: - Static Convenience Methods (for DSHaptics compatibility)
+
+extension NuviaHaptics {
+    /// Static selection feedback
+    public static func selection() {
+        Task { @MainActor in shared.selection() }
+    }
+
+    /// Static impact feedback
+    public static func impact(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
+        Task { @MainActor in shared.impact(style) }
+    }
+
+    /// Static notification feedback
+    public static func notification(_ type: UINotificationFeedbackGenerator.FeedbackType) {
+        Task { @MainActor in shared.notification(type) }
+    }
+
+    /// Static success feedback
+    public static func success() {
+        Task { @MainActor in shared.success() }
+    }
+
+    /// Static warning feedback
+    public static func warning() {
+        Task { @MainActor in shared.warning() }
+    }
+
+    /// Static error feedback
+    public static func error() {
+        Task { @MainActor in shared.error() }
+    }
+
+    /// Static button tap feedback
+    public static func buttonTap() {
+        Task { @MainActor in shared.buttonTap() }
+    }
+
+    /// Static task completed feedback
+    public static func taskCompleted() {
+        Task { @MainActor in shared.taskCompleted() }
     }
 }
 

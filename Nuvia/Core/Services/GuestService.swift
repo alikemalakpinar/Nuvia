@@ -286,37 +286,5 @@ public final class GuestService: ObservableObject {
     }
 }
 
-// MARK: - Guest Summary
-
-struct GuestSummary {
-    let totalInvited: Int
-    let totalHeadcount: Int
-    let attending: Int
-    let notAttending: Int
-    let pending: Int
-    let maybe: Int
-
-    var responseRate: Double {
-        guard totalInvited > 0 else { return 0 }
-        return Double(attending + notAttending) / Double(totalInvited)
-    }
-}
-
-// MARK: - Seating Plan Summary
-
-struct SeatingPlanSummary {
-    let totalTables: Int
-    let totalCapacity: Int
-    let seatedGuests: Int
-    let unseatedGuests: Int
-    let conflicts: [SeatingConflict]
-
-    var hasConflicts: Bool {
-        !conflicts.isEmpty
-    }
-
-    var occupancyRate: Double {
-        guard totalCapacity > 0 else { return 0 }
-        return Double(seatedGuests) / Double(totalCapacity)
-    }
-}
+// Note: GuestSummary is defined in Guest.swift
+// Note: SeatingPlanSummary is defined in SeatingTable.swift

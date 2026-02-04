@@ -212,29 +212,4 @@ enum PaymentType: String, CaseIterable, Codable {
     }
 }
 
-// MARK: - Budget Summary
-
-struct BudgetSummary {
-    let totalBudget: Double
-    let totalSpent: Double
-    let totalPaid: Double
-    let totalUnpaid: Double
-    let byCategory: [ExpenseCategory: Double]
-
-    var remaining: Double {
-        totalBudget - totalSpent
-    }
-
-    var progress: Double {
-        guard totalBudget > 0 else { return 0 }
-        return totalSpent / totalBudget
-    }
-
-    var isOverBudget: Bool {
-        totalSpent > totalBudget
-    }
-
-    var overBudgetAmount: Double {
-        max(0, totalSpent - totalBudget)
-    }
-}
+// Note: BudgetSummary is defined in BudgetService.swift
