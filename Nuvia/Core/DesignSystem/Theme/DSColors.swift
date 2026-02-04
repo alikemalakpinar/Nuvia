@@ -12,39 +12,39 @@ public enum DSColors {
 
     /// Primary background color (#FAFAF9 light / #1C1C1E dark)
     public static var background: Color {
-        Color("ds.background", bundle: nil)
+        Fallback.backgroundLight
     }
 
     /// Card/Surface color (#FFFFFF light / #2C2C2E dark)
     public static var surface: Color {
-        Color("ds.surface", bundle: nil)
+        Fallback.surfaceLight
     }
 
     /// Elevated surface for modals/sheets
     public static var surfaceElevated: Color {
-        Color("ds.surfaceElevated", bundle: nil)
+        Fallback.surfaceElevatedLight
     }
 
     /// Tertiary/muted background for inputs, chips
     public static var surfaceTertiary: Color {
-        Color("ds.surfaceTertiary", bundle: nil)
+        Fallback.surfaceTertiaryLight
     }
 
     // MARK: - Text Hierarchy
 
     /// Primary text color (#2A2A2A light / #E5E5EA dark)
     public static var textPrimary: Color {
-        Color("ds.textPrimary", bundle: nil)
+        Fallback.textPrimaryLight
     }
 
     /// Secondary text color (#6D6D6D light / #8E8E93 dark)
     public static var textSecondary: Color {
-        Color("ds.textSecondary", bundle: nil)
+        Fallback.textSecondaryLight
     }
 
     /// Tertiary/placeholder text
     public static var textTertiary: Color {
-        Color("ds.textTertiary", bundle: nil)
+        Fallback.textTertiaryLight
     }
 
     /// Inverse text for dark backgrounds
@@ -56,35 +56,35 @@ public enum DSColors {
 
     /// Primary gold accent (#D4AF37)
     public static var primaryAction: Color {
-        Color("ds.primaryAction", bundle: nil)
+        Fallback.gold
     }
 
     /// Rose/blush accent (#E8D7D5 light / #8B4557 dark)
     public static var accentRose: Color {
-        Color("ds.accentRose", bundle: nil)
+        Fallback.rose
     }
 
     /// Sage/green accent (#D5E8D7 light / #4A5D4A dark)
     public static var accentSage: Color {
-        Color("ds.accentSage", bundle: nil)
+        Fallback.sage
     }
 
     // MARK: - Semantic States
 
     public static var success: Color {
-        Color("ds.success", bundle: nil)
+        Fallback.success
     }
 
     public static var warning: Color {
-        Color("ds.warning", bundle: nil)
+        Fallback.warning
     }
 
     public static var error: Color {
-        Color("ds.error", bundle: nil)
+        Fallback.error
     }
 
     public static var info: Color {
-        Color("ds.info", bundle: nil)
+        Fallback.info
     }
 
     // MARK: - Interactive
@@ -96,7 +96,7 @@ public enum DSColors {
 
     /// Secondary button (charcoal light / ivory dark)
     public static var buttonSecondary: Color {
-        Color("ds.buttonSecondary", bundle: nil)
+        Fallback.textPrimaryLight
     }
 
     // MARK: - Gradients
