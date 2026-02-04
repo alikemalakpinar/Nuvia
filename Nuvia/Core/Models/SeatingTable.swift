@@ -7,7 +7,7 @@ import SwiftUI
 final class SeatingTable {
     @Attribute(.unique) var id: UUID
     var createdAt: Date
-    var updatedAt: Date
+    var updatedAt: Date = Date()
 
     /// Masa bilgileri
     var name: String
